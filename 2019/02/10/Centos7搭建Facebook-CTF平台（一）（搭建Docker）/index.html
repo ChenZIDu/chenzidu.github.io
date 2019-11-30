@@ -47,28 +47,31 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Chen&#39;Blog">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;index.html">
+  <meta name="description" content="Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的镜像中，然后发布到任何流行的 Linux或Windows 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。那Docker由什么组成呢， 包括三个基本概念:        仓库（Repository）        镜像（Image）        容器(Container）**">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Centos7搭建Facebook CTF平台（一）（搭建Docker）">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;02&#x2F;10&#x2F;Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%88%E6%90%AD%E5%BB%BADocker%EF%BC%89&#x2F;index.html">
 <meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的镜像中，然后发布到任何流行的 Linux或Windows 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。那Docker由什么组成呢， 包括三个基本概念:        仓库（Repository）        镜像（Image）        容器(Container）**">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-30T08:29:35.828Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%88%E6%90%AD%E5%BB%BADocker%EF%BC%89/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false,
+    isHome: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>Chen'Blog</title>
+  <title>Centos7搭建Facebook CTF平台（一）（搭建Docker） | Chen'Blog</title>
   
 
 
@@ -203,85 +206,10 @@
             
 
   <div class="posts-expand">
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/20/Hello-friend/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="ChenZIDu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chen'Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/06/20/Hello-friend/" class="post-title-link" itemprop="url">Hello Friend!</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-06-20 13:47:51" itemprop="dateCreated datePublished" datetime="2018-06-20T13:47:51+08:00">2018-06-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-30 14:16:03" itemprop="dateModified" datetime="2019-11-30T14:16:03+08:00">2019-11-30</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%97%A0/" itemprop="url" rel="index">
-                    <span itemprop="name">无</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
       
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
   
   
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%88%E6%90%AD%E5%BB%BADocker%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -295,8 +223,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%88%E6%90%AD%E5%BB%BADocker%EF%BC%89/" class="post-title-link" itemprop="url">Centos7搭建Facebook CTF平台（一）（搭建Docker）</a>
+          Centos7搭建Facebook CTF平台（一）（搭建Docker）
         </h1>
 
         <div class="post-meta">
@@ -338,33 +265,69 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的镜像中，然后发布到任何流行的 Linux或Windows 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。</strong><br>那Docker由什么组成呢， 包括三个基本概念:<br>        仓库（Repository）<br>        镜像（Image）<br>        容器(Container）**</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%88%E6%90%AD%E5%BB%BADocker%EF%BC%89/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
+        <p><strong>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的镜像中，然后发布到任何流行的 Linux或Windows 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。</strong><br>那Docker由什么组成呢， 包括三个基本概念:<br>        仓库（Repository）<br>        镜像（Image）<br>        容器(Container）**</p>
+<a id="more"></a>
+<p><strong>百度百科</strong>：<strong>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的镜像中，然后发布到任何流行的 Linux或Windows 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。</strong></p>
+<p><strong>那Docker由什么组成呢， 包括三个基本概念:<br>        仓库（Repository）<br>        镜像（Image）<br>        容器(Container）</strong></p>
+<p><strong>我是服务器装的Centos7，linux 3.10 内核，docker官方说至少3.8以上，建议3.10以上。</strong></p>
+<p>检查Centos内核</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[root@izuf6giff71ddv24k55jz ~]# uname -a</span></pre></td></tr></table></figure>
+
+<p>把yum包更新（可以忽略）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[root@izuf6giff71ddv24k55jz ~]# yum update</span></pre></td></tr></table></figure>
+
+<p>安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[root@izuf6giff71ddv24k55jz ~]# yum install -y yum-utils device-mapper-persistent-data lvm2</span></pre></td></tr></table></figure>
+<p>设置yum源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[root@izuf6giff71ddv24k55jz ~]# yum-config-manager --add-repo https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo</span></pre></td></tr></table></figure>
+
+<p>可以查看所有仓库中所有docker版本，并选择特定版本安装<br>：<br>我的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[root@izuf6giff71ddv24k55z ~]# yum list docker-ce --showduplicates | sort -r</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Loading mirror speeds from cached hostfile</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Loaded plugins: fastestmirror</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">docker-ce.x86_64            18.03.1.ce-1.el7.centos             docker-ce-stable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">docker-ce.x86_64            18.03.0.ce-1.el7.centos             docker-ce-stable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">docker-ce.x86_64            17.12.1.ce-1.el7.centos             docker-ce-stable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">docker-ce.x86_64            17.12.0.ce-1.el7.centos             docker-ce-stable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">docker-ce.x86_64            17.09.1.ce-1.el7.centos             docker-ce-stable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">docker-ce.x86_64            17.09.0.ce-1.el7.centos             docker-ce-stable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">docker-ce.x86_64            17.06.2.ce-1.el7.centos             docker-ce-stable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">docker-ce.x86_64            17.06.1.ce-1.el7.centos             docker-ce-stable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">docker-ce.x86_64            17.06.0.ce-1.el7.centos             docker-ce-stable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">docker-ce.x86_64            17.03.2.ce-1.el7.centos             docker-ce-stable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">docker-ce.x86_64            17.03.1.ce-1.el7.centos             docker-ce-stable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">docker-ce.x86_64            17.03.0.ce-1.el7.centos             docker-ce-stable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">&#96;&#96;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">命令：yum install docker-ce-版本号，我选的是17.12.1.ce</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"> [root@izuf6giff71ddv24k55jz ~]# yum install docker-ce-17.12.1.ce</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">启动docker</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">[root@izuf6giff71ddv24k55jz ~]# systemctl start docker</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">验证安装是否成功(有client和service两部分表示docker安装启动都成功了)</span></pre></td></tr></table></figure>
+<h1 id="docker-version"><a href="#docker-version" class="headerlink" title="# docker version"></a># docker version</h1><pre><code>我的：
+Client:
+ Version:    17.12.1-ce
+ API version:    1.35
+ Go version:    go1.9.4
+ Git commit:    7390fc6
+ Built:    Tue Feb 27 22:15:20 2018
+ OS/Arch:    linux/amd64
+
+Server:
+ Engine:
+  Version:    17.12.1-ce
+  API version:    1.35 (minimum version 1.12)
+  Go version:    go1.9.4
+  Git commit:    7390fc6
+  Built:    Tue Feb 27 22:17:54 2018
+  OS/Arch:    linux/amd64
+  Experimental:    false</code></pre>
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/06/20/Hello-friend/" rel="prev" title="Hello Friend!">
+      <i class="fa fa-chevron-left"></i> Hello Friend!
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
       </footer>
+    
   </article>
   
   
   
 
   </div>
-
-  
-
 
 
           </div>
@@ -393,6 +356,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#docker-version"><span class="nav-number">1.</span> <span class="nav-text"># docker version</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
