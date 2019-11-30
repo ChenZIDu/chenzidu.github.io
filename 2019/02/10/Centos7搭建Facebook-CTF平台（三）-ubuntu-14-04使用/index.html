@@ -47,16 +47,18 @@
   };
 </script>
 
-  <meta name="keywords" content="欢迎,happy">
+  <meta name="description" content="进入ubuntu容器交互系统:    # docker run -i -t ubuntu &#x2F;bin&#x2F;bash        # docker exec -it ubuntu &#x2F;bin&#x2F;bash">
+<meta name="keywords" content="Docker">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello Friend!">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;06&#x2F;20&#x2F;Hello-friend&#x2F;index.html">
+<meta property="og:title" content="Centos7搭建Facebook CTF平台（三）(ubuntu:14.04使用)">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;02&#x2F;10&#x2F;Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%B8%89%EF%BC%89-ubuntu-14-04%E4%BD%BF%E7%94%A8&#x2F;index.html">
 <meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="进入ubuntu容器交互系统:    # docker run -i -t ubuntu &#x2F;bin&#x2F;bash        # docker exec -it ubuntu &#x2F;bin&#x2F;bash">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-30T06:16:03.596Z">
+<meta property="og:updated_time" content="2019-11-30T09:26:29.810Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2018/06/20/Hello-friend/">
+<link rel="canonical" href="http://yoursite.com/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%B8%89%EF%BC%89-ubuntu-14-04%E4%BD%BF%E7%94%A8/">
 
 
 <script id="page-configurations">
@@ -70,7 +72,7 @@
   };
 </script>
 
-  <title>Hello Friend! | Chen'Blog</title>
+  <title>Centos7搭建Facebook CTF平台（三）(ubuntu:14.04使用) | Chen'Blog</title>
   
 
 
@@ -209,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/20/Hello-friend/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%B8%89%EF%BC%89-ubuntu-14-04%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -222,7 +224,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hello Friend!
+          Centos7搭建Facebook CTF平台（三）(ubuntu:14.04使用)
         </h1>
 
         <div class="post-meta">
@@ -232,14 +234,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2018-06-20 13:47:51" itemprop="dateCreated datePublished" datetime="2018-06-20T13:47:51+08:00">2018-06-20</time>
+              <time title="创建时间：2019-02-10 17:25:20" itemprop="dateCreated datePublished" datetime="2019-02-10T17:25:20+08:00">2019-02-10</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-30 14:16:03" itemprop="dateModified" datetime="2019-11-30T14:16:03+08:00">2019-11-30</time>
+                <time title="修改时间：2019-11-30 17:26:29" itemprop="dateModified" datetime="2019-11-30T17:26:29+08:00">2019-11-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -247,8 +249,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%97%A0/" itemprop="url" rel="index">
-                    <span itemprop="name">无</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
             </span>
@@ -264,7 +266,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p><strong>进入ubuntu容器交互系统:</strong><br>    <del># docker run -i -t ubuntu /bin/bash</del><br>        # docker exec -it ubuntu /bin/bash</p>
+<a id="more"></a>
+<p><strong>进入ubuntu容器交互系统:</strong><br>    <del># docker run -i -t ubuntu /bin/bash</del><br>        # docker exec -it ubuntu /bin/bash</p>
+<p><strong>当试图直接使用 apt-get 安装一个软件的时候，会提示 E: Unable to locate package。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">root@543356e8a428:&#x2F;# apt-get install git</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Reading package lists... Done</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Building dependency tree       </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">Reading state information... Done</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">E: Unable to locate package git</span></pre></td></tr></table></figure>
+
+<p>这并非系统不支持 apt-get 命令。Docker 镜像在制作时为了精简清除了 apt 仓库信息，因此需要先执行 apt-get update 命令来更新仓库信息。更新信息后即可成功通过 apt-get 命令来安装软件。</p>
+<p>我发现我之前安装的ubuntu并不能后台运行</p>
+<p>输入下面的代码，-d表示的就是后台运行，这点可以直接通过docker run –help查看该命令的功能。下面这句话的意思就是在镜像的程序中添加引号内的代码，并在后台运行。</p>
+<p><del>docker run -d ubuntu:16.04 /bin/sh -c “while true; do echo hello world; sleep 1;done</del> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">docker run -it -d -p 8080:80 ubuntu:14.04 &#x2F;bin&#x2F;bash</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">-d表示的就是后台运行、-p分配端口，把80分配到服务器的8080</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&#x2F;bin&#x2F;bash的作用是因为docker后台必须运行一个进程，否则容器就会退出，在这里表示启动容器后启动bash。</span></pre></td></tr></table></figure>
+
+<p>（不好意思，今天刚学习） </p>
+<p>我说之前：docker ps -a 为什么没东西，发现好多次下载好fctf之后都得从新下一遍</p>
+<p>如果我们想要进入后台运行的容器的命令行而不创建新的容器，只需要输入以下命令：</p>
+<pre><code>#exec是进入已经存在的容器，run是创建新容器
+id可以先$ docker ps  得到
+  （长的ID）
+docker exec -it d90b2bdfc9d86657fd61363548b58abe20c1c2b673171852b19607154e8c6602 /bin/bash
+（短的ID）
+docker exec -it b45fab8d5eef /bin/bash</code></pre><p>wget <a href="https://mirrors.tuna.tsinghua.edu.cn/HHVM/conf/hhvm.gpg.key" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/HHVM/conf/hhvm.gpg.key</a> | sudo apt-key add hhvm.gpg.key</p>
+<p>echo “deb <a href="https://mirrors.tuna.tsinghua.edu.cn/HHVM/ubuntu" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/HHVM/ubuntu</a> Trusty main”&gt;&gt; sudo tee /etc/apt/sources.list.d/hhvm.list</p>
+<p>sudo echo “deb <a href="https://mirrors.tuna.tsinghua.edu.cn/HHVM/ubuntu/dists/" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/HHVM/ubuntu/dists/</a> Trusty main”&gt;&gt; sudo tee /etc/apt/sources.list.d/hhvm.list</p>
+
     </div>
 
     
@@ -273,8 +298,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%AC%A2%E8%BF%8E/" rel="tag"># 欢迎</a>
-              <a href="/tags/happy/" rel="tag"># happy</a>
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
           </div>
 
         
@@ -282,11 +306,11 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%88%E6%90%AD%E5%BB%BADocker%EF%BC%89/" rel="next" title="Centos7搭建Facebook CTF平台（一）（搭建Docker）">
-      Centos7搭建Facebook CTF平台（一）（搭建Docker） <i class="fa fa-chevron-right"></i>
+    <a href="/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%BA%8C%EF%BC%89-%E9%85%8D%E7%BD%AE%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/" rel="prev" title="Centos7搭建Facebook CTF平台（二）(配置加速镜像)">
+      <i class="fa fa-chevron-left"></i> Centos7搭建Facebook CTF平台（二）(配置加速镜像)
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
