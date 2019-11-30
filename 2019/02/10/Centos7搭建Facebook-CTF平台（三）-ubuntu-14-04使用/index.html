@@ -55,7 +55,7 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="进入ubuntu容器交互系统:    # docker run -i -t ubuntu &#x2F;bin&#x2F;bash        # docker exec -it ubuntu &#x2F;bin&#x2F;bash">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-30T09:26:29.810Z">
+<meta property="og:updated_time" content="2019-11-30T13:04:24.805Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%B8%89%EF%BC%89-ubuntu-14-04%E4%BD%BF%E7%94%A8/">
@@ -241,7 +241,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-30 17:26:29" itemprop="dateModified" datetime="2019-11-30T17:26:29+08:00">2019-11-30</time>
+                <time title="修改时间：2019-11-30 21:04:24" itemprop="dateModified" datetime="2019-11-30T21:04:24+08:00">2019-11-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -286,9 +286,7 @@ id可以先$ docker ps  得到
   （长的ID）
 docker exec -it d90b2bdfc9d86657fd61363548b58abe20c1c2b673171852b19607154e8c6602 /bin/bash
 （短的ID）
-docker exec -it b45fab8d5eef /bin/bash</code></pre><p>wget <a href="https://mirrors.tuna.tsinghua.edu.cn/HHVM/conf/hhvm.gpg.key" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/HHVM/conf/hhvm.gpg.key</a> | sudo apt-key add hhvm.gpg.key</p>
-<p>echo “deb <a href="https://mirrors.tuna.tsinghua.edu.cn/HHVM/ubuntu" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/HHVM/ubuntu</a> Trusty main”&gt;&gt; sudo tee /etc/apt/sources.list.d/hhvm.list</p>
-<p>sudo echo “deb <a href="https://mirrors.tuna.tsinghua.edu.cn/HHVM/ubuntu/dists/" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/HHVM/ubuntu/dists/</a> Trusty main”&gt;&gt; sudo tee /etc/apt/sources.list.d/hhvm.list</p>
+docker exec -it b45fab8d5eef /bin/bash</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;HHVM&#x2F;conf&#x2F;hhvm.gpg.key | sudo apt-key add hhvm.gpg.key</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">echo &quot;deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;HHVM&#x2F;ubuntu Trusty main&quot;&gt;&gt; sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;hhvm.list</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">sudo echo &quot;deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;HHVM&#x2F;ubuntu&#x2F;dists&#x2F; Trusty main&quot;&gt;&gt; sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;hhvm.list</span></pre></td></tr></table></figure>
 
     </div>
 
@@ -366,7 +364,7 @@ docker exec -it b45fab8d5eef /bin/bash</code></pre><p>wget <a href="https://mirr
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -379,7 +377,7 @@ docker exec -it b45fab8d5eef /bin/bash</code></pre><p>wget <a href="https://mirr
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
