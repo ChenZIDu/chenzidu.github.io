@@ -55,14 +55,14 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="WEB-INF主要通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;10&#x2F;20&#x2F;RoarCTF-2019-Easy-Java&#x2F;RoarCTF-2019-Easy-Java&#x2F;1.jpg">
-<meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;10&#x2F;20&#x2F;RoarCTF-2019-Easy-Java&#x2F;RoarCTF-2019-Easy-Java&#x2F;3.jpg">
-<meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;10&#x2F;20&#x2F;RoarCTF-2019-Easy-Java&#x2F;RoarCTF-2019-Easy-Java&#x2F;4.jpg">
-<meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;10&#x2F;20&#x2F;RoarCTF-2019-Easy-Java&#x2F;RoarCTF-2019-Easy-Java&#x2F;5.jpg">
-<meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;10&#x2F;20&#x2F;RoarCTF-2019-Easy-Java&#x2F;RoarCTF-2019-Easy-Java&#x2F;6.jpg">
-<meta property="og:updated_time" content="2019-11-30T12:42:05.476Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;10&#x2F;20&#x2F;RoarCTF-2019-Easy-Java&#x2F;1.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;10&#x2F;20&#x2F;RoarCTF-2019-Easy-Java&#x2F;3.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;10&#x2F;20&#x2F;RoarCTF-2019-Easy-Java&#x2F;4.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;10&#x2F;20&#x2F;RoarCTF-2019-Easy-Java&#x2F;5.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;10&#x2F;20&#x2F;RoarCTF-2019-Easy-Java&#x2F;6.jpg">
+<meta property="og:updated_time" content="2019-12-01T02:16:24.897Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;10&#x2F;20&#x2F;RoarCTF-2019-Easy-Java&#x2F;RoarCTF-2019-Easy-Java&#x2F;1.jpg">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;10&#x2F;20&#x2F;RoarCTF-2019-Easy-Java&#x2F;1.jpg">
 
 <link rel="canonical" href="http://github.com/ChenZIDu/2019/10/20/RoarCTF-2019-Easy-Java/">
 
@@ -247,7 +247,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-30 20:42:05" itemprop="dateModified" datetime="2019-11-30T20:42:05+08:00">2019-11-30</time>
+                <time title="修改时间：2019-12-01 10:16:24" itemprop="dateModified" datetime="2019-12-01T10:16:24+08:00">2019-12-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -273,25 +273,25 @@
 
       
         <h2 id="WEB-INF主要通过找到web-xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码"><a href="#WEB-INF主要通过找到web-xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码" class="headerlink" title="WEB-INF主要通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码"></a>WEB-INF主要通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码</h2><a id="more"></a>
-<h4 id="https-buuoj-cn-challenges-RoarCTF-202019-Easy-20Java"><a href="#https-buuoj-cn-challenges-RoarCTF-202019-Easy-20Java" class="headerlink" title="https://buuoj.cn/challenges#[RoarCTF%202019]Easy%20Java"></a><a href="https://buuoj.cn/challenges#[RoarCTF%202019]Easy%20Java" target="_blank" rel="noopener">https://buuoj.cn/challenges#[RoarCTF%202019]Easy%20Java</a></h4><h3 id="首先看到一个页面-点击下help看看啥情况。"><a href="#首先看到一个页面-点击下help看看啥情况。" class="headerlink" title="首先看到一个页面,点击下help看看啥情况。"></a>首先看到一个页面,点击下help看看啥情况。</h3><p><img src="./RoarCTF-2019-Easy-Java/1.jpg" alt=""></p>
+<h4 id="https-buuoj-cn-challenges-RoarCTF-202019-Easy-20Java"><a href="#https-buuoj-cn-challenges-RoarCTF-202019-Easy-20Java" class="headerlink" title="https://buuoj.cn/challenges#[RoarCTF%202019]Easy%20Java"></a><a href="https://buuoj.cn/challenges#[RoarCTF%202019]Easy%20Java" target="_blank" rel="noopener">https://buuoj.cn/challenges#[RoarCTF%202019]Easy%20Java</a></h4><h3 id="首先看到一个页面-点击下help看看啥情况。"><a href="#首先看到一个页面-点击下help看看啥情况。" class="headerlink" title="首先看到一个页面,点击下help看看啥情况。"></a>首先看到一个页面,点击下help看看啥情况。</h3><p><img src="1.jpg" alt=""></p>
 <p>发现输出一串</p>
 <p><code>java.io.FileNotFoundException:{help.docx}</code></p>
 <p>可能是报错信息，打开Brup截取请求信息</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">GET &#x2F;Download?filename&#x3D;help.docx HTTP&#x2F;1.1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Host: a6360be7-edf9-4caa-9461-3f2c7a89df9e.node3.buuoj.cn</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">User-Agent: Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko&#x2F;20100101 Firefox&#x2F;69.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">Accept: text&#x2F;html,application&#x2F;xhtml+xml,application&#x2F;xml;q&#x3D;0.9,*&#x2F;*;q&#x3D;0.8</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Accept-Language: zh-CN,zh;q&#x3D;0.8,zh-TW;q&#x3D;0.7,zh-HK;q&#x3D;0.5,en-US;q&#x3D;0.3,en;q&#x3D;0.2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">Accept-Encoding: gzip, deflate</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">Connection: close</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">Upgrade-Insecure-Requests: 1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">Pragma: no-cache</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">Cache-Control: no-cache</span></pre></td></tr></table></figure>
 
 <p>通过查询发现要改成POST，得到许多有用信息</p>
-<p><img src="./RoarCTF-2019-Easy-Java/3.jpg" alt=""></p>
+<p><img src="3.jpg" alt=""></p>
 <p><code>com.Wm.ctf.DownloadController.doPost</code></p>
 <p>这个信息跟CTF可能有关,记一下一般有这样都有泄露。</p>
-<p><img src="./RoarCTF-2019-Easy-Java/4.jpg" alt=""></p>
+<p><img src="4.jpg" alt=""></p>
 <h3 id="因为缺少JAVA项目的开发经验，所以查了大量的资料"><a href="#因为缺少JAVA项目的开发经验，所以查了大量的资料" class="headerlink" title="因为缺少JAVA项目的开发经验，所以查了大量的资料"></a>因为缺少JAVA项目的开发经验，所以查了大量的资料</h3><p>我们访问下WEB-INF/web.xml这个文件</p>
-<p><img src="./RoarCTF-2019-Easy-Java/5.jpg" alt=""></p>
+<p><img src="5.jpg" alt=""></p>
 <p>得到了个flag的路径!!!!</p>
 <h2 id="插入一个知识点"><a href="#插入一个知识点" class="headerlink" title="插入一个知识点"></a>插入一个知识点</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">WEB-INF主要包含一下文件或目录:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&#x2F;WEB-INF&#x2F;web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&#x2F;WEB-INF&#x2F;classes&#x2F;：含了站点所有用的 class 文件，包括 servlet class 和非servlet class，他们不能包含在 .jar文件中</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&#x2F;WEB-INF&#x2F;lib&#x2F;：存放web应用需要的各种JAR文件，放置仅在这个应用中要求使用的jar文件,如数据库驱动jar文件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&#x2F;WEB-INF&#x2F;src&#x2F;：源码目录，按照包名结构放置各个java文件。</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&#x2F;WEB-INF&#x2F;database.properties：数据库配置文件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">漏洞检测以及利用方法：通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码</span></pre></td></tr></table></figure>
 
 <h2 id="构造payload"><a href="#构造payload" class="headerlink" title="构造payload:"></a>构造payload:</h2><p><code>filename=WEB-INF/classes/com/wm/ctf/FlagController.class</code></p>
 <p>base64解码得到flag</p>
-<p><img src="./RoarCTF-2019-Easy-Java/6.jpg" alt=""></p>
+<p><img src="6.jpg" alt=""></p>
 <h3 id="PS-GET不能读取文件有点懵，没想到居然要改成POST"><a href="#PS-GET不能读取文件有点懵，没想到居然要改成POST" class="headerlink" title="PS: GET不能读取文件有点懵，没想到居然要改成POST"></a>PS: GET不能读取文件有点懵，没想到居然要改成POST</h3>
     </div>
 
