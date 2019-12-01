@@ -47,15 +47,20 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;tags&#x2F;index.html">
+  <meta name="description" content="要使用 git 工具首先要配置一下SSH key，为部署本地博客到 Github 做准备。">
+<meta name="keywords" content="next">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo-next搭建配置以及坑点(二)">
+<meta property="og:url" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;12&#x2F;01&#x2F;hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C&#x2F;index.html">
 <meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="要使用 git 工具首先要配置一下SSH key，为部署本地博客到 Github 做准备。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-30T06:14:28.035Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;2019&#x2F;12&#x2F;01&#x2F;hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C&#x2F;1.jpg">
+<meta property="og:updated_time" content="2019-12-01T03:44:35.229Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;github.com&#x2F;2019&#x2F;12&#x2F;01&#x2F;hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C&#x2F;1.jpg">
 
-<link rel="canonical" href="http://github.com/ChenZIDu/tags/">
+<link rel="canonical" href="http://github.com/ChenZIDu/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/">
 
 
 <script id="page-configurations">
@@ -63,14 +68,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
-    isPage: true,
+    isPost: true,
+    isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>tags | Chen'Blog
-  </title>
+  <title>hexo-next搭建配置以及坑点(二) | Chen'Blog</title>
   
 
 
@@ -200,52 +204,110 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
           <div class="content">
             
 
   <div class="posts-expand">
-    
-    
-    
-    <div class="post-block" lang="zh-CN">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://github.com/ChenZIDu/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hexo-next搭建配置以及坑点(二)
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">tags
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
 
-<div class="post-meta">
+              <time title="创建时间：2019-12-01 11:22:42 / 修改时间：11:44:35" itemprop="dateCreated datePublished" datetime="2019-12-01T11:22:42+08:00">2019-12-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="要使用-git-工具首先要配置一下SSH-key，为部署本地博客到-Github-做准备。"><a href="#要使用-git-工具首先要配置一下SSH-key，为部署本地博客到-Github-做准备。" class="headerlink" title="要使用 git 工具首先要配置一下SSH key，为部署本地博客到 Github 做准备。"></a>要使用 git 工具首先要配置一下SSH key，为部署本地博客到 Github 做准备。</h3><a id="more"></a>
+<p><b>以下博文仅限于windows平台配置,如有错误望谅解！</b><br></p>
+<h1 id="配置-SSH-key"><a href="#配置-SSH-key" class="headerlink" title="配置 SSH key"></a>配置 SSH key</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;用户名&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$ git config --global user.email &quot;邮箱地址&quot;</span></pre></td></tr></table></figure>
+<p>执行以上命令全局配置一下本地账户<br><br>生成密钥 SSH key :<br><br><code>ssh-keygen -t rsa -C &#39;上面的邮箱&#39;</code><br><br>三次回车生成ssh key，通过命令得到公钥<br><code>cat ~/.ssh/id_rsa.pub</code></p>
+<h1 id="链接Github"><a href="#链接Github" class="headerlink" title="链接Github"></a>链接Github</h1><p><a href="https://github.com/">Github</a><br><br>点击头像找到settings<br>然后选择SSH and GPG keys 这个选项<br><br><br>点击”New SSH key”这个按钮<br></p>
+<img src="/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/1.jpg" class="">
+<br>
+输入刚刚得到的密钥，确认连接上后，再命令框输入命令:<br>
+`ssh -T git@github.com`
+<br>
+会提示you've successfully 表示连接成功
+
+<p>然后进入站点根目录_config.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">deploy:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">  type: git </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">  repository:  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    git@github.com:ChenZIDu&#x2F;chenzidu.github.io.git   </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">  branch: master</span></pre></td></tr></table></figure>
+<p>repository为自己项目的下载链接<br><br><br>要安装一个部署插件 hexo-deployer-git。</p>
+<p><code>$ npm install hexo-deployer-git --save</code><br>之后每次更改 输入hexo g -d就可以进行远程部署了<br>之后浏览器访问:<code>你的名字.github.io</code>就可以进行访问</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/next/" rel="tag"># next</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9(%E4%B8%80)/" rel="prev" title="hexo-next搭建配置以及坑点(一)">
+      <i class="fa fa-chevron-left"></i> hexo-next搭建配置以及坑点(一)
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-              目前共计 7 个标签
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/Docker/" style="font-size: 30px; color: #111">Docker</a> <a href="/tags/happy/" style="font-size: 12px; color: #ccc">happy</a> <a href="/tags/hexo/" style="font-size: 12px; color: #ccc">hexo</a> <a href="/tags/java/" style="font-size: 12px; color: #ccc">java</a> <a href="/tags/next/" style="font-size: 12px; color: #ccc">next</a> <a href="/tags/nodejs/" style="font-size: 12px; color: #ccc">nodejs</a> <a href="/tags/%E6%AC%A2%E8%BF%8E/" style="font-size: 12px; color: #ccc">欢迎</a>
-            </div>
-          </div>
-        
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
   </div>
 
 
@@ -275,6 +337,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#要使用-git-工具首先要配置一下SSH-key，为部署本地博客到-Github-做准备。"><span class="nav-number">1.</span> <span class="nav-text">要使用 git 工具首先要配置一下SSH key，为部署本地博客到 Github 做准备。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置-SSH-key"><span class="nav-number"></span> <span class="nav-text">配置 SSH key</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#链接Github"><span class="nav-number"></span> <span class="nav-text">链接Github</span></a></div>
       </div>
       <!--/noindex-->
 
