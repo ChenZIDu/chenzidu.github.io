@@ -29,31 +29,6 @@
     
     
     <entry>
-      <title>hexo-next搭建配置以及坑点(一)</title>
-      <link href="/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9/"/>
-      <url>/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9/</url>
-      
-        <content type="html"><![CDATA[<h3 id="Hexo-是高效的静态站点生成框架，她基于-Node-js。-通过-Hexo-你可以轻松地使用-Markdown-编写文章，除了-Markdown-本身的语法之外，还可以使用-Hexo-提供的-标签插件-来快速的插入特定形式的内容。在这篇文章中，假定你已经成功安装了-Hexo，并使用-Hexo-提供的命令创建了一个站点。"><a href="#Hexo-是高效的静态站点生成框架，她基于-Node-js。-通过-Hexo-你可以轻松地使用-Markdown-编写文章，除了-Markdown-本身的语法之外，还可以使用-Hexo-提供的-标签插件-来快速的插入特定形式的内容。在这篇文章中，假定你已经成功安装了-Hexo，并使用-Hexo-提供的命令创建了一个站点。" class="headerlink" title="Hexo 是高效的静态站点生成框架，她基于 Node.js。 通过 Hexo 你可以轻松地使用 Markdown 编写文章，除了 Markdown 本身的语法之外，还可以使用 Hexo 提供的 标签插件 来快速的插入特定形式的内容。在这篇文章中，假定你已经成功安装了 Hexo，并使用 Hexo 提供的命令创建了一个站点。"></a>Hexo 是高效的静态站点生成框架，她基于 Node.js。 通过 Hexo 你可以轻松地使用 Markdown 编写文章，除了 Markdown 本身的语法之外，还可以使用 Hexo 提供的 标签插件 来快速的插入特定形式的内容。在这篇文章中，假定你已经成功安装了 Hexo，并使用 Hexo 提供的命令创建了一个站点。</h3><a id="more"></a><p><b>以下博文仅限于windows平台配置,如有错误望谅解！</b><br></p><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>在 Hexo 中有两份主要的配置文件，其名称都是 _config.yml。 其中，一份位于站点根目录下，主要包含 Hexo 本身的配置；另一份位于主题目录下，这份配置由主题作者提供，主要用于配置主题相关的选项。</p><p><b> 为了描述方便，在以下说明中，将前者称为 站点配置文件， 后者称为 主题配置文件。<br></b><br>安装 Hexo 相当简单，只需要先安装下列应用程序即可：</p><p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js</a> (Node.js 版本需不低于 8.6，建议使用 Node.js 10.0 及以上版本)<br><br><a href="https://git-scm.com/" target="_blank" rel="noopener">Git</a><br>#</p><h2 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h2><p>所有必备的应用程序安装完成后，即可使用 npm 安装 Hexo。<br><code>$ npm install -g hexo-cli</code><br><br>再hexo文件夹下打开git<br><br><code>$ hexo init blog</code><br><code>$ cd blog</code><br><code>$ hexo g</code>  打包生成<br><code>$ hexo s</code>  本地搭建</p><p>然后成功后你可以通过访问来看博客(ctrl+c进行退出):<br><br><code>localhost:4000</code><br><br></p><h2 id="安装next"><a href="#安装next" class="headerlink" title="安装next"></a>安装next</h2><p><code>$ git clone https://github.com/iissnan/hexo-theme-next themes/next</code></p><p>打开站点配置文件_config.yml,查找theme 内容更改为next<br></p><p>然后输入</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ hexo clean    &#x2F;&#x2F;清楚缓存</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$ hexo g       &#x2F;&#x2F;打包</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">$ hexo s     &#x2F;&#x2F;部署本地</span></pre></td></tr></table></figure><p>通过链接进行访问:<br><br><code>localhost:4000</code><br>next一共有四个主题</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"># Schemes</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">#scheme: Muse</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">#scheme: Mist</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">#scheme: Pisces</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">scheme: Gemini</span></pre></td></tr></table></figure><p>我用的是 Gemini主题<br><br>在主题配置文件中搜索<b>Schemes</b>进行配置</p><p>至此本地搭建已完成</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> blog </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> hexo </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>2019UNCTF checkin</title>
       <link href="/2019/11/20/2019UNCTF-checkin/"/>
       <url>/2019/11/20/2019UNCTF-checkin/</url>
