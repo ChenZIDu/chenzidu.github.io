@@ -56,11 +56,8 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="Spring Boot是一个简化Spring开发的框架。用来监护spring应用开发，约定大于配置，去繁就简，just run 就能创建一个独立的，产品级的应用。我们在使用Spring Boot时只需要配置相应的Spring Boot就可以用所有的Spring组件，简单的说，spring boot就是整合了很多优秀的框架，不用我们自己手动的去写一堆xml配置然后进行配置。从本质上来说，Spring">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;12&#x2F;06&#x2F;Spring-boot-Cookie%E4%BD%BF%E7%94%A8&#x2F;1.jpg">
-<meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;12&#x2F;06&#x2F;Spring-boot-Cookie%E4%BD%BF%E7%94%A8&#x2F;2.jpg">
-<meta property="og:updated_time" content="2019-12-06T12:51:54.187Z">
+<meta property="og:updated_time" content="2019-12-06T12:56:47.806Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;12&#x2F;06&#x2F;Spring-boot-Cookie%E4%BD%BF%E7%94%A8&#x2F;1.jpg">
 
 <link rel="canonical" href="http://github.com/ChenZIDu/2019/12/06/Spring-boot-Cookie%E4%BD%BF%E7%94%A8/">
 
@@ -245,7 +242,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2019-12-06 19:58:12 / 修改时间：20:51:54" itemprop="dateCreated datePublished" datetime="2019-12-06T19:58:12+08:00">2019-12-06</time>
+              <time title="创建时间：2019-12-06 19:58:12 / 修改时间：20:56:47" itemprop="dateCreated datePublished" datetime="2019-12-06T19:58:12+08:00">2019-12-06</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,13 +273,35 @@
 <p>public String index(HttpServletRequest request, HttpServletResponse response, String username, String password){              //传入后端<br>        User user = userMapper.selectByPrimaryKey(username);<br>        if(user.getPassword().equals(password)){<br>           System.out.println(user);<br>            CookieUtil cookie = new CookieUtil();<br>            int expire = 60 * 60 * 24 * 7;  //cookie时间为90天<br>            cookie.setCookie(response,”logUsername”,user.getUsername(),expire);        //给他们cookie<br>            cookie.setCookie(response,”logPassword”,user.getPassword(),expire);<br>            return JSON.toJSONString(user);           //返回教师名字以及权力的json<br>        }<br>        else{<br>            return “fail”;<br>        }<br>    }</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">PS：request为请求头，response为响应头</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&lt;b&gt;这段代码为，当登陆传入账号和密码，以及响应头后，确认账号密码存在，服务器返回响应报文给客户端，响应的Response Header中的Set-Cookie就是告诉客户端为当前页面设置Cookie，当客户端接收到Set-Cookie后下次请求会自动带上Cookie&lt;&#x2F;b&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">我这边Cookie时间设置成3个月，因为项目中对快捷登陆要求较高，能方便点就方便点。</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">### 利用Cookie</span></pre></td></tr></table></figure>
 <p>public String logFilling(HttpServletRequest request, HttpServletResponse response){<br>        Map&lt;String, String&gt; map = CookieUtil.getCookies(request);<br>        String username = map.get(“logUsername”);<br>        List<useClass> useClassList = useClassMapper.selectUseClass(username);<br>        System.out.println(useClassList.size());<br>        return JSON.toJSONString(useClassList);<br>    }</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;b&gt;大致为当页面访问logFilling页面时，我获取他request请求头带来的Cookie的信息，来进行信息的预查询&lt;&#x2F;b&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">简单访问：</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">![](1.jpg)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">发现可以访问成功，并且Cookies还多出了两项。</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">![](2.jpg)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">因为某种原因我还为设置Httponly,以及Secure。</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">附Cookie类代码（全）</span></pre></td></tr></table></figure>
+<p>package com.example.logSystem.pojo;</p>
+<p>import javax.servlet.http.Cookie;<br>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletResponse;<br>import java.util.HashMap;<br>import java.util.Iterator;<br>import java.util.Map;</p>
+<p>public class CookieUtil {<br>    //设置Cookie<br>    public static void setCookie(HttpServletResponse response, String key, String value, int expiry){<br>        Cookie cookie = new Cookie(key, value); //key 为cookie内容名字，value为cookie 类型<br>        cookie.setMaxAge(expiry);       //cookie过期时间<br>//      cookie.setSecure(true);  //安全的cookie是仅可以通过加密的HTTPS连接发送到服务器的cookie。无法通过未加密的HTTP连接将cookie发送到服务器。也就是说，如果设置了setSecure(true)，该Cookie将无法在Http连接中传输，只能是Https连接中传输。<br>//      cookie.setHttpOnly(true);  //不能被js访问的Cookie<br>        response.addCookie(cookie);<br>    }</p>
+<pre><code>//获取所有Cookie
+public static Map&lt;String, String&gt; getCookies(HttpServletRequest request){
+    Map&lt;String, String&gt; map = new HashMap&lt;&gt;();
+    Cookie cookies[] = request.getCookies();
+    if (cookies != null){
+        for(int i = 0; i &lt; cookies.length; i++){
+            if(!&quot;JSESSION&quot;.equals(cookies[i].getName()))
+                map.put(cookies[i].getName(), cookies[i].getValue());
+        }
+    }
+    return map;
+}
+
+//清空所有的Cookie                                               点击退出按钮后
+public static void clear(HttpServletRequest request, HttpServletResponse response){
+    Map&lt;String, String&gt; map = getCookies(request);
+    Iterator&lt;Map.Entry&lt;String, String&gt;&gt; iter = map.entrySet().iterator();
+    while(iter.hasNext()){
+        Map.Entry&lt;String, String&gt; me = iter.next();
+        Cookie cookie = new Cookie(me.getKey(), &quot;&quot;);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
+}</code></pre><p>}</p>
 <p>```</p>
-<p><b>大致为当页面访问logFilling页面时，我获取他request请求头带来的Cookie的信息，来进行信息的预查询</b></p>
-<p>简单访问：</p>
-<p><img src="1.jpg" alt=""></p>
-<p>发现可以访问成功，并且Cookies还多出了两项。</p>
-<p><img src="2.jpg" alt=""></p>
-<p>因为某种原因我还为设置Httponly,以及Secure。</p>
 
     </div>
 
