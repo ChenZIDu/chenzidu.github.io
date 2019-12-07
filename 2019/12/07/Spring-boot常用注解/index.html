@@ -60,7 +60,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;12&#x2F;07&#x2F;Spring-boot%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3&#x2F;2.jpg">
 <meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;12&#x2F;07&#x2F;Spring-boot%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3&#x2F;3.jpg">
 <meta property="og:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;12&#x2F;07&#x2F;Spring-boot%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3&#x2F;4.jpg">
-<meta property="og:updated_time" content="2019-12-07T05:16:03.966Z">
+<meta property="og:updated_time" content="2019-12-07T05:18:44.359Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;github.com&#x2F;ChenZIDu&#x2F;2019&#x2F;12&#x2F;07&#x2F;Spring-boot%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3&#x2F;1.jpg">
 
@@ -247,7 +247,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2019-12-07 10:33:58 / 修改时间：13:16:03" itemprop="dateCreated datePublished" datetime="2019-12-07T10:33:58+08:00">2019-12-07</time>
+              <time title="创建时间：2019-12-07 10:33:58 / 修改时间：13:18:44" itemprop="dateCreated datePublished" datetime="2019-12-07T10:33:58+08:00">2019-12-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -274,7 +274,8 @@
       
         <p><strong><em>springboot的核心就是注解。springboot通过各种组合注解，极大地简化了spring项目的搭建和开发。采用纯java代码，不在需要配置繁杂的xml文件。类型安全对重构可以提供良好的支持。</em></strong></p>
 <a id="more"></a>
-<h2 id="SpringBootApplication"><a href="#SpringBootApplication" class="headerlink" title="@SpringBootApplication"></a>@SpringBootApplication</h2><p><em>@SpringBootApplication：包含了@ComponentScan、@Configuration和@EnableAutoConfiguration注解。</em><br>其中</p>
+<h2 id="SpringBootApplication"><a href="#SpringBootApplication" class="headerlink" title="@SpringBootApplication"></a>@SpringBootApplication</h2><p><strong><em>@SpringBootApplication:包含了@ComponentScan、@Configuration和@EnableAutoConfiguration注解。</em></strong></p>
+<p>其中</p>
 <p>@ComponentScan：让spring Boot扫描到Configuration类并把它加入到程序上下文。<br><br>@Configuration ：等同于spring的XML配置文件；使用Java代码可以检查类型安全。<br><br>@EnableAutoConfiguration ：自动配置。</p>
 <h2 id="RequestBody与-ResponseBody"><a href="#RequestBody与-ResponseBody" class="headerlink" title="@RequestBody与@ResponseBody"></a>@RequestBody与@ResponseBody</h2><p>//注意并不要求@RequestBody与@ResponseBody成对使用。<br><br>@RequestBody修饰请求参数，注解用于接收HTTP的body，默认是使用JSON的格式<br><br>@ResponseBody修饰返回值，注解用于在HTTP的body中携带响应数据，默认是使用JSON的格式。如果不加该注解，spring响应字符串类型，是跳转到模板页面或jsp页面的开发模式。说白了：加上这个注解你开发的是一个数据接口，不加这个注解你开发的是一个页面跳转控制器。</p>
 <p>@ResponseBody可以用于写数据加载的接口时候用，但是注意不要混淆了，一个是请求头一个时响应头。两者默认是传输以及接受自动转JSON格式，前端可以直接调用</p>
