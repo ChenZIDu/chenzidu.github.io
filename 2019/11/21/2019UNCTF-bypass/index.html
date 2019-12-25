@@ -18,6 +18,17 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
 
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
@@ -46,16 +57,6 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     sidebarPadding: 40
   };
-</script>
-<script>
-    (function(){
-        if(''){
-            if (prompt('请输入密码') !== ''){
-                alert('密码错误');
-                history.back();
-            }
-        }
-    })();
 </script>
 
   <meta name="description" content="rce，正则匹配特点，文件通配符，命令换行，命令注释">

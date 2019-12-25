@@ -18,6 +18,17 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
 
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入密码') !== ''){
+                alert('密码错误');
+                history.back();
+            }
+        }
+    })();
+</script>
+
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
@@ -46,16 +57,6 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     sidebarPadding: 40
   };
-</script>
-<script>
-    (function(){
-        if(''){
-            if (prompt('请输入密码') !== ''){
-                alert('密码错误');
-                history.back();
-            }
-        }
-    })();
 </script>
 
   <meta name="description" content="Spring Boot是一个简化Spring开发的框架。用来监护spring应用开发，约定大于配置，去繁就简，just run 就能创建一个独立的，产品级的应用。我们在使用Spring Boot时只需要配置相应的Spring Boot就可以用所有的Spring组件，简单的说，spring boot就是整合了很多优秀的框架，不用我们自己手动的去写一堆xml配置然后进行配置。从本质上来说，Spring">
