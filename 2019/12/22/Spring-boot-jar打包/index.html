@@ -5,16 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 4.0.0">
-<script>
-    (function(){
-        if(''){
-            if (prompt('请输入文章密码') !== ''){
-                alert('密码错误！');
-                history.back();
-            }
-        }
-    })();
-</script>
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -56,6 +46,18 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     sidebarPadding: 40
   };
+</script>
+<script>
+var password = promt('请输入文章密码');
+alert(password);
+    function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
 </script>
 
   <meta name="description" content="Spring Boot目前流行的java web应用开发框架，相比传统的spring开发，spring boot极大简化了配置，并且遵守约定优于配置的原则即使0配置也能正常运行，这在spring中是难以想象的。spring boot应用程序可以独立运行，框架内嵌web容器，使得web应用程序可以像本地程序一样启动和调试，十分的方便，这种设计方式也使得spring boot应用程序非常适合容器化进行">
