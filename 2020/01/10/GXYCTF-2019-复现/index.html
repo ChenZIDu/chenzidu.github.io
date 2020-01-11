@@ -47,12 +47,12 @@
     sidebarPadding: 40
   };
 </script>
-  <meta name="description" content="弄完事情吃完饭，回去做了一小时，发现几题在手机上看觉得都能出的题都没出。。。">
+  <meta name="description" content="弄完事情吃完饭,都没时间打，BuuCTF复现一下">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GXYCTF[2019]复现">
 <meta property="og:url" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;index.html">
 <meta property="og:site_name" content="Chen&#39;Blog">
-<meta property="og:description" content="弄完事情吃完饭，回去做了一小时，发现几题在手机上看觉得都能出的题都没出。。。">
+<meta property="og:description" content="弄完事情吃完饭,都没时间打，BuuCTF复现一下">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;1.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;7.jpg">
@@ -61,7 +61,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;4.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;5.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;6.jpg">
-<meta property="og:updated_time" content="2020-01-11T07:54:02.671Z">
+<meta property="og:updated_time" content="2020-01-11T08:08:29.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;01&#x2F;10&#x2F;GXYCTF-2019-%E5%A4%8D%E7%8E%B0&#x2F;1.jpg">
 
@@ -254,7 +254,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-11 15:54:02" itemprop="dateModified" datetime="2020-01-11T15:54:02+08:00">2020-01-11</time>
+                <time title="修改时间：2020-01-11 16:08:29" itemprop="dateModified" datetime="2020-01-11T16:08:29+08:00">2020-01-11</time>
               </span>
 
           
@@ -268,13 +268,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>弄完事情吃完饭，回去做了一小时，发现几题在手机上看觉得都能出的题都没出。。。</strong></p>
+        <p><strong>弄完事情吃完饭,都没时间打，BuuCTF复现一下</strong></p>
 <a id="more"></a>
 <h2 id="GXYCTF2019-Ping-Ping-Ping"><a href="#GXYCTF2019-Ping-Ping-Ping" class="headerlink" title="[GXYCTF2019]Ping Ping Ping"></a>[GXYCTF2019]Ping Ping Ping</h2><p>记得XCTF有道相似题型，当时一看到这题就想起来了，但是写payload的时候多打了个空格。。。试了好多次后没发现，还以为我思路错了。。。</p>
-<p>题目让我们ping ip ,127.0.0.1|ls</p>
+<p>题目让我们ping ip <br><br>127.0.0.1|ls</p>
 <p><img src="1.jpg" alt=""></p>
 <p>爆出有index.php以及flag.php，但是题目过滤了空格。</p>
-<h3 id="“奇淫技巧”：-ip-cat-IFSls"><a href="#“奇淫技巧”：-ip-cat-IFSls" class="headerlink" title="“奇淫技巧”：?ip=;cat$IFSls;"></a>“奇淫技巧”：?ip=;cat$IFS<code>ls</code>;</h3><p>也能出！！！！学到了！</p>
+<h4 id="“奇淫技巧”：-ip-cat-IFSls"><a href="#“奇淫技巧”：-ip-cat-IFSls" class="headerlink" title="“奇淫技巧”：?ip=;cat$IFSls;"></a>“奇淫技巧”：?ip=;cat$IFS<code>ls</code>;</h4><p>也能出！！！！学到了！</p>
 <p><img src="7.jpg" alt=""></p>
 <h2 id="linux常见绕过方法"><a href="#linux常见绕过方法" class="headerlink" title="linux常见绕过方法"></a>linux常见绕过方法</h2><ol>
 <li><p>空格过滤</p>
@@ -321,7 +321,8 @@
 <p>localeconv() 函数返回一包含本地数字及货币格式信息的数组，结合pos()能得到.，也就是当前目录==&gt;然后再加上scandir就能获取当前目录的所有的文件</p>
 <p>payload:<br><br>print_r(scandir(pos(localeconv())));</p>
 <p><img src="3.jpg" alt=""></p>
-<p>之后我们利用array_reverse() 将数组内容反转一下，利用next()指向flag.php文件==&gt;highlight_file()高亮输出</p>
+<p>之后我们利用array_reverse() 将数组内容反转一下，利用next()指向flag.php文件==&gt;highlight_file()高亮输出。</p>
+<p>payload:<br><br><code>?exp=highlight_file(next(array_reverse(scandir(pos(localeconv())))));</code></p>
 <hr>
 <h2 id="GXYCTF2019-BabySQli"><a href="#GXYCTF2019-BabySQli" class="headerlink" title="[GXYCTF2019]BabySQli"></a>[GXYCTF2019]BabySQli</h2><p>在进行sql注入探测中，发现有base32解密， 解完还有一层base64，最后出来sql语句：<br><br><code>select * from user where username = &#39;$name&#39;</code><br></p>
 <p>探测一共有几个字段<br></p>
@@ -388,7 +389,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GXYCTF2019-Ping-Ping-Ping"><span class="nav-number">1.</span> <span class="nav-text">[GXYCTF2019]Ping Ping Ping</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#“奇淫技巧”：-ip-cat-IFSls"><span class="nav-number">1.1.</span> <span class="nav-text">“奇淫技巧”：?ip=;cat$IFSls;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linux常见绕过方法"><span class="nav-number">2.</span> <span class="nav-text">linux常见绕过方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GXYCTF2019-禁止套娃"><span class="nav-number">3.</span> <span class="nav-text">[GXYCTF2019]禁止套娃</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GXYCTF2019-BabySQli"><span class="nav-number">4.</span> <span class="nav-text">[GXYCTF2019]BabySQli</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【未完待续】"><span class="nav-number">5.</span> <span class="nav-text">【未完待续】</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GXYCTF2019-Ping-Ping-Ping"><span class="nav-number">1.</span> <span class="nav-text">[GXYCTF2019]Ping Ping Ping</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#“奇淫技巧”：-ip-cat-IFSls"><span class="nav-number">1.0.1.</span> <span class="nav-text">“奇淫技巧”：?ip=;cat$IFSls;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linux常见绕过方法"><span class="nav-number">2.</span> <span class="nav-text">linux常见绕过方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GXYCTF2019-禁止套娃"><span class="nav-number">3.</span> <span class="nav-text">[GXYCTF2019]禁止套娃</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GXYCTF2019-BabySQli"><span class="nav-number">4.</span> <span class="nav-text">[GXYCTF2019]BabySQli</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【未完待续】"><span class="nav-number">5.</span> <span class="nav-text">【未完待续】</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
