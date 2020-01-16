@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://chenzidu.github.io/2020/01/12/upload-labs/</loc>
+    
+    <lastmod>2020-01-16T11:26:00.001Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://chenzidu.github.io/about/index.html</loc>
+    
+    <lastmod>2020-01-12T07:41:20.446Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://chenzidu.github.io/2018/06/20/Hello-friend/</loc>
     
     <lastmod>2020-01-11T08:12:40.184Z</lastmod>
@@ -145,13 +159,6 @@
     <loc>https://chenzidu.github.io/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%88%E6%90%AD%E5%BB%BADocker%EF%BC%89/</loc>
     
     <lastmod>2019-11-30T09:17:54.722Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://chenzidu.github.io/about/index.html</loc>
-    
-    <lastmod>2019-11-30T06:17:02.237Z</lastmod>
     
   </url>
   
