@@ -47,12 +47,15 @@
     sidebarPadding: 40
   };
 </script>
-  <meta property="og:type" content="article">
-<meta property="og:title" content="pta-7-5 城市间紧急救援 (25分)">
+  <meta name="description" content="题目作为一个城市的应急救援队伍的负责人，你有一张特殊的全国地图。在地图上显示有多个分散的城市和一些连接城市的快速道路。每个城市的救援队数量和每一条连接两个城市的快速道路长度都标在地图上。当其他城市有紧急求助电话给你的时候，你的任务是带领你的救援队尽快赶往事发地，同时，一路上召集尽可能多的救援队。">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pta-7-5 城市间紧急救援 (25分)(dijkstra)">
 <meta property="og:url" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;02&#x2F;01&#x2F;pta-7-5-%E5%9F%8E%E5%B8%82%E9%97%B4%E7%B4%A7%E6%80%A5%E6%95%91%E6%8F%B4-25%E5%88%86-1&#x2F;index.html">
 <meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="题目作为一个城市的应急救援队伍的负责人，你有一张特殊的全国地图。在地图上显示有多个分散的城市和一些连接城市的快速道路。每个城市的救援队数量和每一条连接两个城市的快速道路长度都标在地图上。当其他城市有紧急求助电话给你的时候，你的任务是带领你的救援队尽快赶往事发地，同时，一路上召集尽可能多的救援队。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-01T07:31:12.142Z">
+<meta property="og:updated_time" content="2020-02-02T10:29:01.900Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/02/01/pta-7-5-%E5%9F%8E%E5%B8%82%E9%97%B4%E7%B4%A7%E6%80%A5%E6%95%91%E6%8F%B4-25%E5%88%86-1/">
@@ -69,7 +72,7 @@
   };
 </script>
 
-  <title>pta-7-5 城市间紧急救援 (25分) | Chen'Blog</title>
+  <title>Pta-7-5 城市间紧急救援 (25分)(dijkstra) | Chen'Blog</title>
   
 
 
@@ -227,7 +230,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          pta-7-5 城市间紧急救援 (25分)
+          Pta-7-5 城市间紧急救援 (25分)(dijkstra)
         </h1>
 
         <div class="post-meta">
@@ -238,6 +241,24 @@
               <span class="post-meta-item-text">发表于</span>
 
               <time title="创建时间：2020-02-01 15:31:12" itemprop="dateCreated datePublished" datetime="2020-02-01T15:31:12+08:00">2020-02-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-02 18:29:01" itemprop="dateModified" datetime="2020-02-02T18:29:01+08:00">2020-02-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
             </span>
 
           
@@ -251,7 +272,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>作为一个城市的应急救援队伍的负责人，你有一张特殊的全国地图。在地图上显示有多个分散的城市和一些连接城市的快速道路。每个城市的救援队数量和每一条连接两个城市的快速道路长度都标在地图上。当其他城市有紧急求助电话给你的时候，你的任务是带领你的救援队尽快赶往事发地，同时，一路上召集尽可能多的救援队。</p>
+<a id="more"></a>
+<h2 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h2><p>输入第一行给出4个正整数N、M、S、D，其中N（2≤N≤500）是城市的个数，顺便假设城市的编号为0 ~ (N−1)；M是快速道路的条数；S是出发地的城市编号；D是目的地的城市编号。</p>
+<p>第二行给出N个正整数，其中第i个数是第i个城市的救援队的数目，数字间以空格分隔。随后的M行中，每行给出一条快速道路的信息，分别是：城市1、城市2、快速道路的长度，中间用空格分开，数字均为整数且不超过500。输入保证救援可行且最优解唯一。</p>
+<h2 id="输出格式："><a href="#输出格式：" class="headerlink" title="输出格式："></a>输出格式：</h2><p>第一行输出最短路径的条数和能够召集的最多的救援队数量。第二行输出从S到D的路径中经过的城市编号。数字间以空格分隔，输出结尾不能有多余空格。</p>
+<h2 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">4 5 0 3</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">20 30 40 10</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">0 1 1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">1 3 2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">0 3 3</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">0 2 2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">2 3 2</span></pre></td></tr></table></figure>
+<h2 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">2 60</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">0 1 3</span></pre></td></tr></table></figure>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#include&lt;bits&#x2F;stdc++.h&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">using namespace std;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">const int INF&#x3D;0x3fffffff;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">int dij[501];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">int way[501][501];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">int save[501];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">int book[501];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">int f[501];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">int w[501];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">int num[501];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">void print(int v,int s)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    if(v&#x3D;&#x3D;s)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        cout&lt;&lt;v;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        return;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    print(f[v],s);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    cout&lt;&lt;&quot; &quot;&lt;&lt;v;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">int main()&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">    int n,m,s,d;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    int a,b;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    scanf(&quot;%d %d %d %d&quot;,&amp;n,&amp;m,&amp;s,&amp;d);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">	for(int i&#x3D;0;i&lt;n;i++)&#123;		&#x2F;&#x2F;初始化 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">		dij[i]&#x3D;INF;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">		for(int j&#x3D;0;j&lt;n;j++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">			way[i][j]&#x3D;INF;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">		&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">	for(int i&#x3D;0;i&lt;n;i++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">		scanf(&quot;%d&quot;,&amp;save[i]);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">	for(int i&#x3D;0;i&lt;m;i++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">		scanf(&quot;%d %d&quot;,&amp;a,&amp;b);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">		scanf(&quot;%d&quot;,&amp;way[a][b]);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">		way[b][a]&#x3D;way[a][b];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">	dij[s]&#x3D;0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">	w[s]&#x3D;save[s];&#x2F;&#x2F;起点的救援队</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">	num[s]&#x3D;1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">	for(int i&#x3D;0;i&lt;n;i++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">		int x&#x3D;-1,m&#x3D;INF;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">		for(int j&#x3D;0;j&lt;n;j++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">			if(!book[j]&amp;&amp;dij[j]&lt;&#x3D;m)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">				m&#x3D;dij[x&#x3D;j];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">		&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">		book[x]&#x3D;1;&#x2F;&#x2F;标记</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">		if(x&#x3D;&#x3D;d)	&#x2F;&#x2F;一次到达目的地 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">			break;	 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">		for(int j&#x3D;0;j&lt;n;j++)&#123;		&#x2F;&#x2F;下一步 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">			if(book[j]||way[x][j]&#x3D;&#x3D;INF)&#x2F;&#x2F;如果走过或者没路 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line">				continue;			</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">			if(dij[j]&gt;dij[x]+way[x][j])&#123;&#x2F;&#x2F;如果上一步加现在的比下一步短 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">				dij[j]&#x3D;dij[x]+way[x][j];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line">				w[j]&#x3D;w[x]+save[j];&#x2F;&#x2F;救援队</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">55</span></pre></td><td class="code"><pre><span class="line">				f[j]&#x3D;x;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">56</span></pre></td><td class="code"><pre><span class="line">				num[j]&#x3D;num[x];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">57</span></pre></td><td class="code"><pre><span class="line">			&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">58</span></pre></td><td class="code"><pre><span class="line">			else if(dij[j]&#x3D;&#x3D;dij[x]+way[x][j])&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">59</span></pre></td><td class="code"><pre><span class="line">				if(w[j]&lt;w[x]+save[j])&#123;&#x2F;&#x2F;相同时选救援队最多的 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">60</span></pre></td><td class="code"><pre><span class="line">					f[j]&#x3D;x;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">61</span></pre></td><td class="code"><pre><span class="line">					w[j]&#x3D;w[x]+save[j];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">62</span></pre></td><td class="code"><pre><span class="line">				&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">63</span></pre></td><td class="code"><pre><span class="line">				num[j]+&#x3D;num[x]; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">64</span></pre></td><td class="code"><pre><span class="line">			&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">65</span></pre></td><td class="code"><pre><span class="line">		&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">66</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">67</span></pre></td><td class="code"><pre><span class="line">	printf(&quot;%d %d\n&quot;,num[d],w[d]);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">68</span></pre></td><td class="code"><pre><span class="line">	print(d,s);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">69</span></pre></td><td class="code"><pre><span class="line">	return 0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">70</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>之前一直没接触过dijkstra，平常遇到用的都是flyd<a href="https://blog.csdn.net/caipengbenren/article/details/86585284" target="_blank" rel="noopener">感谢cp0328大佬</a></p>
+
     </div>
 
     
@@ -259,6 +289,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+          </div>
 
         
 
@@ -269,7 +302,10 @@
     <a href="/2020/01/31/pta7-13-%E6%8B%AF%E6%95%91007-25%E5%88%86/" rel="prev" title="pta7-13 拯救007 (25分)DFS">
       <i class="fa fa-chevron-left"></i> pta7-13 拯救007 (25分)DFS
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/02/pta-7-49-%E5%89%8Dt%E4%B8%AA%E7%BB%84%E5%90%88%E7%BB%93%E6%9E%9C-25%E5%88%86-DFS/" rel="next" title="pta-7-49 前t个组合结果 (25分)DFS">
+      pta-7-49 前t个组合结果 (25分)DFS <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -307,6 +343,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入格式："><span class="nav-number">2.</span> <span class="nav-text">输入格式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出格式："><span class="nav-number">3.</span> <span class="nav-text">输出格式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入样例："><span class="nav-number">4.</span> <span class="nav-text">输入样例：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出样例："><span class="nav-number">5.</span> <span class="nav-text">输出样例：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">6.</span> <span class="nav-text">代码</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -322,7 +359,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
