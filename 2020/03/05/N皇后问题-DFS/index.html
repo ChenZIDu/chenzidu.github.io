@@ -47,18 +47,18 @@
     sidebarPadding: 40
   };
 </script>
-  <meta name="description" content="要理解docker，最核心的是理解三个概念，分别是：仓库（Registry）、镜像（image）和容器（Container）。">
-<meta name="keywords" content="Docker">
+  <meta name="description" content="八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。然而这是N皇后哈哈哈哈哈~">
+<meta name="keywords" content="C++">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Centos7搭建Facebook CTF平台（二）(配置加速镜像)">
-<meta property="og:url" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2019&#x2F;02&#x2F;10&#x2F;Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%BA%8C%EF%BC%89-%E9%85%8D%E7%BD%AE%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F&#x2F;index.html">
+<meta property="og:title" content="N皇后问题-DFS">
+<meta property="og:url" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;03&#x2F;05&#x2F;N%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98-DFS&#x2F;index.html">
 <meta property="og:site_name" content="Chen&#39;Blog">
-<meta property="og:description" content="要理解docker，最核心的是理解三个概念，分别是：仓库（Registry）、镜像（image）和容器（Container）。">
+<meta property="og:description" content="八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。然而这是N皇后哈哈哈哈哈~">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-30T12:16:31.111Z">
+<meta property="og:updated_time" content="2020-03-05T05:10:15.151Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://chenzidu.github.io/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%BA%8C%EF%BC%89-%E9%85%8D%E7%BD%AE%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/">
+<link rel="canonical" href="https://chenzidu.github.io/2020/03/05/N%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98-DFS/">
 
 
 <script id="page-configurations">
@@ -72,7 +72,7 @@
   };
 </script>
 
-  <title>Centos7搭建Facebook CTF平台（二）(配置加速镜像) | Chen'Blog</title>
+  <title>N皇后问题-DFS | Chen'Blog</title>
   
 
 
@@ -217,7 +217,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%BA%8C%EF%BC%89-%E9%85%8D%E7%BD%AE%E5%8A%A0%E9%80%9F%E9%95%9C%E5%83%8F/">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2020/03/05/N%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98-DFS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Centos7搭建Facebook CTF平台（二）(配置加速镜像)
+          N皇后问题-DFS
         </h1>
 
         <div class="post-meta">
@@ -239,24 +239,24 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-02-10 16:36:53" itemprop="dateCreated datePublished" datetime="2019-02-10T16:36:53+08:00">2019-02-10</time>
+              <time title="创建时间：2020-03-05 12:19:12 / 修改时间：13:10:15" itemprop="dateCreated datePublished" datetime="2020-03-05T12:19:12+08:00">2020-03-05</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-30 20:16:31" itemprop="dateModified" datetime="2019-11-30T20:16:31+08:00">2019-11-30</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%97%A5%E5%B8%B8%E8%AE%AD%E7%BB%83/" itemprop="url" rel="index">
+                    <span itemprop="name">日常训练</span>
                   </a>
                 </span>
             </span>
@@ -272,23 +272,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>要理解docker，最核心的是理解三个概念，分别是：仓库（Registry）、镜像（image）和容器（Container）。</strong></p>
+        <p>八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。<br>然而这是N皇后哈哈哈哈哈<del>~</del></p>
 <a id="more"></a>
-<h2 id="仓库（Registry）"><a href="#仓库（Registry）" class="headerlink" title="仓库（Registry）"></a>仓库（Registry）</h2><p><strong>所谓仓库，其实是个镜像仓库，里面有很多别人已经打包好的镜像，可以直接使用docker pull命令将仓库中的镜像拉到本地，默认的仓库Docker的官方仓库Docker Hub Registry。</strong></p>
-<p><strong>因为墙的缘故，官方仓库的速度会比较慢，可以配一个官方的中国加速镜像，<br>可以使用阿里云的镜像加速。</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">配置镜像加速器</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">针对Docker客户端版本大于 1.10.0 的用户</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">您可以通过修改daemon配置文件&#x2F;etc&#x2F;docker&#x2F;daemon.json来使用加速器</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">sudo mkdir -p &#x2F;etc&#x2F;docker</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">sudo tee &#x2F;etc&#x2F;docker&#x2F;daemon.json &lt;&lt;-&#39;EOF&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">  &quot;registry-mirrors&quot;: [&quot;https:&#x2F;&#x2F;dcbtpkus.mirror.aliyuncs.com&quot;]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">EOF</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">sudo systemctl restart docker</span></pre></td></tr></table></figure>
-<p>各个版本有不同的方法<br>具体地址：<a href="https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors" target="_blank" rel="noopener">阿里云</a></p>
-<p>**</p>
-<h2 id="配置好镜像加速器之后"><a href="#配置好镜像加速器之后" class="headerlink" title="配置好镜像加速器之后?"></a>配置好镜像加速器之后?</h2><p>**<br><strong>获取镜像</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[root@ ~]# docker pull ubuntu:14.04</span></pre></td></tr></table></figure>
-
-<p>运行镜像：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[root@ ~]# docker run -it  \ubuntu:14.04 \bash</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">注：-i是交互式操作 -t：终端</span></pre></td></tr></table></figure>
-<p>删除镜像||容器<br>停止所有的container，这样才能够删除其中的images：</p>
-<pre><code># docker stop $(docker ps -a -q)</code></pre><p>如果想要删除所有container的话再加一个指令：</p>
-<pre><code># docker rm $(docker ps -a -q)</code></pre><p> 删除images，通过image的id来指定删除谁</p>
-<pre><code># docker rmi &lt;image id&gt;</code></pre><p>要删除全部image的话</p>
-<pre><code># docker rmi $(docker images -q)</code></pre>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>在N*N的方格棋盘放置了N个皇后，使得它们不相互攻击（即任意2个皇后不允许处在同一排，同一列，也不允许处在与棋盘边框成45角的斜线上。<br>你的任务是，对于给定的N，求出有多少种合法的放置方法。</p>
+<h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><p>测试数据由多组测试样例组成。每组测试数据第一行输入一个正整数 n (  1 &lt;= n &lt;= 10 ）</p>
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p>输出有多少种合法的放置方法</p>
+<h2 id="样例输入"><a href="#样例输入" class="headerlink" title="样例输入"></a>样例输入</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">5</span></pre></td></tr></table></figure>
+<h2 id="样例输出"><a href="#样例输出" class="headerlink" title="样例输出"></a>样例输出</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">10</span></pre></td></tr></table></figure>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#include&lt;bits&#x2F;stdc++.h&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">using namespace std;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">int t,n,m,a,b,sum;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">int Map[20];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">void dfs(int x)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    if(x&#x3D;&#x3D;n)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        sum++;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        return;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    int i,j;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    for(i&#x3D;0;i&lt;n;i++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        for(j&#x3D;0;j&lt;x;j++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            if(Map[j]&#x3D;&#x3D;i||abs(x-j)&#x3D;&#x3D;abs(Map[j]-i))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">                break;  &#x2F;&#x2F;两个点45度直线，两条边相等</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        if(j&#x3D;&#x3D;x)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">            Map[x]&#x3D;i;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">            dfs(x+1);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">int main()&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">    while(scanf(&quot;%d&quot;,&amp;n)!&#x3D;EOF)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">        memset(Map,0,sizeof(Map));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        sum&#x3D;0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">        dfs(0);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">        printf(&quot;%d\n&quot;,sum);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">    return 0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
     </div>
 
     
@@ -297,7 +288,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Docker/" rel="tag"># Docker</a>
+              <a href="/tags/C/" rel="tag"># C++</a>
           </div>
 
         
@@ -306,13 +297,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%88%E6%90%AD%E5%BB%BADocker%EF%BC%89/" rel="prev" title="Centos7搭建Facebook CTF平台（一）（搭建Docker）">
-      <i class="fa fa-chevron-left"></i> Centos7搭建Facebook CTF平台（一）（搭建Docker）
+    <a href="/2020/03/03/SCTF2019-Flag-Shop/" rel="prev" title="[SCTF2019]Flag Shop">
+      <i class="fa fa-chevron-left"></i> [SCTF2019]Flag Shop
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2019/02/10/Centos7%E6%90%AD%E5%BB%BAFacebook-CTF%E5%B9%B3%E5%8F%B0%EF%BC%88%E4%B8%89%EF%BC%89-ubuntu-14-04%E4%BD%BF%E7%94%A8/" rel="next" title="Centos7搭建Facebook CTF平台（三）(ubuntu:14.04使用)">
-      Centos7搭建Facebook CTF平台（三）(ubuntu:14.04使用) <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -350,7 +338,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#仓库（Registry）"><span class="nav-number">1.</span> <span class="nav-text">仓库（Registry）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置好镜像加速器之后"><span class="nav-number">2.</span> <span class="nav-text">配置好镜像加速器之后?</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入"><span class="nav-number">2.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出"><span class="nav-number">3.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样例输入"><span class="nav-number">4.</span> <span class="nav-text">样例输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样例输出"><span class="nav-number">5.</span> <span class="nav-text">样例输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">6.</span> <span class="nav-text">代码</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
