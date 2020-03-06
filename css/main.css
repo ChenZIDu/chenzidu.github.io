@@ -1168,7 +1168,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #59124b;
+  background: #1bba01;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2737,7 +2737,7 @@ body {
   background-size: 100% 100%;
 }
 .posts-expand .post-title {
-  font-size: 26px;
+  font-size: 23px;
   font-weight: 700;
 }
 .post {
@@ -2745,4 +2745,43 @@ body {
   margin-bottom: 40px;
   padding: 18px;
   -webkit-box-shadow: 0 0 5px rgba(202,203,203,0.8);
+}
+.post-body p a {
+  color: #0593d3;
+  border-bottom: none;
+  border-bottom: 1px solid #0593d3;
+}
+.post-body p a:hover {
+  color: #fc6423;
+  border-bottom: none;
+  border-bottom: 1px solid #fc6423;
+}
+.sidebar {
+  border-radius: 25px;
+}
+.sidebar-inner {
+  color: #555 !important;
+  background-color: #fff;
+  border-radius: 25px;
+  font-size: 15px;
+  box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.35);
+  border: none !important;
+  transition-property: unset;
+  padding: 0px 15px;
+}
+.header-inner {
+  color: #555 !important;
+  background-color: #fff;
+  border-radius: 10px;
+  font-size: 15px;
+  box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.35);
+  border: none !important;
+  transition-property: unset;
+  padding: 0px 0px;
+}
+.btn {
+  border-radius: 12px;
+}
+.site-meta {
+  background: #404040;
 }
