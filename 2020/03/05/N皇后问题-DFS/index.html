@@ -47,15 +47,15 @@
     sidebarPadding: 40
   };
 </script>
-  <meta name="description" content="八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。然而这是N皇后哈哈哈哈哈~">
+  <meta name="description" content="八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。  然而这是N皇后哈哈哈哈哈~">
 <meta name="keywords" content="C++">
 <meta property="og:type" content="article">
-<meta property="og:title" content="N皇后问题-DFS">
+<meta property="og:title" content="N皇后问题-经典DFS">
 <meta property="og:url" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;03&#x2F;05&#x2F;N%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98-DFS&#x2F;index.html">
 <meta property="og:site_name" content="Chen&#39;Blog">
-<meta property="og:description" content="八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。然而这是N皇后哈哈哈哈哈~">
+<meta property="og:description" content="八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。  然而这是N皇后哈哈哈哈哈~">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-06T14:11:50.480Z">
+<meta property="og:updated_time" content="2020-03-06T14:21:14.323Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/03/05/N%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98-DFS/">
@@ -72,7 +72,7 @@
   };
 </script>
 
-  <title>N皇后问题-DFS | Chen'Blog</title>
+  <title>N皇后问题-经典DFS | Chen'Blog</title>
   
 
 
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          N皇后问题-DFS
+          N皇后问题-经典DFS
         </h1>
 
         <div class="post-meta">
@@ -247,7 +247,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-06 22:11:50" itemprop="dateModified" datetime="2020-03-06T22:11:50+08:00">2020-03-06</time>
+                <time title="修改时间：2020-03-06 22:21:14" itemprop="dateModified" datetime="2020-03-06T22:21:14+08:00">2020-03-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -255,14 +255,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%97%A5%E5%B8%B8%E5%88%B7%E9%A2%98/" itemprop="url" rel="index">
-                    <span itemprop="name">日常刷题</span>
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%97%A5%E5%B8%B8%E5%88%B7%E9%A2%98/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
+                  <a href="/categories/%E6%97%A5%E5%B8%B8%E8%AE%AD%E7%BB%83/" itemprop="url" rel="index">
+                    <span itemprop="name">日常训练</span>
                   </a>
                 </span>
             </span>
@@ -305,7 +305,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。<br>然而这是N皇后哈哈哈哈哈<del>~</del></p>
+        <blockquote class="blockquote-center"><p>八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。</p>
+</blockquote>
+<p>然而这是N皇后哈哈哈哈哈<del>~</del></p>
 <a id="more"></a>
 <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>在N*N的方格棋盘放置了N个皇后，使得它们不相互攻击（即任意2个皇后不允许处在同一排，同一列，也不允许处在与棋盘边框成45角的斜线上。<br>你的任务是，对于给定的N，求出有多少种合法的放置方法。</p>
 <h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><p>测试数据由多组测试样例组成。每组测试数据第一行输入一个正整数 n (  1 &lt;= n &lt;= 10 ）</p>
@@ -397,7 +399,7 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
