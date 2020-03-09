@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://chenzidu.github.io/2020/03/09/Flask%E5%BA%94%E7%94%A8%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/</loc>
+    
+    <lastmod>2020-03-09T13:08:56.259Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://chenzidu.github.io/2020/03/08/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%9A%84%E4%BC%A0%E6%92%AD-BFS/</loc>
     
     <lastmod>2020-03-08T13:42:28.084Z</lastmod>
