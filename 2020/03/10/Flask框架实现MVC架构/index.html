@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="果然跟着python2的项目学习Flask有点让人烦躁- - ，除了今天蓝桥杯模拟赛，搞了一天才这么点进度。我去!">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flask框架实现MVC架构+sqlalchemy连接数据库">
+<meta property="og:url" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;03&#x2F;10&#x2F;Flask%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0MVC%E6%9E%B6%E6%9E%84&#x2F;index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="果然跟着python2的项目学习Flask有点让人烦躁- - ，除了今天蓝桥杯模拟赛，搞了一天才这么点进度。我去!">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;03&#x2F;10&#x2F;Flask%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0MVC%E6%9E%B6%E6%9E%84&#x2F;1.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;03&#x2F;10&#x2F;Flask%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0MVC%E6%9E%B6%E6%9E%84&#x2F;2.jpg">
+<meta property="og:updated_time" content="2020-03-11T06:26:37.990Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;03&#x2F;10&#x2F;Flask%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0MVC%E6%9E%B6%E6%9E%84&#x2F;1.png">
+
+<link rel="canonical" href="https://chenzidu.github.io/2020/03/10/Flask%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0MVC%E6%9E%B6%E6%9E%84/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Flask框架实现MVC架构+sqlalchemy连接数据库 | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2020/03/10/Flask%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0MVC%E6%9E%B6%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flask框架实现MVC架构+sqlalchemy连接数据库
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-10 21:53:45" itemprop="dateCreated datePublished" datetime="2020-03-10T21:53:45+08:00">2020-03-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-11 14:26:37" itemprop="dateModified" datetime="2020-03-11T14:26:37+08:00">2020-03-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flask/" itemprop="url" rel="index">
+                    <span itemprop="name">Flask</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sqlalchemy/" itemprop="url" rel="index">
+                    <span itemprop="name">sqlalchemy</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">1.2k(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">5(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>果然跟着python2的项目学习Flask有点让人烦躁- - ，除了今天蓝桥杯模拟赛，搞了一天才这么点进度。我去!</p>
+<a id="more"></a>
+
+<h2 id="什么是MVC架构"><a href="#什么是MVC架构" class="headerlink" title="什么是MVC架构"></a>什么是MVC架构</h2><p id="div-border-left-red">完成后的目录结构是这样的：非常简单，一个static文件夹，一个templates文件夹，一个py文件。</p>
+<p id="div-border-left-blue">以上的目录结构是flask初始时的结构，这个只能应对很小的项目，对于大型复杂的项目，我们需要引入包的管理，MVC架构设计。</p>
+
+<ul>
+<li>Model（模型）<br>是应用程序中用于处理应用程序数据逻辑的部分。通常模型对象负责在数据库中存取数据。</li>
+<li>View（视图）<br>是应用程序中处理数据显示的部分,通常视图是依据模型数据创建的。</li>
+<li>Controller（控制器）<br>是应用程序中处理用户交互的部分,通常控制器负责从视图读取数据，控制用户输入，并向模型发送数据。</li>
+</ul>
+<p><img src="1.png" alt="PyCharm"></p>
+<h3 id="目录结构重构，引入包管理"><a href="#目录结构重构，引入包管理" class="headerlink" title="目录结构重构，引入包管理"></a>目录结构重构，引入包管理</h3><ul>
+<li>新建一个runserver.py文件，作为项目统一入口文件</li>
+<li>新建blog2文件夹，把已存在的static,templates,app.py移到blog文件夹下，然后分别建controller、model包(右击blog2，选择python package)。把app.py改名为<strong>init</strong>.py，新建setting.py 文件。</li>
+</ul>
+<ol>
+<li>最上层FirstFlask目录是项目名称，一个项目下可以包括多个模块，也就是应用，每个应用下有自己的配置文件，初始化文件，MVC架构。</li>
+<li>runserver.py：与应用模块平级，作为项目启动文件</li>
+<li>blog文件夹：<blockquote>
+<p>model: MVC中的M，负责在数据库中存取数据。<br>templates：MVC中的V，处理数据显示的部分。<br>controller: MVC中的C，控制器负责控制用户输入，并发送数据。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="开发代码"><a href="#开发代码" class="headerlink" title="开发代码"></a>开发代码</h2><h3 id="init-py文件"><a href="#init-py文件" class="headerlink" title="__init__.py文件"></a><code>__init__.py</code>文件</h3><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env python3</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta"># _*_ coding: utf-8 _*_</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#@Time  : 2020/3/10 11:39</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#@Author: ChenZIDu</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#@File  : __init__.py.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">from flask import Flask</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#创建项目对象</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">app = Flask(__name__)</span></pre></td></tr></table></figure>
+<h3 id="runserver-py文件"><a href="#runserver-py文件" class="headerlink" title="runserver.py文件"></a>runserver.py文件</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># _*_ coding: utf-8 _*_</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> blog <span class="keyword">import</span> app</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/')     #路由</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> <span class="string">'Please login~'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    app.run(debug=<span class="literal">True</span>)</span></pre></td></tr></table></figure>
+<p><strong>运行runserver.py文件就可以看到效果了</strong></p>
+<p><a href="http://127.0.0.1:5000" target="_blank" rel="noopener">http://127.0.0.1:5000</a></p>
+<h3 id="setting-py配置文件"><a href="#setting-py配置文件" class="headerlink" title="setting.py配置文件"></a>setting.py配置文件</h3><p>添加配置数据库连接信息，如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># _*_ coding: utf-8 _*__ * _</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># @Time  : 2020/3/10 11:39</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># @Author: ChenZIDu</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># @File  : setting.py.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># 调试模式是否开启</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="attr">DEBUG</span> = <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># session 必须要设置key</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="attr">SECRET_KEY</span> = <span class="string">'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="attr">DIALECT</span> = <span class="string">'mysql'</span>  <span class="comment"># 要用的什么数据库</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"><span class="attr">DRIVER</span> = <span class="string">'mysqlconnector'</span> <span class="comment"># 连接数据库驱动   官方驱动解决1366问题</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"><span class="attr">USERNAME</span> = <span class="string">'root'</span>  <span class="comment"># 用户名</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"><span class="attr">PASSWORD</span> =<span class="string">'root'</span>  <span class="comment"># 密码</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"><span class="attr">HOST</span> = <span class="string">'localhost'</span>  <span class="comment"># 服务器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"><span class="attr">PORT</span> =<span class="string">'3306'</span> <span class="comment"># 端口</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"><span class="attr">DATABASE</span> = <span class="string">'flask'</span> <span class="comment"># 数据库名</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"><span class="attr">SQLALCHEMY_DATABASE_URI</span> = <span class="string">"&#123;&#125;+&#123;&#125;://&#123;&#125;:&#123;&#125;@&#123;&#125;:&#123;&#125;/&#123;&#125;?charset=utf8"</span>.format(DIALECT, DRIVER, USERNAME, PASSWORD, HOST, PORT, DATABASE)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"><span class="attr">SQLALCHEMY_TRACK_MODIFICATIONS</span> = <span class="literal">False</span></span></pre></td></tr></table></figure>
+<h3 id="注意可能会有1366错误"><a href="#注意可能会有1366错误" class="headerlink" title="注意可能会有1366错误"></a>注意可能会有1366错误</h3><p><code>Warning: (1366, &quot;Incorrect string value: &#39;\\xD6\\xD0\\xB9\\xFA\\xB1\\xEA...&#39; for column &#39;VARIABLE_VALUE&#39; at row 484&quot;)  result = self._query(query)</code></p>
+<p id="div-border-left-purple">错误要换成MySQL自己的驱动mysqlconnector,不过我代码已经换好了- -</p>
+
+<h2 id="ModuleNotFoundError-No-module-named-‘mysql’错误"><a href="#ModuleNotFoundError-No-module-named-‘mysql’错误" class="headerlink" title="ModuleNotFoundError: No module named ‘mysql’错误"></a>ModuleNotFoundError: No module named ‘mysql’错误</h2><p id="div-border-left-purple">要安装驱动`pip install mysql-connector`</p>
+
+<h3 id="init-py读取配置文件"><a href="#init-py读取配置文件" class="headerlink" title="__init__.py读取配置文件"></a><code>__init__.py</code>读取配置文件</h3><p>因为有顺序问题，我直接把源码放出来-.-多删少补</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"># _*_ coding: utf<span class="number">-8</span> _*_</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"># @Time  : <span class="number">2020</span>/<span class="number">3</span>/<span class="number">10</span> <span class="number">11</span>:<span class="number">39</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"># @Author: ChenZIDu</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"># @File  : __init__.py</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask_sqlalchemy <span class="keyword">import</span> SQLAlchemy</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">app = Flask(__name__)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"># <span class="keyword">import</span>  os</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"># print(os.environ.keys())</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"># print(os.environ.get(<span class="string">'FLASKR_SETTINGS'</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"># 加载配置文件内容</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">app.config.from_object(<span class="string">'blog.setting'</span>)      # 模块下的setting文件名，不用加py后缀</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">app.config.from_envvar(<span class="string">'FLASKR_SETTINGS'</span>)    # 环境变量，指向配置文件setting的路径</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">db = SQLAlchemy(app)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"># 创建数据库对象</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> blog.model <span class="keyword">import</span> User,Category    ##下面两句都要在db下面，因为要先创建才能用</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">db.create_all()</span></pre></td></tr></table></figure>
+<p id="div-border-left-blue">FLASKR_SETTINGS环境变量要自己设置<p>
+可以手动设置，或者再powershell里面设置
+
+<p><code>set FLASKR_SETTINGS=C:\***\FirstFlask\blog\setting.py</code><br><strong>后面放绝对路径就行了</strong></p>
+<h2 id="设计数据库"><a href="#设计数据库" class="headerlink" title="设计数据库"></a>设计数据库</h2><p>建两个表：User、Category表，一个放文章一个放用户，采用python的orm框架flask-sqlalchemy实现表的创建、增删改查功能。<br></p>
+<ul>
+<li>在model文件夹中添加User.py和Category.py文件</li>
+</ul>
+<ol>
+<li>User.py<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># _*_ coding: utf-8 _*_</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#<span class="doctag">@Time</span>  : 2020/3/10 18:17</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#<span class="doctag">@Author</span>: ChenZIDu</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#<span class="doctag">@File</span>  : User.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">from blog import db</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span>(<span class="title">db</span>.<span class="title">Model</span>):</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    __tablename_<span class="number">_</span> = <span class="string">'b_user'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    id = db.Column(db.Integer,primary_key=True)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    username = db.Column(db.String(<span class="number">10</span>),unique=True)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    password = db.Column(db.String(<span class="number">16</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(<span class="keyword">self</span>,username,password)</span></span><span class="symbol">:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">self</span>.username  = username</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">self</span>.password = password</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(<span class="keyword">self</span>)</span></span><span class="symbol">:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="string">'&lt;User %r&gt;'</span> % <span class="keyword">self</span>.username</span></pre></td></tr></table></figure></li>
+<li>Category.py<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># _*_ coding: utf-8 _*_</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#<span class="doctag">@Time</span>  : 2020/3/10 19:07</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#<span class="doctag">@Author</span>: ChenZIDu</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#<span class="doctag">@File</span>  : Category.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">from blog import db</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Category</span>(<span class="title">db</span>.<span class="title">Model</span>):</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    __tablename_<span class="number">_</span> = <span class="string">'b_category'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    id = db.Column(db.Integer,primary_key=True)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    title = db.Column(db.String(<span class="number">20</span>),unique=True)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    content = db.Column(db.String(<span class="number">100</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(<span class="keyword">self</span>,title,content)</span></span><span class="symbol">:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">self</span>.title = title</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">self</span>.content = content</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(<span class="keyword">self</span>)</span></span><span class="symbol">:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="string">'&lt;Category %r&gt;'</span> % <span class="keyword">self</span>.title</span></pre></td></tr></table></figure>
+创建数据表的语句已经再<code>__init__.py</code>里面了，也可以在<code>Python Console</code>里面搞</li>
+</ol>
+<figure class="highlight capnproto"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> blog2 <span class="keyword">import</span> db  <span class="comment">#建立连接</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">db.create_all()   <span class="comment">#创建数据表</span></span></pre></td></tr></table></figure>
+<p><img src="2.jpg" alt="powershell"></p>
+<hr>
+<p><strong>这一章完结，欢迎友链,打动态规划去了(逃~~)</strong></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/09/Flask%E5%BA%94%E7%94%A8%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/" rel="prev" title="Flask开发环境搭建">
+      <i class="fa fa-chevron-left"></i> Flask开发环境搭建
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是MVC架构"><span class="nav-number">1.</span> <span class="nav-text">什么是MVC架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目录结构重构，引入包管理"><span class="nav-number">1.1.</span> <span class="nav-text">目录结构重构，引入包管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发代码"><span class="nav-number">2.</span> <span class="nav-text">开发代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#init-py文件"><span class="nav-number">2.1.</span> <span class="nav-text">__init__.py文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#runserver-py文件"><span class="nav-number">2.2.</span> <span class="nav-text">runserver.py文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setting-py配置文件"><span class="nav-number">2.3.</span> <span class="nav-text">setting.py配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意可能会有1366错误"><span class="nav-number">2.4.</span> <span class="nav-text">注意可能会有1366错误</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ModuleNotFoundError-No-module-named-‘mysql’错误"><span class="nav-number">3.</span> <span class="nav-text">ModuleNotFoundError: No module named ‘mysql’错误</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#init-py读取配置文件"><span class="nav-number">3.1.</span> <span class="nav-text">__init__.py读取配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计数据库"><span class="nav-number">4.</span> <span class="nav-text">设计数据库</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

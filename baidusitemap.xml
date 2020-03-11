@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://chenzidu.github.io/2020/03/10/Flask%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0MVC%E6%9E%B6%E6%9E%84/</loc>
+    <lastmod>2020-03-11</lastmod>
+  </url>  <url>
+    <loc>https://chenzidu.github.io/2020/02/02/HDU-1002%E5%A4%A7%E6%95%B0%E5%8A%A0%E6%B3%95-JAVA/</loc>
+    <lastmod>2020-03-11</lastmod>
+  </url>  <url>
+    <loc>https://chenzidu.github.io/2020/01/09/Python%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C/</loc>
+    <lastmod>2020-03-11</lastmod>
+  </url>  <url>
+    <loc>https://chenzidu.github.io/2020/01/08/Python%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80/</loc>
+    <lastmod>2020-03-11</lastmod>
+  </url>  <url>
+    <loc>https://chenzidu.github.io/2020/01/25/SpringBoot-%E4%B8%AD%E6%96%87%E6%8C%89%E9%A6%96%E5%AD%97%E6%AF%8D%E5%88%86%E7%BB%84%E5%88%86%E7%B1%BB/</loc>
+    <lastmod>2020-03-11</lastmod>
+  </url>  <url>
+    <loc>https://chenzidu.github.io/2019/12/06/Spring-boot-Cookie%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2020-03-11</lastmod>
+  </url>  <url>
+    <loc>https://chenzidu.github.io/2019/12/22/Spring-boot-jar%E6%89%93%E5%8C%85/</loc>
+    <lastmod>2020-03-11</lastmod>
+  </url>  <url>
+    <loc>https://chenzidu.github.io/2019/12/13/java-poi%E5%AF%BC%E5%87%BAexecl/</loc>
+    <lastmod>2020-03-11</lastmod>
+  </url>  <url>
+    <loc>https://chenzidu.github.io/2019/12/07/Spring-boot%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/</loc>
+    <lastmod>2020-03-11</lastmod>
+  </url>  <url>
     <loc>https://chenzidu.github.io/2020/03/09/Flask%E5%BA%94%E7%94%A8%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2020-03-09</lastmod>
   </url>  <url>
@@ -61,9 +88,6 @@
     <loc>https://chenzidu.github.io/2020/02/03/Pta-7-50-%E6%9C%80%E8%BF%91%E8%B7%9D%E7%A6%BB-25%E5%88%86-DFS/</loc>
     <lastmod>2020-02-03</lastmod>
   </url>  <url>
-    <loc>https://chenzidu.github.io/2020/02/02/HDU-1002%E5%A4%A7%E6%95%B0%E5%8A%A0%E6%B3%95-JAVA/</loc>
-    <lastmod>2020-02-02</lastmod>
-  </url>  <url>
     <loc>https://chenzidu.github.io/2020/02/02/pta-7-51-%E8%BF%B7%E5%AE%AB%E5%AF%BB%E8%B7%AF-20%E5%88%86-DFS/</loc>
     <lastmod>2020-02-02</lastmod>
   </url>  <url>
@@ -82,20 +106,11 @@
     <loc>https://chenzidu.github.io/2020/01/27/pta-7-21-%E7%BA%A2%E8%89%B2%E8%AD%A6%E6%8A%A5-25%E5%88%86-%E5%B9%B6%E6%9F%A5%E9%9B%86/</loc>
     <lastmod>2020-01-31</lastmod>
   </url>  <url>
-    <loc>https://chenzidu.github.io/2020/01/25/SpringBoot-%E4%B8%AD%E6%96%87%E6%8C%89%E9%A6%96%E5%AD%97%E6%AF%8D%E5%88%86%E7%BB%84%E5%88%86%E7%B1%BB/</loc>
-    <lastmod>2020-01-25</lastmod>
-  </url>  <url>
     <loc>https://chenzidu.github.io/2020/01/12/upload-labs/</loc>
     <lastmod>2020-01-16</lastmod>
   </url>  <url>
     <loc>https://chenzidu.github.io/2020/01/10/GXYCTF-2019-%E5%A4%8D%E7%8E%B0/</loc>
     <lastmod>2020-01-11</lastmod>
-  </url>  <url>
-    <loc>https://chenzidu.github.io/2020/01/09/Python%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C/</loc>
-    <lastmod>2020-01-11</lastmod>
-  </url>  <url>
-    <loc>https://chenzidu.github.io/2020/01/08/Python%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80/</loc>
-    <lastmod>2020-01-09</lastmod>
   </url>  <url>
     <loc>https://chenzidu.github.io/2020/01/03/Stl-Map%E5%AE%B9%E5%99%A8%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</loc>
     <lastmod>2020-01-03</lastmod>
@@ -106,20 +121,8 @@
     <loc>https://chenzidu.github.io/2019/12/29/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2019-12-29</lastmod>
   </url>  <url>
-    <loc>https://chenzidu.github.io/2019/12/22/Spring-boot-jar%E6%89%93%E5%8C%85/</loc>
-    <lastmod>2019-12-22</lastmod>
-  </url>  <url>
-    <loc>https://chenzidu.github.io/2019/12/13/java-poi%E5%AF%BC%E5%87%BAexecl/</loc>
-    <lastmod>2019-12-13</lastmod>
-  </url>  <url>
     <loc>https://chenzidu.github.io/2019/12/07/2019-ZJCTF/</loc>
     <lastmod>2019-12-07</lastmod>
-  </url>  <url>
-    <loc>https://chenzidu.github.io/2019/12/07/Spring-boot%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/</loc>
-    <lastmod>2019-12-07</lastmod>
-  </url>  <url>
-    <loc>https://chenzidu.github.io/2019/12/06/Spring-boot-Cookie%E4%BD%BF%E7%94%A8/</loc>
-    <lastmod>2019-12-06</lastmod>
   </url>  <url>
     <loc>https://chenzidu.github.io/2019/12/01/2019SUCTF-EasyWeb/</loc>
     <lastmod>2019-12-02</lastmod>
