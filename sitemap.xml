@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/</loc>
+    
+    <lastmod>2020-04-02T08:52:41.731Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://chenzidu.github.io/2020/04/02/Bone-Collector/</loc>
+    
+    <lastmod>2020-04-02T08:51:15.144Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://chenzidu.github.io/2020/03/27/%E6%B5%85%E8%B0%88ssti%E6%B3%A8%E5%85%A5-flask/</loc>
     
-    <lastmod>2020-03-27T07:45:41.282Z</lastmod>
+    <lastmod>2020-03-28T04:41:39.633Z</lastmod>
     
   </url>
   
