@@ -69,7 +69,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;03&#x2F;28&#x2F;BJDCTF-2nd&#x2F;13.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;03&#x2F;28&#x2F;BJDCTF-2nd&#x2F;14.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;03&#x2F;28&#x2F;BJDCTF-2nd&#x2F;15.jpg">
-<meta property="og:updated_time" content="2020-04-02T14:41:56.994Z">
+<meta property="og:updated_time" content="2020-04-03T03:55:23.106Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;03&#x2F;28&#x2F;BJDCTF-2nd&#x2F;1.jpg">
 
@@ -262,7 +262,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-02 22:41:56" itemprop="dateModified" datetime="2020-04-02T22:41:56+08:00">2020-04-02</time>
+                <time title="修改时间：2020-04-03 11:55:23" itemprop="dateModified" datetime="2020-04-03T11:55:23+08:00">2020-04-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -438,7 +438,7 @@ cookie访问之前的页面就会自动获取了
 
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">aesEn</span><span class="params">($data, $key)</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function"></span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    $method = <span class="string">'AES-128-CBC'</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    $iv = md5(<span class="string">'174.0.222.75'</span>, <span class="keyword">true</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span>  base64_encode(openssl_encrypt($data, $method,$key, OPENSSL_RAW_DATA , $iv));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">$cipher = aesEn(<span class="string">'NULL'</span>, <span class="string">'y1ng'</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> urlencode($cipher); <span class="comment">//70klfZeYC+WlC045CcKhtg==    要将最后的值转码</span></span></pre></td></tr></table></figure>
 <p>如果运行的时候报<b>Call to undefined function openssl_encrypt()</b>错，在php.ini搜索下<code>;extension=php_openssl.dll</code>去掉前面得分号即可。或者直接<a href="https://code.y444.cn/" target="_blank" rel="noopener">在线运行代码</a>。<br><img src="11.jpg" alt="之前cookie都忘记带值了，我晕~"></p>
-<h2 id="EasyAspDotNet"><a href="#EasyAspDotNet" class="headerlink" title="EasyAspDotNet"></a>EasyAspDotNet</h2><p>赵师傅的题真顶。<br><a href="https://devco.re/blog/2020/03/11/play-with-dotnet-viewstate-exploit-and-create-fileless-webshell/" target="_blank" rel="noopener">玩轉 ASP.NET VIEWSTATE 反序列化攻擊、建立無檔案後門</a><br><a href="https://www.4hou.com/posts/GYq7" target="_blank" rel="noopener">如何借助ViewState在ASP.NET中实现反序列化漏洞利用</a><br>进去之后发现图片路径：<code>path=4.gif</code>,看到别的大佬说有文件包含，读取web.config文件。<br>一个个试直到：<code>path=../../web.config</code><br>发现被当作图片读取，curl下载。</p>
+<h2 id="EasyAspDotNet"><a href="#EasyAspDotNet" class="headerlink" title="EasyAspDotNet"></a>EasyAspDotNet</h2><p>赵师傅的题真顶。<br>了解可以看这篇文章：<a href="https://www.4hou.com/posts/GYq7" target="_blank" rel="noopener">如何借助ViewState在ASP.NET中实现反序列化漏洞利用</a><br>攻击的文章：<a href="https://devco.re/blog/2020/03/11/play-with-dotnet-viewstate-exploit-and-create-fileless-webshell/" target="_blank" rel="noopener">玩轉 ASP.NET VIEWSTATE 反序列化攻擊、建立無檔案後門</a><br>进去之后发现图片路径：<code>path=4.gif</code>,看到别的大佬说有文件包含，读取web.config文件。<br>一个个试直到：<code>path=../../web.config</code><br>发现被当作图片读取，curl下载。</p>
 <p><img src="12.jpg" alt="构造目录穿越读取web.config成功"></p>
 <figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">curl -O http://65b7c96b<span class="string">-2005</span><span class="string">-4</span>b6b-ba0f<span class="string">-485176</span>af77c7.node3.buuoj.cn/ImgLoad.aspx?path=../../web.config</span></pre></td></tr></table></figure>
 <p><a href="https://github.com/ChenZIDu/EasyAspDotNet.git" target="_blank" rel="noopener">ExploitClass.cs、System.Web.dll、System.dll文件</a><br><a href="https://github.com/pwntester/ysoserial.net/releases/tag/v1.32" target="_blank" rel="noopener">ysoserial.net,直接下载带exe的</a></p>
