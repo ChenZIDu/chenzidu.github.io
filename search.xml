@@ -15,9 +15,19 @@
           
           <category> sql基本注入 </category>
           
-          <category> sql报错盲注 </category>
+          <category> 布尔盲注 </category>
           
-          <category> sql报错注入原理分析 </category>
+          <category> 时间盲注 </category>
+          
+          <category> count()、rand()、group by连用报错注入原理分析 </category>
+          
+          <category> updatexml报错注入 </category>
+          
+          <category> Referer注入 </category>
+          
+          <category> Cookie注入 </category>
+          
+          <category> User-Agent注入 </category>
           
       </categories>
       
@@ -44,9 +54,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -71,9 +81,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -182,9 +192,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -234,9 +244,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -338,9 +348,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -415,9 +425,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -467,9 +477,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
