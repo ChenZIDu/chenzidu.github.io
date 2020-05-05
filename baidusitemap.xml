@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://chenzidu.github.io/2020/05/05/XSS%E7%BB%95%E8%BF%87HTTPonly/</loc>
+    <lastmod>2020-05-05</lastmod>
+  </url>  <url>
     <loc>https://chenzidu.github.io/2020/04/10/sqli-labs-Page-1/</loc>
     <lastmod>2020-04-25</lastmod>
   </url>  <url>
