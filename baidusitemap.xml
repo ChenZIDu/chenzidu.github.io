@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF-web/</loc>
-    <lastmod>2020-05-16</lastmod>
+    <loc>https://chenzidu.github.io/2020/05/18/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E6%9C%B1%E9%9B%80%E7%BB%84-web/</loc>
+    <lastmod>2020-05-18</lastmod>
   </url>  <url>
     <loc>https://chenzidu.github.io/2020/05/09/De1CTF-%E5%A4%8D%E7%8E%B0-web/</loc>
-    <lastmod>2020-05-10</lastmod>
+    <lastmod>2020-05-18</lastmod>
+  </url>  <url>
+    <loc>https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/</loc>
+    <lastmod>2020-05-16</lastmod>
   </url>  <url>
     <loc>https://chenzidu.github.io/2020/05/05/XSS%E7%BB%95%E8%BF%87HTTPonly/</loc>
     <lastmod>2020-05-05</lastmod>
