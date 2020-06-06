@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>spring-bootsql导出date字段时区错误以及格式转换</title>
+      <link href="/2020/06/06/spring-boot%E8%BD%AC%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93date%E5%AD%97%E6%AE%B5%E6%97%B6%E5%8C%BA%E9%94%99%E8%AF%AF/"/>
+      <url>/2020/06/06/spring-boot%E8%BD%AC%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93date%E5%AD%97%E6%AE%B5%E6%97%B6%E5%8C%BA%E9%94%99%E8%AF%AF/</url>
+      
+        <content type="html"><![CDATA[<p>sql添加了个插入自动有个更新时间的字段,但是时区和时间类型老是出错</p><a id="more"></a><p>先设置更新时间的字段类型为timestamp,在springboot导出的时候，需要在application.yml中的文件中把mysql的配置文件后面加入</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">useUnicode=<span class="keyword">true</span>&amp;characterEncoding=utf-<span class="number">8</span>&amp;useSSL=<span class="keyword">true</span>&amp;serverTimezone=GMT%<span class="number">2</span>B8</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">-&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">serverTimezone=GMT%<span class="number">2</span>B8</span></pre></td></tr></table></figure><p>导出的时间类型可能是</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">-&gt; Tue Jan <span class="number">17</span> <span class="number">07</span>:<span class="number">00</span>:<span class="number">28</span> GMT <span class="number">2020</span></span></pre></td></tr></table></figure><p>可以利用<b>SimpleDateFormat</b>类来进行转换为<code>yyyy-MM-dd HH:mm:ss</code>类型</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">SimpleDateFormat formatter = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">formatter.setTimeZone(TimeZone.getTimeZone(<span class="string">"Asia/Shanghai"</span>));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">formatter.format(log.gettime());</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">-&gt; <span class="number">2020</span>-<span class="number">6</span>-<span class="number">6</span> <span class="number">16</span>:<span class="number">25</span>:<span class="number">30</span></span></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Vue-cli引用腾讯验证码</title>
       <link href="/2020/06/06/Vue-cli%E5%BC%95%E7%94%A8%E8%85%BE%E8%AE%AF%E9%AA%8C%E8%AF%81%E7%A0%81/"/>
       <url>/2020/06/06/Vue-cli%E5%BC%95%E7%94%A8%E8%85%BE%E8%AE%AF%E9%AA%8C%E8%AF%81%E7%A0%81/</url>
@@ -63,13 +82,13 @@
       
       <categories>
           
+          <category> SSRF </category>
+          
           <category> disable_functions绕过 </category>
           
           <category> CVE-2020-7066 </category>
           
           <category> ShopXo </category>
-          
-          <category> SSRF </category>
           
           <category> Redis </category>
           
@@ -237,9 +256,9 @@
       
         <tags>
             
-            <tag> MariaDB </tag>
-            
             <tag> mysql </tag>
+            
+            <tag> MariaDB </tag>
             
             <tag> Hearders </tag>
             
@@ -259,9 +278,9 @@
       
       <categories>
           
-          <category> 算法 </category>
-          
           <category> 日常训练 </category>
+          
+          <category> 算法 </category>
           
       </categories>
       
@@ -286,9 +305,9 @@
       
       <categories>
           
-          <category> 算法 </category>
-          
           <category> 日常训练 </category>
+          
+          <category> 算法 </category>
           
       </categories>
       
@@ -321,17 +340,17 @@
           
           <category> ASP.NET VIEWSTATE反序列化 </category>
           
-          <category> XSS </category>
-          
           <category> CVE-2020-0688 </category>
-          
-          <category> SSRF </category>
           
           <category> vim </category>
           
           <category> curl </category>
           
+          <category> SSRF </category>
+          
           <category> PHP原生类反序列化 </category>
+          
+          <category> XSS </category>
           
           <category> .git泄露 </category>
           
@@ -397,9 +416,9 @@
       
       <categories>
           
-          <category> 算法 </category>
-          
           <category> 日常训练 </category>
+          
+          <category> 算法 </category>
           
       </categories>
       
@@ -449,9 +468,9 @@
       
       <categories>
           
-          <category> 算法 </category>
-          
           <category> 日常训练 </category>
+          
+          <category> 算法 </category>
           
       </categories>
       
@@ -553,9 +572,9 @@
       
       <categories>
           
-          <category> 算法 </category>
-          
           <category> 日常训练 </category>
+          
+          <category> 算法 </category>
           
       </categories>
       
@@ -630,9 +649,9 @@
       
       <categories>
           
-          <category> 算法 </category>
-          
           <category> 日常训练 </category>
+          
+          <category> 算法 </category>
           
       </categories>
       
@@ -682,9 +701,9 @@
       
       <categories>
           
-          <category> 算法 </category>
-          
           <category> 日常训练 </category>
+          
+          <category> 算法 </category>
           
       </categories>
       
