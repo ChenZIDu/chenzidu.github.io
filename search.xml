@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Vue-cli引用腾讯验证码</title>
+      <link href="/2020/06/06/Vue-cli%E5%BC%95%E7%94%A8%E8%85%BE%E8%AE%AF%E9%AA%8C%E8%AF%81%E7%A0%81/"/>
+      <url>/2020/06/06/Vue-cli%E5%BC%95%E7%94%A8%E8%85%BE%E8%AE%AF%E9%AA%8C%E8%AF%81%E7%A0%81/</url>
+      
+        <content type="html"><![CDATA[<p>发现自己写登陆页面得验证码什么的总是缺点意思，没那味道(手机端)。最后选择了引用腾讯验证码，前前后后找了好多天，发现网上的教程都是复制粘贴，根本就没有讲详细得用法和代码。真是头疼，他们写博客如果只是复制粘贴，还有啥意思，真是服了，这样复制粘贴以后再看还看得懂吗？？？？？</p><a id="more"></a><h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>Vue-cli在引入TCaptcha.js<br>我还在里面下了依赖，不过没啥用，发现还是直接引用最实在。</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"https://ssl.captcha.qq.com/TCaptcha.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span></pre></td></tr></table></figure><p>然后把代码添加到methods`里（我这里是放到按钮方法里了，当按登陆按钮后，出现填写验证码界面，只有正确填写验证码后才会进行<b>axios</b>操作）</p><p><a href="https://console.cloud.tencent.com/captcha" target="_blank" rel="noopener">腾讯验证码注册</a>具体注册方法网上还是很详细得，就是用法没有，最重要得是免费还好看！！</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">//appid  为腾讯验证码的参数</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> captcha = <span class="keyword">new</span> TencentCaptcha(<span class="string">'appid'</span>, (rsp) =&gt; &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="built_in">console</span>.log(rsp)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> (rsp.ret === <span class="number">0</span>) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">      <span class="comment">//当ret是0得时候代表成功填写了验证码，我在里面进行了axios操作。</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    &#125; <span class="keyword">else</span> &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">this</span>.$message(&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        message: <span class="string">'验证不通过'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        type: <span class="string">'warning'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        &#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">&#125;, &#123;&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">captcha.show()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">          <span class="comment">//  ---------------</span></span></pre></td></tr></table></figure><p>返回的数据格式：</p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">appid: "appid"</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">bizState: undefined</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">randstr: "@QQQ"</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">ret: 0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">ticket: "t02a_Q1GYf0ysN49Du__adCw8r4yFoRskWUT0o_HcnQwnVm5jYJPy68m9vDQahsMbVC58rImgM_ReiCJSy1h48yTnxXHL_zE0eiTL5KoW6vpWACviGBw-sW8w**"</span></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://cloud.tencent.com/document/product/1110/36839" target="_blank" rel="noopener">腾讯验证码配置文档</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> vue </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> nodejs </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>vue-cli反向代理以及axios使用</title>
       <link href="/2020/05/31/vue-cli%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%BB%A5%E5%8F%8Aaxios%E4%BD%BF%E7%94%A8/"/>
       <url>/2020/05/31/vue-cli%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%BB%A5%E5%8F%8Aaxios%E4%BD%BF%E7%94%A8/</url>
@@ -111,9 +136,9 @@
       
         <tags>
             
-            <tag> WEB </tag>
-            
             <tag> nodejs </tag>
+            
+            <tag> WEB </tag>
             
             <tag> java </tag>
             
@@ -234,9 +259,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -261,9 +286,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -372,9 +397,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -424,9 +449,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -528,9 +553,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -605,9 +630,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
@@ -657,9 +682,9 @@
       
       <categories>
           
-          <category> 日常训练 </category>
-          
           <category> 算法 </category>
+          
+          <category> 日常训练 </category>
           
       </categories>
       
