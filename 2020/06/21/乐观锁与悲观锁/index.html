@@ -56,7 +56,7 @@
 <meta property="og:description" content="最近做到条件竞争的题目，突然想起来以前搞项目的时候，老师也和我科普过这个。果然当初太单纯了哈哈哈哈。总觉得一起就一起，肯定能处理~">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;06&#x2F;21&#x2F;%E4%B9%90%E8%A7%82%E9%94%81%E4%B8%8E%E6%82%B2%E8%A7%82%E9%94%81&#x2F;1.jpg">
-<meta property="og:updated_time" content="2020-06-23T09:33:19.895Z">
+<meta property="og:updated_time" content="2020-06-25T15:13:57.758Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;06&#x2F;21&#x2F;%E4%B9%90%E8%A7%82%E9%94%81%E4%B8%8E%E6%82%B2%E8%A7%82%E9%94%81&#x2F;1.jpg">
 
@@ -249,7 +249,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-23 17:33:19" itemprop="dateModified" datetime="2020-06-23T17:33:19+08:00">2020-06-23</time>
+                <time title="修改时间：2020-06-25 23:13:57" itemprop="dateModified" datetime="2020-06-25T23:13:57+08:00">2020-06-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -277,7 +277,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">960(字)</span>
+           <span class="post-count">1.1k(字)</span>
            
          </span>
 	  
@@ -333,6 +333,9 @@
 </blockquote>
 <p><b>简单来说乐观锁就是，相信你平常处理的事务中几乎遇不到高并发的情况，冲突较少。如果一旦发生了冲突，就只能有一个人改动数据</b></p>
 <h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>可以利用版本号或者时间来实现，比如说每次插入的时候,对当前的time字段更新为当前的时间。再有个人插入的时候如果当时取出来的时间小于现在数据表里的时间，则返回数据失效，让用户重新填写，或者其他选择。否则进行插入。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> shop</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> numi</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">where</span> <span class="keyword">id</span>= <span class="string">"当前要更改的商品id"</span> <span class="keyword">and</span> <span class="keyword">version</span> &lt; <span class="string">"当前商品版本"</span></span></pre></td></tr></table></figure>
+
+
 <p>概括下就是：每条数据一次只能由一个人操作，不能同时被多个人进行操作。</p>
 <h2 id="悲观并发控制"><a href="#悲观并发控制" class="headerlink" title="悲观并发控制"></a>悲观并发控制</h2><h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><blockquote class="blockquote-center"><p>在关系数据库管理系统里，悲观并发控制（又名“悲观锁”，Pessimistic Concurrency Control，缩写“PCC”）是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作读某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。</p>
 </blockquote>
@@ -346,6 +349,9 @@
 <h4 id="事务的开始"><a href="#事务的开始" class="headerlink" title="事务的开始"></a>事务的开始</h4><p>begin或 start transaction 都是显式开启一个事务；</p>
 <h4 id="事务的提交"><a href="#事务的提交" class="headerlink" title="事务的提交"></a>事务的提交</h4><p>commit 或 commit work 都是等价的；</p>
 <h4 id="事务回滚"><a href="#事务回滚" class="headerlink" title="事务回滚"></a>事务回滚</h4><p>rollback 或 rollback work 也是等价的；</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">begin</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> shop <span class="keyword">where</span> goodsid = <span class="string">"货品id"</span> <span class="keyword">for</span> <span class="keyword">update</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="comment">## for update是一种排它锁</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment">## 使用后该用户可以查询也可以更新被加锁的数据行。其它用户只能查询但不能更新被加锁的数据行。</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="comment">## 其他事务必须等本次事务提交后才能执行</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> shop <span class="keyword">set</span> goods_n=<span class="string">"123"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">where</span> goodsid=<span class="string">"货品id"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">commit</span>;</span></pre></td></tr></table></figure>
+
+
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/become/p/9209655.html" target="_blank" rel="noopener">乐观锁和悲观锁</a><br><a href="https://www.jianshu.com/p/d2ac26ca6525" target="_blank" rel="noopener">什么是乐观锁，什么是悲观锁</a><br><a href="https://www.cnblogs.com/laoyeye/p/8228467.html" target="_blank" rel="noopener">使用mysql悲观锁解决并发问题</a><br><a href="https://blog.csdn.net/truelove12358/article/details/84738751" target="_blank" rel="noopener">锁的机制</a></p>
 
     </div>
