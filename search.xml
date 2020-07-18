@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Mybatis防注入分析</title>
+      <link href="/2020/07/10/Mybatis%E9%98%B2%E6%B3%A8%E5%85%A5%E5%88%86%E6%9E%90/"/>
+      <url>/2020/07/10/Mybatis%E9%98%B2%E6%B3%A8%E5%85%A5%E5%88%86%E6%9E%90/</url>
+      
+        <content type="html"><![CDATA[<p><code>MyBatis</code>维护较为简单，入门也比较简单，网上的学习资料丰富，<code>Mybatis</code>也是一直保持更新状态。可以说是现在市场上最流行的框架之一了。它支持自定义 SQL、存储过程以及高级映射。<code>MyBatis</code> 免除了几乎所有的 JDBC 代码以及设置参数和获取结果集的工作。<code>MyBatis</code> 可以通过简单的 <code>XML</code> 或注解来配置和映射原始类型、接口和 <code>Java POJO</code>为数据库中的记录。</p><a id="more"></a><p><img src="1.png" alt=""></p><p><b>我们在编写 SQL 语句时，难免会使用动态查询的方法，mybatis提供了两种方式 #{} 和 ${} 。</b></p><ul><li><b>#{value,jdbcType=类型}</b> 在预处理时，会把参数部分用一个占位符 ? 替代，其中 value 表示接受输入参数的名称。能有效解决 SQL 注入问题</li><li><b>${}</b> 表示使用拼接字符串，将接受到参数的内容不加任何修饰符拼接在SQL语句后面，使用${}拼接SQL，如果预防不当可能会引起 SQL 注入问题。</li></ul><p><code>MyBatis</code> 的防注入主要<b>预编译</b>。当用<code>#{}</code>的时候先用占位符<code>?</code>替代，会在变量前后加上<code>&quot;&quot;</code>,再传入到sql语句里面。</p><p>Mybatis使用<code>#{}</code></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="number">2020</span>-<span class="number">07</span>-<span class="number">01</span> <span class="number">20</span>:<span class="number">15</span>:<span class="number">34.090</span> DEBUG <span class="number">5283</span> --- [nio-<span class="number">8080</span>-exec-<span class="number">3</span>] c.e.l.m.PracticalMapper.selectFloor     : </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">==&gt;  Preparing: select Practical from Practical where PracticalFloor = ? </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="number">2020</span>-<span class="number">07</span>-<span class="number">01</span> <span class="number">20</span>:<span class="number">15</span>:<span class="number">34.090</span> DEBUG <span class="number">5283</span> --- [nio-<span class="number">8080</span>-exec-<span class="number">3</span>] c.e.l.m.PracticalMapper.selectFloor     :</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">==&gt; Parameters: <span class="number">32</span>(String)</span></pre></td></tr></table></figure><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> Practical <span class="keyword">from</span> Practical <span class="keyword">where</span> PracticalFloor = <span class="string">"32"</span></span></pre></td></tr></table></figure><p>但是如果用到了<code>order by</code>等关键字-来根据字段值进行排序时候，就会用到<code>${}</code>是拼接sql字符实现没有预编译的查询。</p><h2 id="Mybatis注入有可能产生的地方"><a href="#Mybatis注入有可能产生的地方" class="headerlink" title="Mybatis注入有可能产生的地方"></a>Mybatis注入有可能产生的地方</h2><p><b>无法使用预编译的语句的地方</b></p><h3 id="order-by"><a href="#order-by" class="headerlink" title="order by"></a>order by</h3><p>使用<code>order by</code>，按照字段名进行排序。如果有多种排序机制，也就是意味着这个<code>order by</code>后面的参数是个变量。</p><p><img src="2.jpg" alt=""></p><p>当变量不被<code>&quot;&quot;</code>包裹，直接进行拼接后(参与sql编译)就容易造成sql注入。</p><p>(尽可能要使用<code>#{}</code>，就算不能用也一定要做好过滤)</p><h2 id="如何防止Mybatis注入"><a href="#如何防止Mybatis注入" class="headerlink" title="如何防止Mybatis注入"></a>如何防止Mybatis注入</h2><h3 id="最常见的过滤"><a href="#最常见的过滤" class="headerlink" title="最常见的过滤"></a>最常见的过滤</h3><ul><li>对传入参数进行and、or、select、from等重要关键字进行过滤 </li><li>对传入参数进行重要表名，以及一些列名的过滤</li><li>对传入参数进行类型、长度、格式、范围等校验</li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!<span class="string">"传入字符"</span>.equals(<span class="string">"过滤字符"</span>))</span></pre></td></tr></table></figure><ul><li>对特殊字符进行转义如：<code>\、%、(、)、*、%</code> 等</li></ul><h3 id="对单用户进行限制"><a href="#对单用户进行限制" class="headerlink" title="对单用户进行限制"></a>对单用户进行限制</h3><ul><li>对用户账号使用的表进行分权(比如禁用insert,或者对别个表没有select权限)</li></ul><p><img src="3.jpg" alt=""></p><h3 id="在xml文件中处理"><a href="#在xml文件中处理" class="headerlink" title="在xml文件中处理"></a>在xml文件中处理</h3><figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"username != null and username.indexOf(';')==-1 and username gt 30'"</span> &gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="xml">        username = #</span><span class="template-variable">&#123;username,jdbcType=VARCHAR&#125;</span><span class="xml">,</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></span></span></pre></td></tr></table></figure><h3 id="sql语句来处理"><a href="#sql语句来处理" class="headerlink" title="sql语句来处理"></a>sql语句来处理</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mysql: <span class="keyword">select</span> user_id <span class="keyword">from</span> <span class="keyword">User</span> <span class="keyword">where</span> user_name <span class="keyword">like</span> <span class="keyword">concat</span>(<span class="string">'%'</span>,$&#123;user_name&#125;,<span class="string">'%'</span>)</span></pre></td></tr></table></figure><h3 id="利用其他已经写好的轮子"><a href="#利用其他已经写好的轮子" class="headerlink" title="利用其他已经写好的轮子"></a>利用其他已经写好的轮子</h3><ul><li>Mybatis-Plus、tk.mybatis等</li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">mybatis</a><br><a href="http://www.mybatis.cn/" target="_blank" rel="noopener">mybatis中文网</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Mybatis </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> sql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>正则限制加科学计数法绕过</title>
       <link href="/2020/06/25/%E6%AD%A3%E5%88%99%E9%99%90%E5%88%B6%E5%8A%A0%E7%A7%91%E5%AD%A6%E8%AE%A1%E6%95%B0%E6%B3%95%E7%BB%95%E8%BF%87/"/>
       <url>/2020/06/25/%E6%AD%A3%E5%88%99%E9%99%90%E5%88%B6%E5%8A%A0%E7%A7%91%E5%AD%A6%E8%AE%A1%E6%95%B0%E6%B3%95%E7%BB%95%E8%BF%87/</url>
@@ -209,9 +234,9 @@
       
         <tags>
             
-            <tag> nodejs </tag>
-            
             <tag> WEB </tag>
+            
+            <tag> nodejs </tag>
             
             <tag> java </tag>
             
@@ -392,9 +417,9 @@
           
           <category> 命令执行 </category>
           
-          <category> XSS </category>
-          
           <category> ASP.NET VIEWSTATE反序列化 </category>
+          
+          <category> XSS </category>
           
           <category> CVE-2020-0688 </category>
           
