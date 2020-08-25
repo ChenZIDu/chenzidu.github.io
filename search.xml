@@ -205,13 +205,13 @@
       
       <categories>
           
+          <category> SSRF </category>
+          
           <category> disable_functions绕过 </category>
           
           <category> CVE-2020-7066 </category>
           
           <category> ShopXo </category>
-          
-          <category> SSRF </category>
           
           <category> Redis </category>
           
@@ -379,9 +379,9 @@
       
         <tags>
             
-            <tag> mysql </tag>
-            
             <tag> MariaDB </tag>
+            
+            <tag> mysql </tag>
             
             <tag> Hearders </tag>
             
@@ -463,17 +463,17 @@
           
           <category> ASP.NET VIEWSTATE反序列化 </category>
           
-          <category> XSS </category>
-          
           <category> CVE-2020-0688 </category>
-          
-          <category> SSRF </category>
           
           <category> vim </category>
           
           <category> curl </category>
           
+          <category> SSRF </category>
+          
           <category> PHP原生类反序列化 </category>
+          
+          <category> XSS </category>
           
           <category> .git泄露 </category>
           
