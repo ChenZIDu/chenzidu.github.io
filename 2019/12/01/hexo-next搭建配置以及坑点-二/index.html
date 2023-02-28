@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="要使用 git 工具首先要配置一下SSH key，为部署本地博客到 Github 做准备。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo-next搭建配置以及坑点(二)">
+<meta property="og:url" content="https://chenzidu.github.io/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="要使用 git 工具首先要配置一下SSH key，为部署本地博客到 Github 做准备。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chenzidu.github.io/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/1.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/2.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/3.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/4.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/5.jpg">
+<meta property="article:published_time" content="2019-12-01T03:22:42.000Z">
+<meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="next">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chenzidu.github.io/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/1.jpg">
+
+<link rel="canonical" href="https://chenzidu.github.io/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>hexo-next搭建配置以及坑点(二) | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hexo-next搭建配置以及坑点(二)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-01 11:22:42" itemprop="dateCreated datePublished" datetime="2019-12-01T11:22:42+08:00">2019-12-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">844(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">3(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="要使用-git-工具首先要配置一下SSH-key，为部署本地博客到-Github-做准备。"><a href="#要使用-git-工具首先要配置一下SSH-key，为部署本地博客到-Github-做准备。" class="headerlink" title="要使用 git 工具首先要配置一下SSH key，为部署本地博客到 Github 做准备。"></a>要使用 git 工具首先要配置一下SSH key，为部署本地博客到 Github 做准备。</h3><a id="more"></a>
+<p><b>以下博文仅限于windows平台配置,如有错误望谅解！</b><br></p>
+<h1 id="配置-SSH-key"><a href="#配置-SSH-key" class="headerlink" title="配置 SSH key"></a>配置 SSH key</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git<span class="built_in"> config </span>--global user.name <span class="string">"用户名"</span></span><br><span class="line">$ git<span class="built_in"> config </span>--global user.email <span class="string">"邮箱地址"</span></span><br></pre></td></tr></table></figure>
+<p>执行以上命令全局配置一下本地账户<br><br>生成密钥 SSH key :<br><br><code>ssh-keygen -t rsa -C &#39;上面的邮箱&#39;</code><br><br>三次回车生成ssh key，通过命令得到公钥<br><code>cat ~/.ssh/id_rsa.pub</code></p>
+<h1 id="链接Github"><a href="#链接Github" class="headerlink" title="链接Github"></a>链接Github</h1><p><a href="https://github.com/" target="_blank" rel="noopener">Github</a><br><br>点击头像找到settings<br>然后选择SSH and GPG keys 这个选项<br><br><br>点击”New SSH key”这个按钮<br></p>
+<img src="/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/1.jpg" class="">
+<br>
+输入刚刚得到的密钥，确认连接上后，再命令框输入命令:<br>
+`ssh -T git@github.com`
+<br>
+会提示you've successfully 表示连接成功
+
+<p>然后进入站点根目录_config.yml</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git </span><br><span class="line">  <span class="attribute">repository</span>:  </span><br><span class="line">    git<span class="variable">@github</span>.<span class="attribute">com</span>:ChenZIDu/chenzidu.github.io.git   </span><br><span class="line">  <span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure>
+<p>repository为自己项目的下载链接<br><br><br>要安装一个部署插件 hexo-deployer-git。</p>
+<p><code>$ npm install hexo-deployer-git --save</code><br>之后每次更改 输入hexo g -d就可以进行远程部署了<br>之后浏览器访问:<code>你的名字.github.io</code>就可以进行访问<br>#</p>
+<h2 id="关于博客引用图片解决方法"><a href="#关于博客引用图片解决方法" class="headerlink" title="关于博客引用图片解决方法"></a>关于博客引用图片解决方法</h2><p>下载官方一个插件：<br><br><code>$ npm install hexo-asset-image --save</code></p>
+<p>之后打开站点根目录 搜索:post_asset_folder,将false改成true</p>
+<img src="/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/2.jpg" class="">
+
+<p>之后在每次写博客的同时$ hexo new “博客名字” 会自动生成一个与博客名字相同的文件夹,然后进行把图片放进去</p>
+<p><code></code><br><br>这种方式调用就行了,但是要注意，要将网站根目录的url栏修改一下</p>
+<img src="/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/3.jpg" class="">
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="comment">## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'</span></span><br><span class="line"><span class="symbol">url:</span> <span class="symbol">http:</span>/<span class="regexp">/github.com/</span>ChenZIDu</span><br><span class="line"><span class="symbol">root:</span> /</span><br><span class="line"><span class="symbol">permalink:</span> <span class="symbol">:year/</span><span class="symbol">:month/</span><span class="symbol">:day/</span><span class="symbol">:title/</span></span><br></pre></td></tr></table></figure>
+<p>将url这边修改为自己的github地址，否则会寻找不到图片</p>
+<p>#</p>
+<h2 id="关于博客添加头像"><a href="#关于博客添加头像" class="headerlink" title="关于博客添加头像"></a>关于博客添加头像</h2><img src="/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/4.jpg" class="">
+<p>将你想要的头像放入<b>next/source/images这个路径</b><br><br><code>url: /images/avatar.jpg</code></p>
+<p>然后修改下url路径这个就行了</p>
+<h2 id="关于博客背景图片"><a href="#关于博客背景图片" class="headerlink" title="关于博客背景图片"></a>关于博客背景图片</h2><h3 id="NexT主题v7-3-0版本将所有自定义custom文件转移至Hexo目录source-data-…中。"><a href="#NexT主题v7-3-0版本将所有自定义custom文件转移至Hexo目录source-data-…中。" class="headerlink" title="NexT主题v7.3.0版本将所有自定义custom文件转移至Hexo目录source/_data/…中。"></a>NexT主题v7.3.0版本将所有自定义custom文件转移至Hexo目录source/_data/…中。</h3><p>如果要使用其中的一些东西，在next主题根目录下将#去掉</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">custom_file_path:</span><br><span class="line">  #head: <span class="keyword">source</span><span class="regexp">/_data/</span>head.swig</span><br><span class="line">  #header: <span class="keyword">source</span><span class="regexp">/_data/</span>header.swig</span><br><span class="line">  #sidebar: <span class="keyword">source</span><span class="regexp">/_data/</span>sidebar.swig</span><br><span class="line">  #postMeta: <span class="keyword">source</span><span class="regexp">/_data/</span>post-meta.swig</span><br><span class="line">  #postBodyEnd: <span class="keyword">source</span><span class="regexp">/_data/</span>post-body-end.swig</span><br><span class="line">  #footer: <span class="keyword">source</span><span class="regexp">/_data/</span>footer.swig</span><br><span class="line">  #bodyEnd: <span class="keyword">source</span><span class="regexp">/_data/</span>body-end.swig</span><br><span class="line">  #variable: <span class="keyword">source</span><span class="regexp">/_data/</span>variables.styl</span><br><span class="line">  #mixin: <span class="keyword">source</span><span class="regexp">/_data/mi</span>xins.styl</span><br><span class="line">  style: <span class="keyword">source</span><span class="regexp">/_data/</span>styles.styl</span><br></pre></td></tr></table></figure>
+<p>根据下文所需要改动的自定义文件取消引用对应内容，并在blog/source/_data/…中添加改动内容。</p>
+<img src="/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9-%E4%BA%8C/5.jpg" class="">
+<p>自己新建_data文件夹,里面在建styles.styl文件</p>
+<p>背景图片为最后一个styles.styl</p>
+<p><b>背景图片和头像图片放在同个文件夹内</b></p>
+<p>我的styles.styl配置：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">background-image</span>:<span class="built_in">url</span>(../images/background.jpg);</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">background-repeat</span>:repeat-x;</span><br><span class="line">  <span class="attribute">background-attachment</span>:fixed;</span><br><span class="line">  <span class="attribute">background-size</span>:<span class="number">100%</span> <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#</p>
+<h2 id="搜索功能添加"><a href="#搜索功能添加" class="headerlink" title="搜索功能添加"></a>搜索功能添加</h2><p><b>安装插件</b><br><br><code>npm install hexo-generator-searchdb --save</code></p>
+<p>打开站点配置文件找到 Extensions 在下面添加（其实，新增以下内容到任意位置即可）</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">search:</span></span><br><span class="line">      <span class="attr">path:</span> <span class="string">search.xml</span></span><br><span class="line">      <span class="attr">field:</span> <span class="string">post</span></span><br><span class="line">      <span class="attr">format:</span> <span class="string">html</span></span><br><span class="line">      <span class="attr">limit:</span> <span class="number">10000</span></span><br></pre></td></tr></table></figure>
+
+<p>打开主题配置文件找到 Local search，将 enable 设置为 true，启动本地搜索功能，这样就能在页面可以看到搜索菜单了：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>谢谢！有些细节网上内容比较多，不在阐述具体讲一些我在网上难以搜到的坑点。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/next/" rel="tag"># next</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/01/hexo-next%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E5%9D%91%E7%82%B9(%E4%B8%80)/" rel="prev" title="hexo-next搭建配置以及坑点(一)">
+      <i class="fa fa-chevron-left"></i> hexo-next搭建配置以及坑点(一)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/01/2019SUCTF-EasyWeb/" rel="next" title="2019SUCTF EasyWeb">
+      2019SUCTF EasyWeb <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#要使用-git-工具首先要配置一下SSH-key，为部署本地博客到-Github-做准备。"><span class="nav-number">1.</span> <span class="nav-text">要使用 git 工具首先要配置一下SSH key，为部署本地博客到 Github 做准备。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置-SSH-key"><span class="nav-number"></span> <span class="nav-text">配置 SSH key</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#链接Github"><span class="nav-number"></span> <span class="nav-text">链接Github</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于博客引用图片解决方法"><span class="nav-number"></span> <span class="nav-text">关于博客引用图片解决方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于博客添加头像"><span class="nav-number"></span> <span class="nav-text">关于博客添加头像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于博客背景图片"><span class="nav-number"></span> <span class="nav-text">关于博客背景图片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NexT主题v7-3-0版本将所有自定义custom文件转移至Hexo目录source-data-…中。"><span class="nav-number">1.</span> <span class="nav-text">NexT主题v7.3.0版本将所有自定义custom文件转移至Hexo目录source&#x2F;_data&#x2F;…中。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搜索功能添加"><span class="nav-number"></span> <span class="nav-text">搜索功能添加</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

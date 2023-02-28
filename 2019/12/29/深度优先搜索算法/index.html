@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="在我们遇到的一些问题当中，有些问题我们不能够确切的找出数学模型，即找不出一种直接求解的方法，解决这一类问题，我们一般采用搜索的方法解决。搜索就是用问题的所有可能去试探，按照一定的顺序、规则，不断去试探，直到找到问题的解，试完了也没有找到解，那就是无解，试探时一定要试探完所有的情况(实际上就是穷举)。对于问题的第一个状态，叫初始状态，要求的状态叫目标状态。搜索就是把规则应用于实始状态，在其产生的状态">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度优先搜索算法(DFS)">
+<meta property="og:url" content="https://chenzidu.github.io/2019/12/29/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="在我们遇到的一些问题当中，有些问题我们不能够确切的找出数学模型，即找不出一种直接求解的方法，解决这一类问题，我们一般采用搜索的方法解决。搜索就是用问题的所有可能去试探，按照一定的顺序、规则，不断去试探，直到找到问题的解，试完了也没有找到解，那就是无解，试探时一定要试探完所有的情况(实际上就是穷举)。对于问题的第一个状态，叫初始状态，要求的状态叫目标状态。搜索就是把规则应用于实始状态，在其产生的状态">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-29T03:44:11.000Z">
+<meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://chenzidu.github.io/2019/12/29/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>深度优先搜索算法(DFS) | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2019/12/29/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          深度优先搜索算法(DFS)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-29 11:44:11" itemprop="dateCreated datePublished" datetime="2019-12-29T11:44:11+08:00">2019-12-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">2.2k(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">9(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/12/29/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/29/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="在我们遇到的一些问题当中，有些问题我们不能够确切的找出数学模型，即找不出一种直接求解的方法，解决这一类问题，我们一般采用搜索的方法解决。搜索就是用问题的所有可能去试探，按照一定的顺序、规则，不断去试探，直到找到问题的解，试完了也没有找到解，那就是无解，试探时一定要试探完所有的情况-实际上就是穷举-。"><a href="#在我们遇到的一些问题当中，有些问题我们不能够确切的找出数学模型，即找不出一种直接求解的方法，解决这一类问题，我们一般采用搜索的方法解决。搜索就是用问题的所有可能去试探，按照一定的顺序、规则，不断去试探，直到找到问题的解，试完了也没有找到解，那就是无解，试探时一定要试探完所有的情况-实际上就是穷举-。" class="headerlink" title="在我们遇到的一些问题当中，有些问题我们不能够确切的找出数学模型，即找不出一种直接求解的方法，解决这一类问题，我们一般采用搜索的方法解决。搜索就是用问题的所有可能去试探，按照一定的顺序、规则，不断去试探，直到找到问题的解，试完了也没有找到解，那就是无解，试探时一定要试探完所有的情况(实际上就是穷举)。"></a>在我们遇到的一些问题当中，有些问题我们不能够确切的找出数学模型，即找不出一种直接求解的方法，解决这一类问题，我们一般采用搜索的方法解决。搜索就是用问题的所有可能去试探，按照一定的顺序、规则，不断去试探，直到找到问题的解，试完了也没有找到解，那就是无解，试探时一定要试探完所有的情况(实际上就是穷举)。</h2><p>对于问题的第一个状态，叫初始状态，要求的状态叫目标状态。<br>搜索就是把规则应用于实始状态，在其产生的状态中，直到得到一个目标状态为止。</p>
+<a id="more"></a>
+<p><a href="http://acm.hdu.edu.cn/" target="_blank" rel="noopener">感谢杭电刘老师的ppt</a></p>
+<h2 id="什么是深度优先搜索"><a href="#什么是深度优先搜索" class="headerlink" title="什么是深度优先搜索"></a>什么是深度优先搜索</h2><p>所有的搜索算法从其最终的算法实现上来看，都可以划分成两个部分──控制结构和产生系统。正如前面所说的，搜索算法简而言之就是穷举所有可能情况并找到合适的答案，所以最基本的问题就是罗列出所有可能的情况，这其实就是一种产生式系统。</p>
+<p>从根开始计算，到找到位于某个节点的解，回溯法（深度优先搜索）作为最基本的搜索算法，其采用了一种“一只向下走，走不通就掉头”的思想（体会“回溯”二字），相当于采用了先根遍历的方法来构造搜索树。</p>
+<h3 id="借用刘老师的话"><a href="#借用刘老师的话" class="headerlink" title="借用刘老师的话"></a>借用刘老师的话</h3><p>基本思想：从初始状态S开始，利用规则生成搜索树下一层任一个结点，检查是否出现目标状态G，若未出现，以此状态利用规则生成再下一层任一个结点，再检查是否为目标节点G，若未出现，继续以上操作过程，一直进行到叶节点（即不能再生成新状态节点），当它仍不是目标状态G时，回溯到上一层结果，取另一可能扩展搜索的分支。生成新状态节点。若仍不是目标状态，就按该分支一直扩展到叶节点，若仍不是目标，采用相同的回溯办法回退到上层节点，扩展可能的分支生成新状态，…，一直进行下去，直到找到目标状态G为止。</p>
+<h3 id="DFS算法"><a href="#DFS算法" class="headerlink" title="DFS算法"></a>DFS算法</h3><ul>
+<li>把起始节点S线放到OPEN表中。</li>
+<li>如果OPEN是空表，则失败退出，否则继续。</li>
+<li>从OPEN表中取最前面的节点node移到CLOSED  表中。</li>
+<li>若node节点是叶结点（若没有后继节点），则转向（2）。</li>
+<li>扩展node的后继节点，产生全部后继节点，并把他们放在OPEN表的前面。各后继结点指针指向node节点。</li>
+<li>若后继节点中某一个是目标节点，则找到一个解，成功退出。否则转向（2）循环。</li>
+</ul>
+<h3 id="DFS最重要的就是回溯，它的本质是递归！"><a href="#DFS最重要的就是回溯，它的本质是递归！" class="headerlink" title="DFS最重要的就是回溯，它的本质是递归！"></a>DFS最重要的就是回溯，它的本质是递归！</h3><p>我认为实质就是暴力枚举多种可能。</p>
+<h2 id="减枝"><a href="#减枝" class="headerlink" title="减枝"></a>减枝</h2><p>对于深度优先搜索来说减枝也是极为重要的。如果遍历了一些无关紧要的节点的话就会很浪费时间，如果数据小的话还看不出。一旦数据大，减枝所带来的优化将变得极为重要。</p>
+<h2 id="以HDU-1010-Tempter-of-the-Bone为例"><a href="#以HDU-1010-Tempter-of-the-Bone为例" class="headerlink" title="以HDU-1010-Tempter of the Bone为例"></a>以<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1010" target="_blank" rel="noopener">HDU-1010-Tempter of the Bone</a>为例</h2><h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>小狗在一个古老的迷宫中发现了一根骨头，这使他非常着迷。但是，当他捡起它时，迷宫开始摇晃，小狗可以感觉到地面下沉。他意识到骨头是一个陷阱，他拼命试图摆脱这个迷宫。</p>
+<p>迷宫是一个矩形，大小为N×M。迷宫中有一扇门。刚开始时，门是关闭的，它将在第T秒打开一小段时间（少于1秒）。因此，小狗必须在第T秒精确到达门。每秒钟，他可以将一个块移动到上，下，左和右相邻的块之一。一旦他进入一个街区，该街区的地面将开始下沉并在下一秒消失。他不能在一个街区停留超过一秒钟，也不能搬到一个拜访的街区。可怜的小狗可以生存吗？请帮助他。</p>
+<h3 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h3><p>输入包含多个测试用例。每个测试用例的第一行包含三个整数N，M和T(1&lt;N,M&lt;7;0&lt;T&lt;50),分别表示迷宫的大小和门打开的时间。接下来的N行给出迷宫布局,每行包含M个字符。角色是以下字符之一：</p>
+<p>‘X’：小狗无法进入的墙块；<br>‘S’：小狗的起点；<br>‘D’：门；或<br>“.”：空白块。</p>
+<p>输入以三个0终止。该测试用例将不被处理。</p>
+<h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><p>对于每个测试用例，如果小狗可以存活，则在一行中打印“YES”，否则打印“NO”。</p>
+<h3 id="样例输入"><a href="#样例输入" class="headerlink" title="样例输入"></a>样例输入</h3><p>4 4 5<br>S.X.<br>..X.<br>..XD<br>….<br>3 4 5<br>S.X.<br>..X.<br>…D<br>0 0 0</p>
+<h3 id="样例输出"><a href="#样例输出" class="headerlink" title="样例输出"></a>样例输出</h3><p>NO<br>YES</p>
+<p>典型的迷宫式搜索，每一步都只能走一次，并且只有时间刚刚好时，才能成功！</p>
+<h3 id="深搜代码-DFS"><a href="#深搜代码-DFS" class="headerlink" title="深搜代码(DFS)"></a>深搜代码(DFS)</h3><h4 id="无减枝版本"><a href="#无减枝版本" class="headerlink" title="无减枝版本"></a>无减枝版本</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">char</span> Map[<span class="number">15</span>][<span class="number">15</span>];</span><br><span class="line"><span class="keyword">int</span> n,m,t,qx,qy,zx,zy;</span><br><span class="line"><span class="keyword">int</span> flag;</span><br><span class="line"><span class="keyword">int</span> dir[<span class="number">4</span>][<span class="number">2</span>]=&#123;<span class="number">-1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">-1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>&#125;;<span class="comment">//上下左右四个方向 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> cnt)</span></span>&#123;      <span class="comment">//搜索</span></span><br><span class="line">	<span class="keyword">if</span>(x==zx&amp;&amp;y==zy&amp;&amp;cnt==t)&#123;   <span class="comment">//如果位置和出口一样并且时间一样则为成功</span></span><br><span class="line">		flag=<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(flag)&#123;               <span class="comment">//只要有一次成功则直接return</span></span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;   </span><br><span class="line">	<span class="keyword">if</span>(cnt&gt;t)&#123;              <span class="comment">//如果时间超出限制</span></span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;       <span class="comment">//四个方向寻求可以走的地方</span></span><br><span class="line">		<span class="keyword">int</span> xx=x+dir[i][<span class="number">0</span>];</span><br><span class="line">		<span class="keyword">int</span> yy=y+dir[i][<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">if</span>(xx&lt;<span class="number">0</span>||yy&lt;<span class="number">0</span>||xx&gt;n<span class="number">-1</span>||yy&gt;m<span class="number">-1</span>)&#123;     <span class="comment">//如果超出地图</span></span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(Map[xx][yy]!=<span class="string">'X'</span>)&#123;      <span class="comment">//如果可以走</span></span><br><span class="line">			Map[xx][yy]=<span class="string">'X'</span>;            <span class="comment">//标记为下次不能走</span></span><br><span class="line">			dfs(xx,yy,cnt+<span class="number">1</span>);       <span class="comment">//进入搜索</span></span><br><span class="line">			Map[xx][yy]=<span class="string">'.'</span>;        <span class="comment">//取消标记</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d %d %d"</span>,&amp;n,&amp;m,&amp;t)!=EOF&amp;&amp;(n||m||t))&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">"%s"</span>,Map[i]);</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">				<span class="keyword">if</span>(Map[i][j]==<span class="string">'S'</span>)&#123;</span><br><span class="line">					qx=i;</span><br><span class="line">					qy=j;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span>(Map[i][j]==<span class="string">'D'</span>)&#123;</span><br><span class="line">					zx=i;</span><br><span class="line">					zy=j;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		flag=<span class="number">0</span>;</span><br><span class="line">		Map[qx][qy]=<span class="string">'X'</span>;    <span class="comment">//将起点标记为不能走</span></span><br><span class="line">		dfs(qx,qy,<span class="number">0</span>);       /进入搜索</span><br><span class="line">		<span class="keyword">if</span>(flag)&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"YES\n"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"NO\n"</span>); </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果没有减枝也能搜索出来，但是会超时，因为浪费了很多不必要的时间</p>
+<p>广度和深度优先搜索有一个很大的缺陷,就是他们都是在一个给定的状态空间中穷举。这在状态空间不大的情况下是很合适的算法，可是当状态空间十分大，且不预测的情况下就不可取了。他的效率实在太低，甚至不可完成。</p>
+<p>所以，在这里再次强调“剪枝”！</p>
+<h4 id="减枝-1"><a href="#减枝-1" class="headerlink" title="减枝"></a>减枝</h4><p>可以把map看成这样： </p>
+<ul>
+<li>0 1 0 1 0 1</li>
+<li>1 0 1 0 1 0 </li>
+<li>0 1 0 1 0 1 </li>
+<li>1 0 1 0 1 0 </li>
+<li>0 1 0 1 0 1 </li>
+</ul>
+<p>从为 0 的格子走一步，必然走向为 1 的格子<br>从为 1 的格子走一步，必然走向为 0 的格子<br>即： </p>
+<p> 0-&gt;1或1-&gt;0 必然是奇数步<br> 0-&gt;0 走1-&gt;1 必然是偶数步</p>
+<p>所以当遇到从 0 走向 0 但是要求时间是奇数的，或者， 从 1 走向 0 但是要求时间是偶数的 都可以直接判断不可达！</p>
+<p>则我们可以，判断他终点和起点是否一致。来进行减枝，减去一些不必要浪费的时间</p>
+<h4 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h4><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> <span class="built_in">sum</span>=<span class="built_in">t</span>-<span class="built_in">abs</span>(zx-qx)-<span class="built_in">abs</span>(zy-qy);</span><br><span class="line"><span class="built_in">if</span>(<span class="built_in">sum</span>&gt;=<span class="number">0</span>&amp;&amp;<span class="built_in">sum</span>%<span class="number">2</span>==<span class="number">0</span>)&#123;</span><br><span class="line">	dfs(qx,qy,<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">char</span> Map[<span class="number">15</span>][<span class="number">15</span>];</span><br><span class="line"><span class="keyword">int</span> n,m,t,qx,qy,zx,zy;</span><br><span class="line"><span class="keyword">int</span> flag;</span><br><span class="line"><span class="keyword">int</span> dir[<span class="number">4</span>][<span class="number">2</span>]=&#123;<span class="number">-1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">-1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>&#125;;<span class="comment">//上下左右四个方向 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> cnt)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(x==zx&amp;&amp;y==zy&amp;&amp;cnt==t)&#123;</span><br><span class="line">		flag=<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(flag)&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(cnt&gt;t)&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">		<span class="keyword">int</span> xx=x+dir[i][<span class="number">0</span>];</span><br><span class="line">		<span class="keyword">int</span> yy=y+dir[i][<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">if</span>(xx&lt;<span class="number">0</span>||yy&lt;<span class="number">0</span>||xx&gt;n<span class="number">-1</span>||yy&gt;m<span class="number">-1</span>)&#123;</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(Map[xx][yy]!=<span class="string">'X'</span>)&#123;</span><br><span class="line">			Map[xx][yy]=<span class="string">'X'</span>;</span><br><span class="line">			dfs(xx,yy,cnt+<span class="number">1</span>);</span><br><span class="line">			Map[xx][yy]=<span class="string">'.'</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d %d %d"</span>,&amp;n,&amp;m,&amp;t)!=EOF&amp;&amp;(n||m||t))&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">"%s"</span>,Map[i]);</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">				<span class="keyword">if</span>(Map[i][j]==<span class="string">'S'</span>)&#123;</span><br><span class="line">					qx=i;</span><br><span class="line">					qy=j;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span>(Map[i][j]==<span class="string">'D'</span>)&#123;</span><br><span class="line">					zx=i;</span><br><span class="line">					zy=j;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		flag=<span class="number">0</span>;</span><br><span class="line">		Map[qx][qy]=<span class="string">'X'</span>;</span><br><span class="line">		<span class="keyword">int</span> sum=t-<span class="built_in">abs</span>(zx-qx)-<span class="built_in">abs</span>(zy-qy);</span><br><span class="line">		<span class="keyword">if</span>(sum&gt;=<span class="number">0</span>&amp;&amp;sum%<span class="number">2</span>==<span class="number">0</span>)&#123;</span><br><span class="line">			dfs(qx,qy,<span class="number">0</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(flag)&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"YES\n"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"NO\n"</span>); </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/22/Spring-boot-jar%E6%89%93%E5%8C%85/" rel="prev" title="Spring-boot-打包以及内外部tomcat">
+      <i class="fa fa-chevron-left"></i> Spring-boot-打包以及内外部tomcat
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/03/Stl-Map%E5%AE%B9%E5%99%A8%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" rel="next" title="Stl-Map容器简单使用">
+      Stl-Map容器简单使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在我们遇到的一些问题当中，有些问题我们不能够确切的找出数学模型，即找不出一种直接求解的方法，解决这一类问题，我们一般采用搜索的方法解决。搜索就是用问题的所有可能去试探，按照一定的顺序、规则，不断去试探，直到找到问题的解，试完了也没有找到解，那就是无解，试探时一定要试探完所有的情况-实际上就是穷举-。"><span class="nav-number">1.</span> <span class="nav-text">在我们遇到的一些问题当中，有些问题我们不能够确切的找出数学模型，即找不出一种直接求解的方法，解决这一类问题，我们一般采用搜索的方法解决。搜索就是用问题的所有可能去试探，按照一定的顺序、规则，不断去试探，直到找到问题的解，试完了也没有找到解，那就是无解，试探时一定要试探完所有的情况(实际上就是穷举)。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是深度优先搜索"><span class="nav-number">2.</span> <span class="nav-text">什么是深度优先搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#借用刘老师的话"><span class="nav-number">2.1.</span> <span class="nav-text">借用刘老师的话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DFS算法"><span class="nav-number">2.2.</span> <span class="nav-text">DFS算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DFS最重要的就是回溯，它的本质是递归！"><span class="nav-number">2.3.</span> <span class="nav-text">DFS最重要的就是回溯，它的本质是递归！</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#减枝"><span class="nav-number">3.</span> <span class="nav-text">减枝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以HDU-1010-Tempter-of-the-Bone为例"><span class="nav-number">4.</span> <span class="nav-text">以HDU-1010-Tempter of the Bone为例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目"><span class="nav-number">4.1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入"><span class="nav-number">4.2.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出"><span class="nav-number">4.3.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#样例输入"><span class="nav-number">4.4.</span> <span class="nav-text">样例输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#样例输出"><span class="nav-number">4.5.</span> <span class="nav-text">样例输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深搜代码-DFS"><span class="nav-number">4.6.</span> <span class="nav-text">深搜代码(DFS)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#无减枝版本"><span class="nav-number">4.6.1.</span> <span class="nav-text">无减枝版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#减枝-1"><span class="nav-number">4.6.2.</span> <span class="nav-text">减枝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#伪代码"><span class="nav-number">4.6.3.</span> <span class="nav-text">伪代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完整代码"><span class="nav-number">4.7.</span> <span class="nav-text">完整代码</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

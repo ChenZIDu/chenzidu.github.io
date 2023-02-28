@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="_首先因为学校没有开设Python这门课程,但是为了补充自己的知识，以及加快在未来遇到Python代码理解使用的速度，所以决定寒假系统的学习一下这门语言，以及自己尝试做一个小项目。预计用时一个半月，学习参考Python100天，能学到哪算哪，因为打过一段时间C++类的竞赛，以及开发过Java语言的项目，所以相信python学习速度会比不懂的人要快(自恋)，语言都是相通的嘛，最重要的是语法，还有一些">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python系统学习笔记(一)">
+<meta property="og:url" content="https://chenzidu.github.io/2020/01/08/Python%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="_首先因为学校没有开设Python这门课程,但是为了补充自己的知识，以及加快在未来遇到Python代码理解使用的速度，所以决定寒假系统的学习一下这门语言，以及自己尝试做一个小项目。预计用时一个半月，学习参考Python100天，能学到哪算哪，因为打过一段时间C++类的竞赛，以及开发过Java语言的项目，所以相信python学习速度会比不懂的人要快(自恋)，语言都是相通的嘛，最重要的是语法，还有一些">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-08T10:37:03.000Z">
+<meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://chenzidu.github.io/2020/01/08/Python%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Python系统学习笔记(一) | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2020/01/08/Python%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python系统学习笔记(一)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-08 18:37:03" itemprop="dateCreated datePublished" datetime="2020-01-08T18:37:03+08:00">2020-01-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%97%A5%E5%B8%B8%E8%AE%AD%E7%BB%83/" itemprop="url" rel="index">
+                    <span itemprop="name">日常训练</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">1.2k(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">5(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/01/08/Python%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/01/08/Python%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>_首先因为学校没有开设Python这门课程,但是为了补充自己的知识，以及加快在未来遇到Python代码理解使用的速度，所以决定寒假系统的学习一下这门语言，以及自己尝试做一个小项目。预计用时一个半月，学习参考<a href="https://github.com/jackfrued/Python-100-Days" target="_blank" rel="noopener">Python100天</a>，能学到哪算哪，因为打过一段时间C++类的竞赛，以及开发过Java语言的项目，所以相信python学习速度会比不懂的人要快(自恋)，语言都是相通的嘛，最重要的是语法，还有一些别的语言没有的包。</strong></p>
+<a id="more"></a>
+<p>感谢<a href="https://github.com/jackfrued/Python-100-Days" target="_blank" rel="noopener">jackfrued大佬</a><br><b>版本为python3</b></p>
+<h1 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h1><p><strong>_注解：C/C++、Java等语言不同，Python中没有用花括号来构造代码块而是使用了缩进的方式来设置代码的层次结构，如果if条件成立的情况下需要执行多条语句，只要保持多条语句具有相同的缩进就可以了，换句话说连续的代码如果又保持了相同的缩进那么它们属于同一个代码块，相当于是一个执行的整体。</strong></p>
+<h2 id="分支结构"><a href="#分支结构" class="headerlink" title="分支结构"></a>分支结构</h2><h3 id="if-和else"><a href="#if-和else" class="headerlink" title="if 和else"></a>if 和else</h3><ul>
+<li>完成：利用if语句判断输入是否为自己想要<br><br><b>&amp;&amp;语句以及||，在python中为or、and(分辨大小写)</b></li>
+</ul>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">username</span>=<span class="function"><span class="title">input</span>(<span class="string">"username:"</span>)</span></span><br><span class="line"><span class="variable">passoword</span>=<span class="function"><span class="title">input</span>(<span class="string">"password:"</span>)</span></span><br><span class="line"><span class="variable"><span class="keyword">if</span></span> <span class="variable">username</span>==<span class="string">'Chenzidu'</span> <span class="variable"><span class="keyword">or</span></span> <span class="variable">passoword</span>==<span class="string">"admin"</span>:</span><br><span class="line">    <span class="function"><span class="title">print</span>(<span class="string">"yes"</span>)</span></span><br><span class="line"><span class="variable"><span class="keyword">else</span></span>:</span><br><span class="line">    <span class="function"><span class="title">print</span>(<span class="string">"no"</span>)</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">username</span>=<span class="function"><span class="title">input</span>(<span class="string">"username:"</span>)</span></span><br><span class="line"><span class="variable">passoword</span>=<span class="function"><span class="title">input</span>(<span class="string">"password:"</span>)</span></span><br><span class="line"><span class="variable"><span class="keyword">if</span></span> <span class="variable">username</span>==<span class="string">'Chenzidu'</span> <span class="variable"><span class="keyword">and</span></span> <span class="variable">passoword</span>==<span class="string">"admin"</span>:</span><br><span class="line">    <span class="function"><span class="title">print</span>(<span class="string">"yes"</span>)</span></span><br><span class="line"><span class="variable"><span class="keyword">else</span></span>:</span><br><span class="line">    <span class="function"><span class="title">print</span>(<span class="string">"no"</span>)</span></span><br></pre></td></tr></table></figure>
+<h3 id="elif"><a href="#elif" class="headerlink" title="elif"></a>elif</h3><p><b>elif相当于其他语言中的 else if </b></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">if</span> <span class="string">条件:</span></span><br><span class="line">    <span class="attr">语句块</span></span><br><span class="line"></span><br><span class="line"><span class="attr">elif</span> <span class="string">条件:</span></span><br><span class="line">    <span class="attr">语句块</span></span><br><span class="line"><span class="attr">else</span>:<span class="string"></span></span><br><span class="line">    <span class="attr">语句块</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>完成：利用elif判断是管理员还是超级管理员，或者都不是</li>
+</ul>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">username</span>=<span class="function"><span class="title">input</span>(<span class="string">"username:"</span>)</span></span><br><span class="line"><span class="variable">password</span>=<span class="function"><span class="title">input</span>(<span class="string">"password:"</span>)</span></span><br><span class="line"><span class="variable"><span class="keyword">if</span></span> <span class="variable">username</span> == <span class="string">'ChenZIDu'</span> <span class="variable"><span class="keyword">and</span></span> <span class="variable">password</span> == <span class="string">"admin"</span>:</span><br><span class="line">    <span class="function"><span class="title">print</span>(<span class="string">"Hello! superAdmin"</span>)</span></span><br><span class="line"><span class="variable">elif</span> <span class="variable">username</span> == <span class="string">"ChenZIDu"</span> <span class="variable"><span class="keyword">or</span></span> <span class="variable">password</span> == <span class="string">"admin"</span>:</span><br><span class="line">    <span class="function"><span class="title">print</span>(<span class="string">"admin"</span>)</span></span><br><span class="line"><span class="variable"><span class="keyword">else</span></span>:</span><br><span class="line">    <span class="function"><span class="title">print</span>(<span class="string">"You are not Admin"</span>)</span></span><br></pre></td></tr></table></figure>
+<h3 id="完成：分段函数求值"><a href="#完成：分段函数求值" class="headerlink" title="完成：分段函数求值"></a>完成：分段函数求值</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">        <span class="number">3</span>x<span class="number">-5</span> (x&gt;<span class="number">1</span>)</span><br><span class="line">f(x)=&#123;  x+<span class="number">2</span>  (<span class="number">-1</span>≤x≤<span class="number">1</span>)</span><br><span class="line">        <span class="number">5</span>x+<span class="number">3</span> (x&lt;<span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="保持print-中打印的值一致，比如说字符"><a href="#保持print-中打印的值一致，比如说字符" class="headerlink" title="保持print()中打印的值一致，比如说字符"></a>保持print()中打印的值一致，比如说字符</h4><figure class="highlight gml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">x</span> =int(input(<span class="string">"x="</span>))</span><br><span class="line"><span class="keyword">if</span> <span class="symbol">x</span> &gt; <span class="number">1</span>:</span><br><span class="line">    print(<span class="string">"f(x)="</span>+ str(<span class="number">3</span> * <span class="symbol">x</span> <span class="number">-5</span>))</span><br><span class="line">elif <span class="symbol">x</span>&lt;=<span class="number">-1</span> <span class="keyword">and</span> <span class="symbol">x</span> &gt;= <span class="number">1</span>:</span><br><span class="line">    print(<span class="string">"f(x)="</span>+ str(<span class="symbol">x</span> + <span class="number">2</span>))</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"f(x)="</span>+ str(<span class="number">5</span> * <span class="symbol">x</span> + <span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">或</span><br><span class="line"></span><br><span class="line"><span class="symbol">x</span> =int(input(<span class="string">"x="</span>))</span><br><span class="line"><span class="keyword">if</span> <span class="symbol">x</span> &gt; <span class="number">1</span>:</span><br><span class="line">    print(<span class="string">"f(x)=%d"</span>%(<span class="number">3</span> * <span class="symbol">x</span> <span class="number">-5</span>))</span><br><span class="line">elif <span class="symbol">x</span>&lt;=<span class="number">-1</span> <span class="keyword">and</span> <span class="symbol">x</span> &gt;= <span class="number">1</span>:</span><br><span class="line">    print(<span class="string">"f(x)=%d"</span>%(<span class="symbol">x</span> + <span class="number">2</span>))</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"f(x)=%d"</span>%(<span class="number">5</span> * <span class="symbol">x</span> + <span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">以及</span><br><span class="line"></span><br><span class="line"><span class="symbol">x</span> =int(input(<span class="string">"x="</span>))</span><br><span class="line"><span class="keyword">if</span> <span class="symbol">x</span> &gt; <span class="number">1</span>:</span><br><span class="line">    print(<span class="string">"f(x)="</span>,<span class="number">3</span> * <span class="symbol">x</span> <span class="number">-5</span>)</span><br><span class="line">elif <span class="symbol">x</span>&lt;=<span class="number">-1</span> <span class="keyword">and</span> <span class="symbol">x</span> &gt;= <span class="number">1</span>:</span><br><span class="line">    print(<span class="string">"f(x)="</span>,<span class="symbol">x</span> + <span class="number">2</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"f(x)="</span>,<span class="number">5</span> * <span class="symbol">x</span> + <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p><strong><em>三种都可以但是输出结果不一致</em></strong></p>
+<hr>
+<h2 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h2><h3 id="for-循环语句"><a href="#for-循环语句" class="headerlink" title="for 循环语句"></a>for 循环语句</h3><p><b>for in range() </b></p>
+<ul>
+<li>完成输出N个数和</li>
+</ul>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sum</span>=<span class="number">0</span></span><br><span class="line">for i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">    <span class="built_in">sum</span>+=i</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">sum</span>)</span><br></pre></td></tr></table></figure>
+<p>range(101)可以用来构造一个从0到100的取值范围，这样就可以构造出一个整数的序列并用于循环中，例如：</p>
+<ol>
+<li>range(100)可以产生一个0到99的整数序列。</li>
+<li>range(0,100)可以产生一个0到99的整数序列。</li>
+<li>range(0,100,10)可以产生一个0到99的奇数序列，其中10是步长，即每次i增加10。</li>
+</ol>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sum</span>=<span class="number">0</span></span><br><span class="line">for i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">100</span>,<span class="number">1</span>):</span><br><span class="line">    <span class="built_in">sum</span>+=i</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">sum</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="while-循环语句"><a href="#while-循环语句" class="headerlink" title="while 循环语句"></a>while 循环语句</h3><ul>
+<li>完成输入N个数，判断是奇数还是偶数,如果为0退出</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    a =int(input())</span><br><span class="line">    <span class="keyword">if</span> a % 2 == 1:</span><br><span class="line">        <span class="builtin-name">print</span>(<span class="string">"奇数"</span>)</span><br><span class="line">    elif a%<span class="attribute">2</span>==0 <span class="keyword">and</span> a != 0:</span><br><span class="line">        <span class="builtin-name">print</span>(<span class="string">"偶数"</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        break</span><br></pre></td></tr></table></figure>
+
+<h3 id="完成打印三角形"><a href="#完成打印三角形" class="headerlink" title="完成打印三角形"></a>完成打印三角形</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">**</span></span><br><span class="line"><span class="comment">***</span></span><br><span class="line"><span class="comment">****</span></span><br><span class="line"><span class="comment">*****</span></span><br><span class="line"></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">   **</span></span><br><span class="line"><span class="comment">  ***</span></span><br><span class="line"><span class="comment"> ****</span></span><br><span class="line"><span class="comment">*****</span></span><br><span class="line"></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">   ***</span></span><br><span class="line"><span class="comment">  *****</span></span><br><span class="line"><span class="comment"> *******</span></span><br><span class="line"><span class="comment">*********</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">num</span>=int(input("输入行数："))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(num):</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(i+1):</span><br><span class="line">        <span class="builtin-name">print</span>(<span class="string">"*"</span> , <span class="attribute">end</span>=<span class="string">""</span>)</span><br><span class="line">    <span class="builtin-name">print</span>(<span class="string">""</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(num):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(num):</span><br><span class="line">        <span class="keyword">if</span> j&lt;num - i -1:</span><br><span class="line">            <span class="builtin-name">print</span>(<span class="string">" "</span>,<span class="attribute">end</span>=<span class="string">""</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="builtin-name">print</span>(<span class="string">"*"</span>,<span class="attribute">end</span>=<span class="string">""</span>)</span><br><span class="line">    <span class="builtin-name">print</span>(<span class="string">""</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(num):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(num-i-1):</span><br><span class="line">        <span class="builtin-name">print</span>(<span class="string">" "</span>,<span class="attribute">end</span>=<span class="string">""</span>)</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(i * 2 +1):</span><br><span class="line">        <span class="builtin-name">print</span>(<span class="string">"*"</span>,<span class="attribute">end</span>=<span class="string">""</span>)</span><br><span class="line">    <span class="builtin-name">print</span>(<span class="string">""</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><h3 id="水仙花数"><a href="#水仙花数" class="headerlink" title="水仙花数"></a>水仙花数</h3><p><strong><em>水仙花数也被称为超完全数字不变数、自恋数、自幂数、阿姆斯特朗数，它是一个3位数，该数字每个位上数字的立方之和正好等于它本身，例如：$1^3 + 5^3+ 3^3=153$。</em></strong></p>
+<h4 id="完成：输入一个数字判断是否为水仙花数"><a href="#完成：输入一个数字判断是否为水仙花数" class="headerlink" title="完成：输入一个数字判断是否为水仙花数"></a>完成：输入一个数字判断是否为水仙花数</h4><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">num</span> = int(input(<span class="string">"输入验证的水仙花数："</span>))</span><br><span class="line"><span class="built_in">log</span> = <span class="built_in">num</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sum</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">num</span> &gt;= <span class="number">9</span>:</span><br><span class="line">    t = <span class="built_in">num</span> % <span class="number">10</span></span><br><span class="line">    <span class="built_in">sum</span> += t ** <span class="number">3</span>     <span class="comment"># 表示t的三次方</span></span><br><span class="line">    <span class="built_in">num</span> = <span class="built_in">num</span><span class="comment"> // 10   # “//”表示整数除法，“/” 表示浮点数除法</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sum</span> += <span class="built_in">num</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">sum</span> == <span class="built_in">log</span>:</span><br><span class="line">    print(<span class="string">"yes"</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"no"</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="百钱买鸡"><a href="#百钱买鸡" class="headerlink" title="百钱买鸡"></a>百钱买鸡</h3><p><strong><em>说明：百钱百鸡是我国古代数学家张丘建在《算经》一书中提出的数学问题：鸡翁一值钱五，鸡母一值钱三，鸡雏三值钱一。百钱买百鸡，问鸡翁、鸡母、鸡雏各几何？翻译成现代文是：公鸡5元一只，母鸡3元一只，小鸡1元三只，用100块钱买一百只鸡，问公鸡、母鸡、小鸡各有多少只？</em></strong></p>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">20</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">33</span>):</span><br><span class="line">        <span class="keyword">if</span> i*<span class="number">5</span> + j*<span class="number">3</span> &lt;=<span class="number">100</span>:</span><br><span class="line">            print(<span class="string">"公鸡：%d,母鸡：%d，小鸡：%d"</span> % (i,j,<span class="number">100</span><span class="number">-5</span>*i<span class="number">-3</span>*j))</span><br></pre></td></tr></table></figure>
+
+<hr>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/03/Stl-Map%E5%AE%B9%E5%99%A8%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" rel="prev" title="Stl-Map容器简单使用">
+      <i class="fa fa-chevron-left"></i> Stl-Map容器简单使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/09/Python%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C/" rel="next" title="Python系统学习笔记(二)">
+      Python系统学习笔记(二) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#语句"><span class="nav-number">1.</span> <span class="nav-text">语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分支结构"><span class="nav-number">1.1.</span> <span class="nav-text">分支结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#if-和else"><span class="nav-number">1.1.1.</span> <span class="nav-text">if 和else</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#elif"><span class="nav-number">1.1.2.</span> <span class="nav-text">elif</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完成：分段函数求值"><span class="nav-number">1.1.3.</span> <span class="nav-text">完成：分段函数求值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#保持print-中打印的值一致，比如说字符"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">保持print()中打印的值一致，比如说字符</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环结构"><span class="nav-number">1.2.</span> <span class="nav-text">循环结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#for-循环语句"><span class="nav-number">1.2.1.</span> <span class="nav-text">for 循环语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#while-循环语句"><span class="nav-number">1.2.2.</span> <span class="nav-text">while 循环语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完成打印三角形"><span class="nav-number">1.2.3.</span> <span class="nav-text">完成打印三角形</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#练习"><span class="nav-number">1.3.</span> <span class="nav-text">练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#水仙花数"><span class="nav-number">1.3.1.</span> <span class="nav-text">水仙花数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#完成：输入一个数字判断是否为水仙花数"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">完成：输入一个数字判断是否为水仙花数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#百钱买鸡"><span class="nav-number">1.3.2.</span> <span class="nav-text">百钱买鸡</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码实现"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">代码实现</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

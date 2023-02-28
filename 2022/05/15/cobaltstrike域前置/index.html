@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="简述CS的流量特征是很明显的，如果蓝队成员在流量中发现了相关特征那么基本也就宣告了个权限的丢失，而且还有可能被疏远反制。正因为CS的流量的特征太明显，所以需要对CS进行一些修改和对VPS的地址进行保护，尽可以降低被发现后造成权限丢失和被溯源反制的事情发生概率，加大蓝队的疏远难度。主要思路">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cobaltstrike域前置">
+<meta property="og:url" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="简述CS的流量特征是很明显的，如果蓝队成员在流量中发现了相关特征那么基本也就宣告了个权限的丢失，而且还有可能被疏远反制。正因为CS的流量的特征太明显，所以需要对CS进行一些修改和对VPS的地址进行保护，尽可以降低被发现后造成权限丢失和被溯源反制的事情发生概率，加大蓝队的疏远难度。主要思路">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/1.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/2.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/3.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/4.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/5.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/6.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/7.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/8.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/Rules.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/9.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/10.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/11.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/12.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/14.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/15.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/16.png">
+<meta property="og:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/17.png">
+<meta property="article:published_time" content="2022-05-15T01:20:47.000Z">
+<meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="Windows">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/1.png">
+
+<link rel="canonical" href="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>cobaltstrike域前置 | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          cobaltstrike域前置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-15 09:20:47" itemprop="dateCreated datePublished" datetime="2022-05-15T09:20:47+08:00">2022-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%9F%E5%89%8D%E7%BD%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">域前置</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">1.1k(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">4(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>CS的流量特征是很明显的，如果蓝队成员在流量中发现了相关特征那么基本也就宣告了个权限的丢失，而且还有可能被疏远反制。正因为CS的流量的特征太明显，所以需要对CS进行一些修改和对VPS的地址进行保护，尽可以降低被发现后造成权限丢失和被溯源反制的事情发生概率，加大蓝队的疏远难度。<br>主要思路</p>
+<a id="more"></a>
+<h2 id="主要思路与配置"><a href="#主要思路与配置" class="headerlink" title="主要思路与配置"></a>主要思路与配置</h2><p>● 免费tk域名<br>● cloudflare<br>● 云服务器<br>通过 匿名域名-&gt;CDN-&gt;VPS，在这个过程中来隐藏我们的真实IP，达到套了CDN，找不到服务器真实ip的情况。</p>
+<h3 id="达到的效果"><a href="#达到的效果" class="headerlink" title="达到的效果"></a>达到的效果</h3><p>● 受害者主机运行木马—–&gt;CDN—-&gt;CS服务器收到上线<br>● CS服务器执行命令—–&gt;CDN—–&gt;受害者主机执行命令</p>
+<h2 id="申请域名"><a href="#申请域名" class="headerlink" title="申请域名"></a>申请域名</h2><p>&nbsp;&nbsp;我们选用<a href="https://www.freenom.com/zh/index.html?lang=zh" target="_blank" rel="noopener">freenom.com</a>去申请一个免费的域名。</p>
+<p><img src="1.png" alt=""></p>
+<p>&nbsp;&nbsp;这边建议直接输出域名包括后缀，否则可能显示不可用，例如：xxx.tk</p>
+<p>成功注册后，先去弄一个cloudflare账号，将注册的域名添加进去。</p>
+<p><img src="2.png" alt=""></p>
+<h2 id="关联Cloudflare"><a href="#关联Cloudflare" class="headerlink" title="关联Cloudflare"></a>关联Cloudflare</h2><p>&nbsp;&nbsp;将freenom中申请的域名，在管理界面中DNS解析改cloudflare提供的DNS</p>
+<p><img src="3.png" alt=""></p>
+<p>&nbsp;&nbsp;在DNS的子模块中找到属于你的DNS服务器，填入freenom管理台中Management tools-&gt;Nameservers</p>
+<p><img src="4.png" alt=""></p>
+<p>&nbsp;&nbsp;选择第二个，填入你的Cloudflare DNS</p>
+<p><img src="5.png" alt=""></p>
+<h2 id="Cloudflare配置"><a href="#Cloudflare配置" class="headerlink" title="Cloudflare配置"></a>Cloudflare配置</h2><h3 id="缓存设置"><a href="#缓存设置" class="headerlink" title="缓存设置"></a>缓存设置</h3><p>接下来在Cloudflare中进行设置，首先在概述-&gt;快速设置</p>
+<p><img src="6.png" alt=""></p>
+<p>这边都要关闭，设置完之后看一下Summary，是不是都关闭了</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Automatic HTTPS Rewrites: <span class="keyword">OFF</span></span><br><span class="line"><span class="keyword">Always</span> use HTTPS: <span class="keyword">OFF</span></span><br><span class="line">Auto Minify: <span class="keyword">NONE</span></span><br><span class="line">Brotli: <span class="keyword">OFF</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="7.png" alt=""></p>
+<p>&nbsp;&nbsp;找到Caching -&gt; Configuration在其中开启Always Online以及Development Mode,经过实验，配置好之后Development Mode模式不用开启也可以，需要在规则上面配置</p>
+<p><img src="8.png" alt=""></p>
+<h3 id="规则配置"><a href="#规则配置" class="headerlink" title="规则配置"></a>规则配置</h3><p>在Rules-&gt;Page Rules 页面设置，什么路径走代理，什么路径不走代理。个人测试配置完后可以不开Development Mode</p>
+<p><img src="Rules.png" alt=""></p>
+<h2 id="CS配置"><a href="#CS配置" class="headerlink" title="CS配置"></a>CS配置</h2><h3 id="证书配置"><a href="#证书配置" class="headerlink" title="证书配置"></a>证书配置</h3><p>在SSL/TLS -&gt;Overview 修改为Full即可</p>
+<p><img src="9.png" alt=""></p>
+<p>再到Origin Server页面下创建证书</p>
+<p><img src="10.png" alt=""><br>保存我们的pem和key文件（命名为xxx.tk.pem、xxx.tk.key），在服务器cs同文件夹下放置，并且如下执行命令</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">openssl</span> <span class="selector-tag">pkcs12</span> <span class="selector-tag">-export</span> <span class="selector-tag">-in</span> <span class="selector-tag">xxx</span><span class="selector-class">.tk</span><span class="selector-class">.pem</span> <span class="selector-tag">-inkey</span> <span class="selector-tag">update</span><span class="selector-class">.xxx</span><span class="selector-class">.tk</span><span class="selector-class">.key</span> <span class="selector-tag">-out</span> <span class="selector-tag">xxx</span><span class="selector-class">.tk</span><span class="selector-class">.p12</span> <span class="selector-tag">-name</span> <span class="selector-tag">xxx</span><span class="selector-class">.tk</span> <span class="selector-tag">-passout</span> <span class="selector-tag">pass</span><span class="selector-pseudo">:123456</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">keytool</span> <span class="selector-tag">-importkeystore</span> <span class="selector-tag">-deststorepass</span> 123456 <span class="selector-tag">-destkeypass</span> 123456 <span class="selector-tag">-destkeystore</span> <span class="selector-tag">xxx</span><span class="selector-class">.tk</span><span class="selector-class">.store</span> <span class="selector-tag">-srckeystore</span> <span class="selector-tag">xxx</span><span class="selector-class">.tk</span><span class="selector-class">.p12</span> <span class="selector-tag">-srcstoretype</span> <span class="selector-tag">PKCS12</span> <span class="selector-tag">-srcstorepass</span> 123456 <span class="selector-tag">-alias</span> <span class="selector-tag">xxx</span><span class="selector-class">.tk</span></span><br></pre></td></tr></table></figure>
+<p>最后会生成一个xxx.tk.store文件，上面的xxx.tk就是你的申请的域名。其中文件有个坑，cs的store的默认密码是123456所以我这边都保持一致免得出错。</p>
+<h3 id="profile编写"><a href="#profile编写" class="headerlink" title="profile编写"></a>profile编写</h3><p>在cs同目录下编写文件cs.profile，这边写个最简单的。将里面xxx.tk替换成你的域名即可</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">https-certificate &#123;</span><br><span class="line">    <span class="builtin-name">set</span> keystore <span class="string">"xxx.tk.store.store"</span>;</span><br><span class="line">    <span class="builtin-name">set</span> password <span class="string">"123456"</span>;</span><br><span class="line">&#125;</span><br><span class="line">http-stager &#123;</span><br><span class="line">    <span class="builtin-name">set</span> uri_x86 <span class="string">"/api/1"</span>;</span><br><span class="line">    <span class="builtin-name">set</span> uri_x64 <span class="string">"/api/2"</span>;</span><br><span class="line">   <span class="built_in"> client </span>&#123;</span><br><span class="line">        header <span class="string">"Host"</span> <span class="string">"xxx.tk"</span>;&#125;</span><br><span class="line">   <span class="built_in"> server </span>&#123;</span><br><span class="line">        output&#123;</span><br><span class="line">        print;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">        &#125;</span><br><span class="line">http-<span class="builtin-name">get</span> &#123;</span><br><span class="line">    <span class="builtin-name">set</span> uri <span class="string">"/api/3"</span>;</span><br><span class="line">   <span class="built_in"> client </span>&#123;</span><br><span class="line">        header <span class="string">"Host"</span> <span class="string">"xxx.tk"</span>;</span><br><span class="line">        metadata &#123;</span><br><span class="line">            base64;</span><br><span class="line">            header <span class="string">"Cookie"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        &#125;</span><br><span class="line">   <span class="built_in"> server </span>&#123;</span><br><span class="line">        output&#123;</span><br><span class="line">        print;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">        &#125;</span><br><span class="line">http-post &#123;</span><br><span class="line">    <span class="builtin-name">set</span> uri <span class="string">"/api/4"</span>;</span><br><span class="line">   <span class="built_in"> client </span>&#123;</span><br><span class="line">        header <span class="string">"Host"</span> <span class="string">"xxx.tk"</span>;</span><br><span class="line">        id &#123;</span><br><span class="line">            uri-append;</span><br><span class="line">        &#125;</span><br><span class="line">        output&#123;</span><br><span class="line">        print;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   <span class="built_in"> server </span>&#123;</span><br><span class="line">        output&#123;</span><br><span class="line">        print;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编写好后利用CS自带的c2lint来测试可用性，同目录下执行命令</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./c2lint <span class="keyword">cs</span>.<span class="keyword">profile</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="11.png" alt=""></p>
+<h3 id="修改证书"><a href="#修改证书" class="headerlink" title="修改证书"></a>修改证书</h3><p>&nbsp;&nbsp;修改自带的cobaltStrike.store证书，先删除cobaltStrike.store文件，后续编写teamserver文件,将原本在这个位置的那句话删掉修改为如下内容</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -keystore cobaltstrike.store -storepass <span class="number">123456</span> -keypass <span class="number">123456</span> -genkey -keyalg RSA -alias http:<span class="comment">//google.com -dname "CN=US, OU=google.com, O=Sofaware, L=Somewhere, ST=Cyberspace, C=CN"</span></span><br></pre></td></tr></table></figure>
+<p><img src="12.png" alt=""></p>
+<p>&nbsp;&nbsp;修改完后，下次运行teamserver文件时会自动生成新的cobaltStrike.store文件</p>
+<h3 id="cs运行"><a href="#cs运行" class="headerlink" title="cs运行"></a>cs运行</h3><p>&nbsp;&nbsp;配置完规则后，运行CS，加载profile文件</p>
+<figure class="highlight gml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./teamserver <span class="symbol">x</span>.<span class="symbol">x</span>.<span class="symbol">x</span>.<span class="symbol">x</span> ****** cs.profile</span><br></pre></td></tr></table></figure>
+<p><img src="14.png" alt=""></p>
+<p>&nbsp;&nbsp;new一个新的Listener<br><br>&nbsp;&nbsp;这边需要注意Cloudflare只支持监听以下端口：<br></p>
+<ul>
+<li>HTTP端口：80,8080,8880,2052,2082,2086,2095</li>
+<li>HTTPs端口：443,2053,2083,2087,2096,8443</li>
+<li>注意：如果VPS是国内云主机，且注册的免费域名没有备案，则不能使用80、8080、443、8443端口提供服务，否则会被拦截提示备案才能访问。</li>
+</ul>
+<p><img src="15.png" alt=""></p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>直接访问显示不存在 404，可以正常上线<br><img src="16.png" alt=""></p>
+<p><img src="17.png" alt=""></p>
+<h3 id="profile方面"><a href="#profile方面" class="headerlink" title="profile方面"></a>profile方面</h3><p>profile方面复杂的可以用github上面的收集了几个好用的Malleable-C2，还有挺多的，可以在github上搜搜</p>
+<p><a href="https://github.com/rsmudge/Malleable-C2-Profiles" target="_blank" rel="noopener">Malleable-C2-Profiles</a><br><br><a href="https://github.com/threatexpress/malleable-c2" target="_blank" rel="noopener">malleable-c2</a><br><br><a href="https://github.com/FortyNorthSecurity/C2concealer" target="_blank" rel="noopener">C2concealer</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Windows/" rel="tag"># Windows</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/17/docker%E6%90%AD%E5%BB%BA/" rel="prev" title="docker搭建">
+      <i class="fa fa-chevron-left"></i> docker搭建
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/02/SMB-RDP-WMI-hash%E4%BC%A0%E9%80%92%E6%8E%A2%E6%B5%8B-%E5%88%A9%E7%94%A8/" rel="next" title="SMB_RDP_WMI_hash传递探测_利用">
+      SMB_RDP_WMI_hash传递探测_利用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简述"><span class="nav-number">1.</span> <span class="nav-text">简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要思路与配置"><span class="nav-number">2.</span> <span class="nav-text">主要思路与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#达到的效果"><span class="nav-number">2.1.</span> <span class="nav-text">达到的效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#申请域名"><span class="nav-number">3.</span> <span class="nav-text">申请域名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关联Cloudflare"><span class="nav-number">4.</span> <span class="nav-text">关联Cloudflare</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cloudflare配置"><span class="nav-number">5.</span> <span class="nav-text">Cloudflare配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存设置"><span class="nav-number">5.1.</span> <span class="nav-text">缓存设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#规则配置"><span class="nav-number">5.2.</span> <span class="nav-text">规则配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CS配置"><span class="nav-number">6.</span> <span class="nav-text">CS配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#证书配置"><span class="nav-number">6.1.</span> <span class="nav-text">证书配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#profile编写"><span class="nav-number">6.2.</span> <span class="nav-text">profile编写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改证书"><span class="nav-number">6.3.</span> <span class="nav-text">修改证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cs运行"><span class="nav-number">6.4.</span> <span class="nav-text">cs运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">7.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#profile方面"><span class="nav-number">7.1.</span> <span class="nav-text">profile方面</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

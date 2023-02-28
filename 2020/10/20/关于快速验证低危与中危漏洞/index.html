@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="漏洞是指一个系统存在的弱点或缺陷，系统对特定威胁攻击或危险事件的敏感性，或进行攻击的威胁作用的可能性。按照危害也被分为高、中、低三种。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于快速验证低危与中危漏洞">
+<meta property="og:url" content="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="漏洞是指一个系统存在的弱点或缺陷，系统对特定威胁攻击或危险事件的敏感性，或进行攻击的威胁作用的可能性。按照危害也被分为高、中、低三种。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/1.png">
+<meta property="og:image" content="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/5.png">
+<meta property="og:image" content="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/2.png">
+<meta property="og:image" content="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/3.png">
+<meta property="og:image" content="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/4.png">
+<meta property="og:image" content="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/6.png">
+<meta property="og:image" content="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/7.png">
+<meta property="og:image" content="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/8.png">
+<meta property="og:image" content="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/9.png">
+<meta property="og:image" content="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/10.png">
+<meta property="og:image" content="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/11.png">
+<meta property="article:published_time" content="2020-10-20T06:56:36.000Z">
+<meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="WEB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/1.png">
+
+<link rel="canonical" href="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>关于快速验证低危与中危漏洞 | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于快速验证低危与中危漏洞
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-20 14:56:36" itemprop="dateCreated datePublished" datetime="2020-10-20T14:56:36+08:00">2020-10-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BD%8E%E5%8D%B1/" itemprop="url" rel="index">
+                    <span itemprop="name">低危</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E5%8D%B1/" itemprop="url" rel="index">
+                    <span itemprop="name">中危</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">841(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">2(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/20/%E5%85%B3%E4%BA%8E%E5%BF%AB%E9%80%9F%E9%AA%8C%E8%AF%81%E4%BD%8E%E5%8D%B1%E4%B8%8E%E4%B8%AD%E5%8D%B1%E6%BC%8F%E6%B4%9E/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>漏洞是指一个系统存在的弱点或缺陷，系统对特定威胁攻击或危险事件的敏感性，或进行攻击的威胁作用的可能性。按照危害也被分为高、中、低三种。</p>
+<a id="more"></a>
+<h1 id="低危"><a href="#低危" class="headerlink" title="低危"></a>低危</h1><h2 id="X-Frame-Options-Header未配置"><a href="#X-Frame-Options-Header未配置" class="headerlink" title="X-Frame-Options Header未配置"></a>X-Frame-Options Header未配置</h2><p>查看请求头中是否存在X-Frame-Options Header字段</p>
+<p><a href="http://google.com" target="_blank" rel="noopener">http://google.com</a></p>
+<p><img src="1.png" alt=""></p>
+<h2 id="会话Cookie中缺少secure属性-未设置安全标志的Cookie"><a href="#会话Cookie中缺少secure属性-未设置安全标志的Cookie" class="headerlink" title="会话Cookie中缺少secure属性(未设置安全标志的Cookie)"></a>会话Cookie中缺少secure属性(未设置安全标志的Cookie)</h2><p>当cookie设置为Secure标志时，它指示浏览器只能通过安全SSL/TLS通道访问cookie。</p>
+<h2 id="未设置HttpOnly标志的Cookie"><a href="#未设置HttpOnly标志的Cookie" class="headerlink" title="未设置HttpOnly标志的Cookie"></a>未设置HttpOnly标志的Cookie</h2><p>当cookie设置为HttpOnly标志时，它指示浏览器cookie只能由服务器访问，保护cookie而不能由客户端脚本访问。</p>
+<p><img src="5.png" alt=""></p>
+<h2 id="可能的敏感文件"><a href="#可能的敏感文件" class="headerlink" title="可能的敏感文件"></a>可能的敏感文件</h2><p>这个洞有高危有低危，如果数据中存在账号密码等重要信息并且关联起来，可算高危。如果只是文件路径，或者一些普通信息，算低危~高危</p>
+<h1 id="中危"><a href="#中危" class="headerlink" title="中危"></a>中危</h1><h2 id="启用TLS-1-0"><a href="#启用TLS-1-0" class="headerlink" title="启用TLS 1.0"></a>启用TLS 1.0</h2><p>攻击者可能能够利用此问题进行中间人攻击，并对受影响的服务和客户端之间的通信进行解密。PCI安全标准委员会规定2018年6月30日之后，开启TLS1.0将导致PCI DSS不合规。<br>可以使用<a href="https://myssl.com/" target="_blank" rel="noopener">myssl</a>来辨认。</p>
+<p>baidu.com</p>
+<p><img src="2.png" alt=""></p>
+<h2 id="使用RC4密码套件"><a href="#使用RC4密码套件" class="headerlink" title="使用RC4密码套件"></a>使用RC4密码套件</h2><p>攻击者可以在特定环境下只通过嗅探监听就可以还原采用RC4保护的加密信息中的纯文本，导致账户、密码、信用卡信息等重要敏感信息暴露，并且可以通过中间人进行会话劫持。</p>
+<p><img src="3.png" alt=""></p>
+<h2 id="存在POODLE攻击-启用了SSLv3协议"><a href="#存在POODLE攻击-启用了SSLv3协议" class="headerlink" title="存在POODLE攻击(启用了SSLv3协议)"></a>存在POODLE攻击(启用了SSLv3协议)</h2><p>攻击者可能窃取客户端与server端使用SSLv3加密通信的明文内容<br><img src="4.png" alt=""></p>
+<h2 id="没有CSRF保护的HTML表单"><a href="#没有CSRF保护的HTML表单" class="headerlink" title="没有CSRF保护的HTML表单"></a>没有CSRF保护的HTML表单</h2><p>攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己曾经认证过的网站并运行一些操作（如发邮件，发消息，甚至财产操作如转账和购买商品）。由于浏览器曾经认证过，所以被访问的网站会认为是真正的用户操作而去运行。</p>
+<p>利用burp中的生成CSRF POC自动生成来构造<br><img src="6.png" alt=""></p>
+<p><img src="7.png" alt=""></p>
+<h2 id="Host-攻击（主机头攻击）"><a href="#Host-攻击（主机头攻击）" class="headerlink" title="Host 攻击（主机头攻击）"></a>Host 攻击（主机头攻击）</h2><p>主机标头指定哪个网站或Web应用程序应处理传入的HTTP请求。Web服务器使用此标头的值将请求分派到指定的网站或Web应用程序。<br><img src="8.png" alt=""></p>
+<h2 id="脆弱的Javascript库-javascript跨站脚本"><a href="#脆弱的Javascript库-javascript跨站脚本" class="headerlink" title="脆弱的Javascript库(javascript跨站脚本)"></a>脆弱的Javascript库(javascript跨站脚本)</h2><p>jQuery 3.4.0 以上版本不受漏洞影响。<br><img src="9.png" alt=""></p>
+<h2 id="页面上的错误消息"><a href="#页面上的错误消息" class="headerlink" title="页面上的错误消息"></a>页面上的错误消息</h2><p>错误信息页面<br><img src="10.png" alt=""></p>
+<h2 id="开启TRACE方法"><a href="#开启TRACE方法" class="headerlink" title="开启TRACE方法"></a>开启TRACE方法</h2><p>在此Web服务器上启用了HTTP TRACE方法。如果Web浏览器中存在其他跨域漏洞，则可以从任何支持HTTP TRACE方法的域中读取敏感的标头信息。<br><img src="11.png" alt=""></p>
+<h2 id="开启options方法"><a href="#开启options方法" class="headerlink" title="开启options方法"></a>开启options方法</h2><p>攻击者可利用options方法获取服务器的信息，进而准备进一步攻击。</p>
+<h2 id="JetBrains-IDE-workspace-xml文件泄露"><a href="#JetBrains-IDE-workspace-xml文件泄露" class="headerlink" title="JetBrains IDE workspace.xml文件泄露"></a>JetBrains IDE workspace.xml文件泄露</h2><p>这个漏洞具体是指目录下存在<code>/.idea/</code>文件夹,通过workspace.xml，可直接获取整个工程的目录结构,为后续渗透中收集信息。</p>
+<h2 id="jQuery跨站脚本"><a href="#jQuery跨站脚本" class="headerlink" title="jQuery跨站脚本"></a>jQuery跨站脚本</h2><p>攻击者使用.hash选择元素时，通过特制的标签，远程攻击者利用该漏洞注入任意web脚本或HTML。在jQuery 1.6.3及之后得到修复。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/WEB/" rel="tag"># WEB</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/11/%E6%81%B6%E6%84%8F%E7%9A%84%E6%8C%96%E7%9F%BF%E7%BB%8F%E5%8E%86-%E5%BD%93%E5%9C%BA%E5%BA%94%E6%80%A5%EF%BC%81/" rel="prev" title="恶意的挖矿经历-当场应急！">
+      <i class="fa fa-chevron-left"></i> 恶意的挖矿经历-当场应急！
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/27/%E7%BA%B5%E6%A8%AA%E6%9D%AFCTF-WEB%E4%B8%A4%E9%A2%98/" rel="next" title="纵横杯CTF-WEB两题">
+      纵横杯CTF-WEB两题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#低危"><span class="nav-number">1.</span> <span class="nav-text">低危</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#X-Frame-Options-Header未配置"><span class="nav-number">1.1.</span> <span class="nav-text">X-Frame-Options Header未配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#会话Cookie中缺少secure属性-未设置安全标志的Cookie"><span class="nav-number">1.2.</span> <span class="nav-text">会话Cookie中缺少secure属性(未设置安全标志的Cookie)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未设置HttpOnly标志的Cookie"><span class="nav-number">1.3.</span> <span class="nav-text">未设置HttpOnly标志的Cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可能的敏感文件"><span class="nav-number">1.4.</span> <span class="nav-text">可能的敏感文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#中危"><span class="nav-number">2.</span> <span class="nav-text">中危</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#启用TLS-1-0"><span class="nav-number">2.1.</span> <span class="nav-text">启用TLS 1.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用RC4密码套件"><span class="nav-number">2.2.</span> <span class="nav-text">使用RC4密码套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存在POODLE攻击-启用了SSLv3协议"><span class="nav-number">2.3.</span> <span class="nav-text">存在POODLE攻击(启用了SSLv3协议)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#没有CSRF保护的HTML表单"><span class="nav-number">2.4.</span> <span class="nav-text">没有CSRF保护的HTML表单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Host-攻击（主机头攻击）"><span class="nav-number">2.5.</span> <span class="nav-text">Host 攻击（主机头攻击）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#脆弱的Javascript库-javascript跨站脚本"><span class="nav-number">2.6.</span> <span class="nav-text">脆弱的Javascript库(javascript跨站脚本)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面上的错误消息"><span class="nav-number">2.7.</span> <span class="nav-text">页面上的错误消息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开启TRACE方法"><span class="nav-number">2.8.</span> <span class="nav-text">开启TRACE方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开启options方法"><span class="nav-number">2.9.</span> <span class="nav-text">开启options方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JetBrains-IDE-workspace-xml文件泄露"><span class="nav-number">2.10.</span> <span class="nav-text">JetBrains IDE workspace.xml文件泄露</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jQuery跨站脚本"><span class="nav-number">2.11.</span> <span class="nav-text">jQuery跨站脚本</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="大部份的公司的局域网都用到域服务来管理办公电脑，而域管理最主要的就是域策略配置，策略配置的好可以大大增加局域网的安全性。配置不当可称为攻击者后渗透的攻击手段。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="组策略定向攻击">
+<meta property="og:url" content="https://chenzidu.github.io/2022/12/11/%E7%BB%84%E7%AD%96%E7%95%A5%E5%AE%9A%E5%90%91%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="大部份的公司的局域网都用到域服务来管理办公电脑，而域管理最主要的就是域策略配置，策略配置的好可以大大增加局域网的安全性。配置不当可称为攻击者后渗透的攻击手段。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670655796864-e28564e4-1da1-479e-8454-12ff52329e92.png#averageHue=%23eaeae6&clientId=ufa8cf655-9900-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=468&id=ua913c31d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=702&originWidth=1255&originalType=binary&ratio=1&rotation=0&showTitle=false&size=350454&status=done&style=none&taskId=u11c49e41-4747-49e7-b651-d2ab15c9c32&title=&width=836.6666666666666">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670250888859-54b039aa-69fe-44c8-a375-66152817ef6e.png#averageHue=%2366adcf&clientId=uedff4467-84d6-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=387&id=u6956d1bb&margin=%5Bobject%20Object%5D&name=image.png&originHeight=581&originWidth=1096&originalType=binary&ratio=1&rotation=0&showTitle=false&size=153273&status=done&style=none&taskId=ufe5ed617-8553-4db6-b7be-a7e2b9820ac&title=&width=730.6666666666666">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670655823522-87a3eeb8-4472-4bf6-98fd-6bb37024d2a3.png#averageHue=%23bfd7dd&clientId=ufa8cf655-9900-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=573&id=ubb6c2ba7&margin=%5Bobject%20Object%5D&name=image.png&originHeight=860&originWidth=1254&originalType=binary&ratio=1&rotation=0&showTitle=false&size=341915&status=done&style=none&taskId=ue9f5f460-ba2e-41a1-a358-53c9d564cc2&title=&width=836">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670250933822-33132226-9fd8-4b92-9895-3ba442a2fe80.png#averageHue=%23eff1ef&clientId=uedff4467-84d6-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=402&id=u9ebe3d40&margin=%5Bobject%20Object%5D&name=image.png&originHeight=603&originWidth=1077&originalType=binary&ratio=1&rotation=0&showTitle=false&size=184321&status=done&style=none&taskId=ua934c60d-c817-419f-a2e5-4a550ed5122&title=&width=718">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670655849958-cb33556b-7498-4673-bb2c-400617253bd8.png#averageHue=%23b0c1cf&clientId=ufa8cf655-9900-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=623&id=u99120b76&margin=%5Bobject%20Object%5D&name=image.png&originHeight=934&originWidth=1045&originalType=binary&ratio=1&rotation=0&showTitle=false&size=125711&status=done&style=none&taskId=uce50f65e-ae07-4409-bcde-f6a0ee8f6ab&title=&width=696.6666666666666">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670250051764-88fd6d69-72a6-4e81-98bf-ef39d93ebc31.png#averageHue=%230f0f0e&clientId=uedff4467-84d6-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=u8a838f00&margin=%5Bobject%20Object%5D&name=image.png&originHeight=249&originWidth=817&originalType=url&ratio=1&rotation=0&showTitle=false&size=27720&status=done&style=none&taskId=ua118eea6-3420-40e0-8a3b-633b2c6fe02&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670655902481-8d8a8587-4205-4708-88b1-82e9102e00f9.png#averageHue=%23d0caaa&clientId=ufa8cf655-9900-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=425&id=uf99038c1&margin=%5Bobject%20Object%5D&name=image.png&originHeight=637&originWidth=1244&originalType=binary&ratio=1&rotation=0&showTitle=false&size=215918&status=done&style=none&taskId=u29777160-d629-4c36-916b-901c5323243&title=&width=829.3333333333334">
+<meta property="article:published_time" content="2022-12-11T09:45:41.000Z">
+<meta property="article:modified_time" content="2022-12-11T09:48:14.284Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="Windows">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670655796864-e28564e4-1da1-479e-8454-12ff52329e92.png#averageHue=%23eaeae6&clientId=ufa8cf655-9900-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=468&id=ua913c31d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=702&originWidth=1255&originalType=binary&ratio=1&rotation=0&showTitle=false&size=350454&status=done&style=none&taskId=u11c49e41-4747-49e7-b651-d2ab15c9c32&title=&width=836.6666666666666">
+
+<link rel="canonical" href="https://chenzidu.github.io/2022/12/11/%E7%BB%84%E7%AD%96%E7%95%A5%E5%AE%9A%E5%90%91%E6%94%BB%E5%87%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>组策略定向攻击 | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2022/12/11/%E7%BB%84%E7%AD%96%E7%95%A5%E5%AE%9A%E5%90%91%E6%94%BB%E5%87%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          组策略定向攻击
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-12-11 17:45:41 / 修改时间：17:48:14" itemprop="dateCreated datePublished" datetime="2022-12-11T17:45:41+08:00">2022-12-11</time>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">824(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">3(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/12/11/%E7%BB%84%E7%AD%96%E7%95%A5%E5%AE%9A%E5%90%91%E6%94%BB%E5%87%BB/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/12/11/%E7%BB%84%E7%AD%96%E7%95%A5%E5%AE%9A%E5%90%91%E6%94%BB%E5%87%BB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>大部份的公司的局域网都用到域服务来管理办公电脑，而域管理最主要的就是域策略配置，策略配置的好可以大大增加局域网的安全性。配置不当可称为攻击者后渗透的攻击手段。</p>
+<a id="more"></a>
+<h2 id="1、添加用户为本地管理员"><a href="#1、添加用户为本地管理员" class="headerlink" title="1、添加用户为本地管理员"></a>1、添加用户为本地管理员</h2><h3 id="1-1、添加域用户（可以用已有域用户）"><a href="#1-1、添加域用户（可以用已有域用户）" class="headerlink" title="1.1、添加域用户（可以用已有域用户）"></a>1.1、添加域用户（可以用已有域用户）</h3><p><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670655796864-e28564e4-1da1-479e-8454-12ff52329e92.png#averageHue=%23eaeae6&clientId=ufa8cf655-9900-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=468&id=ua913c31d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=702&originWidth=1255&originalType=binary&ratio=1&rotation=0&showTitle=false&size=350454&status=done&style=none&taskId=u11c49e41-4747-49e7-b651-d2ab15c9c32&title=&width=836.6666666666666" alt="image.png"></p>
+<h3 id="2-2、创建组策略"><a href="#2-2、创建组策略" class="headerlink" title="2.2、创建组策略"></a>2.2、创建组策略</h3><p> <strong>操作流程</strong>：服务器管理器 -&gt; 组策略管理  -&gt; 林：domain.com -&gt; 域 -&gt; domain.com -&gt; Default Domain Policy -&gt; 编辑 -&gt; 计算机配置 -&gt; 首选项 -&gt; 控制面板 -&gt; 本地用户和组 -&gt; 新建 -&gt; 本地组 -&gt; 添加域账户<br><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670250888859-54b039aa-69fe-44c8-a375-66152817ef6e.png#averageHue=%2366adcf&clientId=uedff4467-84d6-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=387&id=u6956d1bb&margin=%5Bobject%20Object%5D&name=image.png&originHeight=581&originWidth=1096&originalType=binary&ratio=1&rotation=0&showTitle=false&size=153273&status=done&style=none&taskId=ufe5ed617-8553-4db6-b7be-a7e2b9820ac&title=&width=730.6666666666666" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670655823522-87a3eeb8-4472-4bf6-98fd-6bb37024d2a3.png#averageHue=%23bfd7dd&clientId=ufa8cf655-9900-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=573&id=ubb6c2ba7&margin=%5Bobject%20Object%5D&name=image.png&originHeight=860&originWidth=1254&originalType=binary&ratio=1&rotation=0&showTitle=false&size=341915&status=done&style=none&taskId=ue9f5f460-ba2e-41a1-a358-53c9d564cc2&title=&width=836" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670250933822-33132226-9fd8-4b92-9895-3ba442a2fe80.png#averageHue=%23eff1ef&clientId=uedff4467-84d6-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=402&id=u9ebe3d40&margin=%5Bobject%20Object%5D&name=image.png&originHeight=603&originWidth=1077&originalType=binary&ratio=1&rotation=0&showTitle=false&size=184321&status=done&style=none&taskId=ua934c60d-c817-419f-a2e5-4a550ed5122&title=&width=718" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670655849958-cb33556b-7498-4673-bb2c-400617253bd8.png#averageHue=%23b0c1cf&clientId=ufa8cf655-9900-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=623&id=u99120b76&margin=%5Bobject%20Object%5D&name=image.png&originHeight=934&originWidth=1045&originalType=binary&ratio=1&rotation=0&showTitle=false&size=125711&status=done&style=none&taskId=uce50f65e-ae07-4409-bcde-f6a0ee8f6ab&title=&width=696.6666666666666" alt="image.png"><br>刷新组策略gpupdate /force</p>
+<h2 id="2、域内木马文件共享"><a href="#2、域内木马文件共享" class="headerlink" title="2、域内木马文件共享"></a>2、域内木马文件共享</h2><h3 id="2-1、域内共享文件夹"><a href="#2-1、域内共享文件夹" class="headerlink" title="2.1、域内共享文件夹"></a>2.1、域内共享文件夹</h3><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NETLOGON目录</span><br><span class="line">C:<span class="symbol">\W</span>indows<span class="symbol">\s</span>ysvol<span class="symbol">\d</span>omain.com<span class="symbol">\S</span>CRIPTS</span><br><span class="line">SYSVOL目录</span><br><span class="line">C:<span class="symbol">\W</span>indows<span class="symbol">\S</span>YSVOL<span class="symbol">\s</span>ysvol</span><br></pre></td></tr></table></figure>
+<h4 id="2-1-1、NETLOGON目录"><a href="#2-1-1、NETLOGON目录" class="headerlink" title="2.1.1、NETLOGON目录"></a>2.1.1、NETLOGON目录</h4><p>挂载点:SYSVOL\domain\SCRIPTS 主要存放的是一些脚本信息，是AD活动目录安装时候自动创建的，是在sysvol下面的一个子目录文件夹。</p>
+<h4 id="2-1-2、SYSVOL目录"><a href="#2-1-2、SYSVOL目录" class="headerlink" title="2.1.2、SYSVOL目录"></a>2.1.2、SYSVOL目录</h4><p>AD域中的一个共享文件夹，该文件夹在AD活动目录安装时候被创建。通常用来存放组策略数据 和 一些脚本配置文件，这些策略和脚本将用于传递给域成员机器。<br>此外，域控机器之间因为要自动同步域数据，SYSVOL文档允许该域内的所有DC机之间进行复制，并且所有的AD用户都可以访问它。域中，用户登录（计算机）时，会首先在SYSVOL文件查找GPO和启动脚本。同时，为了保证系统的正常运行，必须为SYSVOL保留足够的空间缓存，而且不能随意删除、改动该文件夹，要不然会出现一些组策略无法启用等报错信息。该目录由于针对的是域内所有机器和用户，所以域内中的合法用户均可以访问和执行该目录的文件。(普通的域用户也可以)<br><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670250051764-88fd6d69-72a6-4e81-98bf-ef39d93ebc31.png#averageHue=%230f0f0e&clientId=uedff4467-84d6-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=u8a838f00&margin=%5Bobject%20Object%5D&name=image.png&originHeight=249&originWidth=817&originalType=url&ratio=1&rotation=0&showTitle=false&size=27720&status=done&style=none&taskId=ua118eea6-3420-40e0-8a3b-633b2c6fe02&title=" alt="image.png"></p>
+<h3 id="2-2、操作方法"><a href="#2-2、操作方法" class="headerlink" title="2.2、操作方法"></a>2.2、操作方法</h3><h4 id="2-2-1、新建共享文件夹"><a href="#2-2-1、新建共享文件夹" class="headerlink" title="2.2.1、新建共享文件夹"></a>2.2.1、新建共享文件夹</h4><p> 设置共享权限，添加everyone和domain user共享权限。</p>
+<h4 id="2-2-2、域控推送共享文件到客户端桌面"><a href="#2-2-2、域控推送共享文件到客户端桌面" class="headerlink" title="2.2.2、域控推送共享文件到客户端桌面"></a>2.2.2、域控推送共享文件到客户端桌面</h4><ul>
+<li><p>开始 -&gt; 管理工具 -&gt; 组策略管理 -&gt; TJXY.COM(域名) -&gt; Default Domain Policy右键属性 -&gt; 编辑 -&gt; 用户配置 -&gt; 首选项 -&gt; Windows设置 -&gt; 文件</p>
+</li>
+<li><p>右键文件 -&gt; 新建 -&gt; 文件</p>
+<p>   源文件是文件共享路径位置，目标文件是客户端桌面位置<br><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1670655902481-8d8a8587-4205-4708-88b1-82e9102e00f9.png#averageHue=%23d0caaa&clientId=ufa8cf655-9900-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=425&id=uf99038c1&margin=%5Bobject%20Object%5D&name=image.png&originHeight=637&originWidth=1244&originalType=binary&ratio=1&rotation=0&showTitle=false&size=215918&status=done&style=none&taskId=u29777160-d629-4c36-916b-901c5323243&title=&width=829.3333333333334" alt="image.png"></p>
+<pre><code>编辑完成后确定，注意：域控推送文件到客户端桌面，配置完成后服务器和主机先后更新组策略。</code></pre><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">服务器默认更新组策略时间为<span class="number">5</span>分钟，客户端电脑默认更新组策略时间为<span class="number">90</span>分钟。</span><br><span class="line">## 立即更新组策略</span><br><span class="line">gpupdate /force</span><br></pre></td></tr></table></figure>
+<h2 id="3、域内计划任务创建"><a href="#3、域内计划任务创建" class="headerlink" title="3、域内计划任务创建"></a>3、域内计划任务创建</h2><h3 id="3-1、工具创建"><a href="#3-1、工具创建" class="headerlink" title="3.1、工具创建"></a>3.1、工具创建</h3><p><a href="https://github.com/3gstudent/Homework-of-Powershell" target="_blank" rel="noopener">New-GPOImmediateTask.ps1</a></p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">## 导入ps1</span><br><span class="line">Import-Module GroupPolicy –verbose</span><br><span class="line"></span><br><span class="line">## 执行脚本添加计划任务</span><br><span class="line">New-GPOImmediateTask -TaskName Debugging -GPODisplayName TestGPO -SysPath <span class="string">'\\dc\sysvol\test1.local'</span> -CommandArguments <span class="string">'-c "123 | Out-File C:\test\debug.txt"'</span></span><br><span class="line"></span><br><span class="line">## 强制更新组策略，或者默认等待<span class="number">90</span>分组等待组策略强制更新</span><br><span class="line">Invoke-GPUpdate -Computer <span class="string">"TEST\COMPUTER-01"</span></span><br><span class="line"></span><br><span class="line">## 清理痕迹</span><br><span class="line">Remove-GPO -Name TestGPO</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Windows/" rel="tag"># Windows</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/22/vCenter%E5%B8%B8%E7%94%A8%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95/" rel="prev" title="vCenter常用攻击手法">
+      <i class="fa fa-chevron-left"></i> vCenter常用攻击手法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/01/04/Java-%E5%AF%BC%E5%87%BA%E5%86%85%E5%AD%98%E6%9F%A5%E6%89%BE%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF/" rel="next" title="Java 导出内存查找敏感信息">
+      Java 导出内存查找敏感信息 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、添加用户为本地管理员"><span class="nav-number">1.</span> <span class="nav-text">1、添加用户为本地管理员</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1、添加域用户（可以用已有域用户）"><span class="nav-number">1.1.</span> <span class="nav-text">1.1、添加域用户（可以用已有域用户）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2、创建组策略"><span class="nav-number">1.2.</span> <span class="nav-text">2.2、创建组策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、域内木马文件共享"><span class="nav-number">2.</span> <span class="nav-text">2、域内木马文件共享</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1、域内共享文件夹"><span class="nav-number">2.1.</span> <span class="nav-text">2.1、域内共享文件夹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1、NETLOGON目录"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1、NETLOGON目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2、SYSVOL目录"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.2、SYSVOL目录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2、操作方法"><span class="nav-number">2.2.</span> <span class="nav-text">2.2、操作方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1、新建共享文件夹"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1、新建共享文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2、域控推送共享文件到客户端桌面"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2、域控推送共享文件到客户端桌面</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、域内计划任务创建"><span class="nav-number">3.</span> <span class="nav-text">3、域内计划任务创建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1、工具创建"><span class="nav-number">3.1.</span> <span class="nav-text">3.1、工具创建</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
