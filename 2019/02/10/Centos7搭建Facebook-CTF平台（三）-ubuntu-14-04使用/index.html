@@ -272,7 +272,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">521(字)</span>
+           <span class="post-count">532(字)</span>
            
          </span>
 	  
@@ -316,16 +316,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>进入ubuntu容器交互系统:</strong><br>    <del># docker run -i -t ubuntu /bin/bash</del><br>        # docker exec -it ubuntu /bin/bash</p>
+        <p><strong>进入ubuntu容器交互系统:</strong><br>    <del># docker run -i -t ubuntu &#x2F;bin&#x2F;bash</del><br>        # docker exec -it ubuntu &#x2F;bin&#x2F;bash</p>
 <a id="more"></a>
-<p><strong>进入ubuntu容器交互系统:</strong><br>    <del># docker run -i -t ubuntu /bin/bash</del><br>        # docker exec -it ubuntu /bin/bash</p>
+<p><strong>进入ubuntu容器交互系统:</strong><br>    <del># docker run -i -t ubuntu &#x2F;bin&#x2F;bash</del><br>        # docker exec -it ubuntu &#x2F;bin&#x2F;bash</p>
 <p><strong>当试图直接使用 apt-get 安装一个软件的时候，会提示 E: Unable to locate package。</strong></p>
 <figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@<span class="number">543356</span>e8a428:/<span class="comment"># apt-get install git</span></span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree       </span><br><span class="line">Reading <span class="keyword">state</span> information... Done</span><br><span class="line">E: Unable <span class="keyword">to</span> locate package git</span><br></pre></td></tr></table></figure>
 
 <p>这并非系统不支持 apt-get 命令。Docker 镜像在制作时为了精简清除了 apt 仓库信息，因此需要先执行 apt-get update 命令来更新仓库信息。更新信息后即可成功通过 apt-get 命令来安装软件。</p>
 <p>我发现我之前安装的ubuntu并不能后台运行</p>
 <p>输入下面的代码，-d表示的就是后台运行，这点可以直接通过docker run –help查看该命令的功能。下面这句话的意思就是在镜像的程序中添加引号内的代码，并在后台运行。</p>
-<p><del>docker run -d ubuntu:16.04 /bin/sh -c “while true; do echo hello world; sleep 1;done</del> </p>
+<p><del>docker run -d ubuntu:16.04 &#x2F;bin&#x2F;sh -c “while true; do echo hello world; sleep 1;done</del> </p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -it -d -p <span class="number">8080</span>:<span class="number">80</span> ubuntu:<span class="number">14.04</span> /bin/bash</span><br><span class="line">-d表示的就是后台运行、-p分配端口，把<span class="number">80</span>分配到服务器的<span class="number">8080</span></span><br><span class="line">/bin/bash的作用是因为docker后台必须运行一个进程，否则容器就会退出，在这里表示启动容器后启动bash。</span><br></pre></td></tr></table></figure>
 
 <p>（不好意思，今天刚学习） </p>
@@ -336,7 +336,9 @@ id可以先$ docker ps  得到
   （长的ID）
 docker exec -it d90b2bdfc9d86657fd61363548b58abe20c1c2b673171852b19607154e8c6602 /bin/bash
 （短的ID）
-docker exec -it b45fab8d5eef /bin/bash</code></pre><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http<span class="variable">s:</span>//mirrors.tuna.tsinghua.edu.<span class="keyword">cn</span>/HHVM/<span class="keyword">conf</span>/hhvm.gpg.key | sudo apt-key <span class="built_in">add</span> hhvm.gpg.key</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"deb https://mirrors.tuna.tsinghua.edu.cn/HHVM/ubuntu Trusty main"</span>&gt;&gt; sudo tee /etc/apt/sources.<span class="keyword">list</span>.d/hhvm.<span class="keyword">list</span></span><br><span class="line"></span><br><span class="line">sudo <span class="keyword">echo</span> <span class="string">"deb https://mirrors.tuna.tsinghua.edu.cn/HHVM/ubuntu/dists/ Trusty main"</span>&gt;&gt; sudo tee /etc/apt/sources.<span class="keyword">list</span>.d/hhvm.<span class="keyword">list</span></span><br></pre></td></tr></table></figure>
+docker exec -it b45fab8d5eef /bin/bash
+</code></pre>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http<span class="variable">s:</span>//mirrors.tuna.tsinghua.edu.<span class="keyword">cn</span>/HHVM/<span class="keyword">conf</span>/hhvm.gpg.key | sudo apt-key <span class="built_in">add</span> hhvm.gpg.key</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"deb https://mirrors.tuna.tsinghua.edu.cn/HHVM/ubuntu Trusty main"</span>&gt;&gt; sudo tee /etc/apt/sources.<span class="keyword">list</span>.d/hhvm.<span class="keyword">list</span></span><br><span class="line"></span><br><span class="line">sudo <span class="keyword">echo</span> <span class="string">"deb https://mirrors.tuna.tsinghua.edu.cn/HHVM/ubuntu/dists/ Trusty main"</span>&gt;&gt; sudo tee /etc/apt/sources.<span class="keyword">list</span>.d/hhvm.<span class="keyword">list</span></span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -415,7 +417,7 @@ docker exec -it b45fab8d5eef /bin/bash</code></pre><figure class="highlight vim"
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -487,7 +489,7 @@ docker exec -it b45fab8d5eef /bin/bash</code></pre><figure class="highlight vim"
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

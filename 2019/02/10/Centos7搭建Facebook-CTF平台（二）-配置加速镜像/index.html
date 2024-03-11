@@ -329,10 +329,18 @@
 <p>运行镜像：</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="symbol">root@</span> ~]# docker run -it  \ubuntu:<span class="number">14.04</span> \bash</span><br><span class="line">注：-i是交互式操作 -t：终端</span><br></pre></td></tr></table></figure>
 <p>删除镜像||容器<br>停止所有的container，这样才能够删除其中的images：</p>
-<pre><code># docker stop $(docker ps -a -q)</code></pre><p>如果想要删除所有container的话再加一个指令：</p>
-<pre><code># docker rm $(docker ps -a -q)</code></pre><p> 删除images，通过image的id来指定删除谁</p>
-<pre><code># docker rmi &lt;image id&gt;</code></pre><p>要删除全部image的话</p>
-<pre><code># docker rmi $(docker images -q)</code></pre>
+<pre><code># docker stop $(docker ps -a -q)
+</code></pre>
+<p>如果想要删除所有container的话再加一个指令：</p>
+<pre><code># docker rm $(docker ps -a -q)
+</code></pre>
+<p> 删除images，通过image的id来指定删除谁</p>
+<pre><code># docker rmi &lt;image id&gt;
+</code></pre>
+<p>要删除全部image的话</p>
+<pre><code># docker rmi $(docker images -q)
+</code></pre>
+
     </div>
 
     
@@ -411,7 +419,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -483,7 +491,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

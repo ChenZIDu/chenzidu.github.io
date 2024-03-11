@@ -272,7 +272,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">743(字)</span>
+           <span class="post-count">746(字)</span>
            
          </span>
 	  
@@ -319,8 +319,8 @@
         <p><strong>前缀和是一种重要的预处理，能大大降低查询的时间复杂度。</strong></p>
 <a id="more"></a>
 <p>前缀和，差分。其实可以一起学的哈哈。</p>
-<p>推荐这个博主写的文章：<br><br><a href="https://blog.csdn.net/qq742762377/article/details/81458056?ops_request_misc=%7B%22request%5Fid%22%3A%22158305910419724845058794%22%2C%22scm%22%3A%2220140713.130056874..%22%7D&request_id=158305910419724845058794&biz_id=0&utm_source=distribute.pc_search_result.none-task" target="_blank" rel="noopener">X丶</a></p>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>度度熊的字符串课堂开始了！要以像度度熊一样的天才为目标，努力奋斗哦！<br>为了检验你是否具备不听课的资质，度度熊准备了一个只包含大写英文字母的字符串 A[1,n]=a1a2⋯an，接下来他会向你提出 q 个问题 (l,r)，你需要回答字符串 A[l,r]=alal+1⋯ar 内有多少个非空子串是 A[l,r] 的所有非空子串中字典序最小的。这里的非空子串是字符串中由至少一个位置连续的字符组成的子序列，两个子串是不同的当且仅当这两个子串内容不完全相同或者出现在不同的位置。<br>记 |S| 为字符串 S 的长度，对于两个字符串 S 和 T ，定义 S 的字典序比 T 小，当且仅当存在非负整数 k(≤min(|S|,|T|)) 使得 S 的前 k 个字符与 T 的前 k 个字符对应相同，并且要么满足 |S|=k 且 |T|&gt;k，要么满足 <code>k&lt;min(|S|,|T|)</code>且 S 的第 k+1 个字符比 T 的第 k+1 个字符小。例如 “AA” 的字典序比 “AAA” 小，”AB” 的字典序比 “BA” 小。</p>
+<p>推荐这个博主写的文章：<br><br><a href="https://blog.csdn.net/qq742762377/article/details/81458056?ops_request_misc=%7B%22request_id%22:%22158305910419724845058794%22,%22scm%22:%2220140713.130056874..%22%7D&request_id=158305910419724845058794&biz_id=0&utm_source=distribute.pc_search_result.none-task" target="_blank" rel="noopener">X丶</a></p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>度度熊的字符串课堂开始了！要以像度度熊一样的天才为目标，努力奋斗哦！<br>为了检验你是否具备不听课的资质，度度熊准备了一个只包含大写英文字母的字符串 A[1,n]&#x3D;a1a2⋯an，接下来他会向你提出 q 个问题 (l,r)，你需要回答字符串 A[l,r]&#x3D;alal+1⋯ar 内有多少个非空子串是 A[l,r] 的所有非空子串中字典序最小的。这里的非空子串是字符串中由至少一个位置连续的字符组成的子序列，两个子串是不同的当且仅当这两个子串内容不完全相同或者出现在不同的位置。<br>记 |S| 为字符串 S 的长度，对于两个字符串 S 和 T ，定义 S 的字典序比 T 小，当且仅当存在非负整数 k(≤min(|S|,|T|)) 使得 S 的前 k 个字符与 T 的前 k 个字符对应相同，并且要么满足 |S|&#x3D;k 且 |T|&gt;k，要么满足 <code>k&lt;min(|S|,|T|) </code>且 S 的第 k+1 个字符比 T 的第 k+1 个字符小。例如 “AA” 的字典序比 “AAA” 小，”AB” 的字典序比 “BA” 小。</p>
 <h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>第一行包含一个整数 T，表示有 T 组测试数据。<br>接下来依次描述 T 组测试数据。对于每组测试数据：<br>第一行包含两个整数 n 和 q，表示字符串的长度以及询问的次数。<br>第二行包含一个长为 n 的只包含大写英文字母的字符串 A[1,n]。<br>接下来 q 行，每行包含两个整数 li,ri，表示第 i 次询问的参数。<br>保证 1≤T≤10，1≤n,q≤105，1≤li≤ri≤n。</p>
 <h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>对于每组测试数据，先输出一行信息 “Case #x:”（不含引号），其中 x 表示这是第 x 组测试数据，接下来 q 行，每行包含一个整数，表示字符串<code>A[l,r]</code>中字典序最小的子串个数，行末不要有多余空格。</p>
 <h2 id="样例输入："><a href="#样例输入：" class="headerlink" title="样例输入："></a>样例输入：</h2><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span> <span class="number">3</span></span><br><span class="line">AB</span><br><span class="line"><span class="number">1</span> <span class="number">1</span></span><br><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">2</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
@@ -405,7 +405,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -477,7 +477,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

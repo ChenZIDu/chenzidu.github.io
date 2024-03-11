@@ -54,16 +54,16 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="GWCTF-2019之前比赛没做出来，我真是弟弟!">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/2020/02/08/GWCTF-2019-WP/1.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/02/08/GWCTF-2019-WP/2.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/02/08/GWCTF-2019-WP/3.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/02/08/GWCTF-2019-WP/4.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/1.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/3.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/4.jpg">
 <meta property="article:published_time" content="2020-02-08T02:38:44.000Z">
 <meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="PHP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/2020/02/08/GWCTF-2019-WP/1.jpg">
+<meta name="twitter:image" content="https://chenzidu.github.io/1.jpg">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/02/08/GWCTF-2019-WP/">
 
@@ -323,20 +323,20 @@
       
         <p>GWCTF-2019之前比赛没做出来，我真是弟弟!</p>
 <a id="more"></a>
-<h2 id="枯燥的抽奖"><a href="#枯燥的抽奖" class="headerlink" title="枯燥的抽奖"></a>枯燥的抽奖</h2><p><img src="1.jpg" alt=""><br>要求我们猜出后十位，查看网页源码，发现js指向check.php。</p>
+<h2 id="枯燥的抽奖"><a href="#枯燥的抽奖" class="headerlink" title="枯燥的抽奖"></a>枯燥的抽奖</h2><p><img src="/1.jpg"><br>要求我们猜出后十位，查看网页源码，发现js指向check.php。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">8y6CBQcJaW</span><br><span class="line"></span><br><span class="line"><span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php"><span class="comment">#这不是抽奖程序的源代码！不许看！</span></span></span><br><span class="line"><span class="php">header(<span class="string">"Content-Type: text/html;charset=utf-8"</span>);</span></span><br><span class="line"><span class="php">session_start();</span></span><br><span class="line"><span class="php"><span class="keyword">if</span>(!<span class="keyword">isset</span>($_SESSION[<span class="string">'seed'</span>]))&#123;</span></span><br><span class="line"><span class="php">$_SESSION[<span class="string">'seed'</span>]=rand(<span class="number">0</span>,<span class="number">999999999</span>);</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="php">mt_srand($_SESSION[<span class="string">'seed'</span>]);</span></span><br><span class="line"><span class="php">$str_long1 = <span class="string">"abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>;</span></span><br><span class="line"><span class="php">$str=<span class="string">''</span>;</span></span><br><span class="line"><span class="php">$len1=<span class="number">20</span>;</span></span><br><span class="line"><span class="php"><span class="keyword">for</span> ( $i = <span class="number">0</span>; $i &lt; $len1; $i++ )&#123;</span></span><br><span class="line"><span class="php">    $str.=substr($str_long1, mt_rand(<span class="number">0</span>, strlen($str_long1) - <span class="number">1</span>), <span class="number">1</span>);       </span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php">$str_show = substr($str, <span class="number">0</span>, <span class="number">10</span>);</span></span><br><span class="line"><span class="php"><span class="keyword">echo</span> <span class="string">"&lt;p id='p1'&gt;"</span>.$str_show.<span class="string">"&lt;/p&gt;"</span>;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="php"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'num'</span>]))&#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">if</span>($_POST[<span class="string">'num'</span>]===$str)&#123;x</span></span><br><span class="line"><span class="php">        <span class="keyword">echo</span> <span class="string">"&lt;p id=flag&gt;抽奖，就是那么枯燥且无味，给你flag&#123;xxxxxxxxx&#125;&lt;/p&gt;"</span>;</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"><span class="php">    <span class="keyword">else</span>&#123;</span></span><br><span class="line"><span class="php">        <span class="keyword">echo</span> <span class="string">"&lt;p id=flag&gt;没抽中哦，再试试吧&lt;/p&gt;"</span>;</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php">show_source(<span class="string">"check.php"</span>);</span></span><br></pre></td></tr></table></figure>
 <p>借鉴<a href="http://wonderkun.cc/index.html/?p=585" target="_blank" rel="noopener">wonderkun</a>这位大佬写的</p>
 <p>private key，来猜测public key</p>
 <p>首先把他给的十位数放到这个脚本里：</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">str1=<span class="string">'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'</span></span><br><span class="line">str2=<span class="string">'8y6CBQcJaW'</span></span><br><span class="line">str3 = str1[::-<span class="number">1</span>]</span><br><span class="line">length = <span class="built_in">len</span>(str2)</span><br><span class="line"><span class="keyword">res</span>=<span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i in <span class="built_in">range</span>(<span class="built_in">len</span>(str2)):</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">j</span> in <span class="built_in">range</span>(<span class="built_in">len</span>(str1)):</span><br><span class="line">        <span class="keyword">if</span> str2[i] == str1[<span class="keyword">j</span>]:</span><br><span class="line">            <span class="keyword">res</span>+=str(<span class="keyword">j</span>)+<span class="string">' '</span>+str(<span class="keyword">j</span>)+<span class="string">' '</span>+<span class="string">'0'</span>+<span class="string">' '</span>+str(<span class="built_in">len</span>(str1)-<span class="number">1</span>)+<span class="string">' '</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"><span class="keyword">print</span>(<span class="keyword">res</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="2.jpg" alt=""></p>
+<p><img src="/2.jpg"></p>
 <p>之后再利用<a href="https://www.openwall.com/php_mt_seed/" target="_blank" rel="noopener">php_mt_seed</a>这个脚本，破解seed</p>
 <p>php_mt_seed，要先make，php_mt_seed.C生成php_mt_seed文件，再使用。具体语句Readme里面有。</p>
-<p><img src="3.jpg" alt=""></p>
+<p><img src="/3.jpg"></p>
 <p>得到seed</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mt_srand(342457593);</span><br><span class="line"><span class="variable">$str_long1</span> = <span class="string">"abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>;</span><br><span class="line"><span class="variable">$str</span> = <span class="string">''</span>;</span><br><span class="line"><span class="variable">$len1</span> = 20;</span><br><span class="line"><span class="keyword">for</span> (<span class="variable">$i</span> = 0; <span class="variable">$i</span> &lt; <span class="variable">$len1</span>; <span class="variable">$i</span>++) &#123;</span><br><span class="line">    <span class="variable">$str</span> .= substr(<span class="variable">$str_long1</span>, mt_rand(0, strlen(<span class="variable">$str_long1</span>) - 1), 1);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"&lt;p id='p1'&gt;"</span> . <span class="variable">$str</span> . <span class="string">"&lt;/p&gt;"</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="4.jpg" alt=""></p>
+<p><img src="/4.jpg"></p>
 <p>得到字符。</p>
 <p><a href="https://www.suk1.top/" target="_blank" rel="noopener">感谢晓黑老哥</a>，之前php用的是5.3版本，忘记改了，记得要改成7.1及以上。</p>
 <h2 id="我有一个数据库"><a href="#我有一个数据库" class="headerlink" title="我有一个数据库"></a>我有一个数据库</h2><p>发现phpMyAdmin,可以利用现成poc直接打。</p>
@@ -423,7 +423,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -495,7 +495,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -272,7 +272,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">298(字)</span>
+           <span class="post-count">301(字)</span>
            
          </span>
 	  
@@ -319,8 +319,8 @@
         <p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=1002" target="_blank" rel="noopener">HDU-1002</a></p>
 <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>对您来说，我有一个非常简单的问题。给定两个整数A和B，您的工作是计算A + B的总和。</p>
 <a id="more"></a>
-<h2 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h2><p>输入的第一行包含一个整数T（1 &lt;= T &lt;= 20），它表示测试用例的数量。然后是T行，每行由两个正整数A和B组成。请注意，这些整数非常大，这意味着您不应使用32位整数对其进行处理。您可以假设每个整数的长度不超过1000。</p>
-<h2 id="输出格式："><a href="#输出格式：" class="headerlink" title="输出格式："></a>输出格式：</h2><p>对于每个测试用例，您应该输出两行。第一行是“ Case＃：”，＃表示测试用例的编号。第二行是等式“ A + B = Sum”，Sum表示A + B的结果。请注意，该等式中有一些空格。在两个测试用例之间输出空白行。</p>
+<h2 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h2><p>输入的第一行包含一个整数T（1 &lt;&#x3D; T &lt;&#x3D; 20），它表示测试用例的数量。然后是T行，每行由两个正整数A和B组成。请注意，这些整数非常大，这意味着您不应使用32位整数对其进行处理。您可以假设每个整数的长度不超过1000。</p>
+<h2 id="输出格式："><a href="#输出格式：" class="headerlink" title="输出格式："></a>输出格式：</h2><p>对于每个测试用例，您应该输出两行。第一行是“ Case＃：”，＃表示测试用例的编号。第二行是等式“ A + B &#x3D; Sum”，Sum表示A + B的结果。请注意，该等式中有一些空格。在两个测试用例之间输出空白行。</p>
 <h2 id="样例输入"><a href="#样例输入" class="headerlink" title="样例输入:"></a>样例输入:</h2><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span></span><br><span class="line"><span class="symbol">1 </span><span class="number">2</span></span><br><span class="line"><span class="symbol">112233445566778899 </span><span class="number">998877665544332211</span></span><br></pre></td></tr></table></figure>
 <h2 id="样例输出"><a href="#样例输出" class="headerlink" title="样例输出:"></a>样例输出:</h2><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Case <span class="number">1</span>:</span><br><span class="line"><span class="number">1</span> + <span class="number">2</span> = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">Case <span class="number">2</span>:</span><br><span class="line"><span class="number">112233445566778899</span> + <span class="number">998877665544332211</span> = <span class="number">1111111111111111110</span></span><br></pre></td></tr></table></figure>
 <h2 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line">        <span class="keyword">import</span> java.math.BigInteger;</span><br><span class="line"></span><br><span class="line"><span class="built_in">public</span> <span class="keyword">class</span> Main &#123;</span><br><span class="line">    <span class="built_in">public</span> static <span class="type">void</span> main(String[] args)&#123;</span><br><span class="line">        Scanner <span class="keyword">in</span> = <span class="built_in">new</span> Scanner(<span class="keyword">System</span>.<span class="keyword">in</span>);</span><br><span class="line">        <span class="type">int</span> t = <span class="keyword">in</span>.nextInt();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=t ; i++)&#123;</span><br><span class="line">            BigInteger A = <span class="keyword">in</span>.nextBigInteger();</span><br><span class="line">            BigInteger B = <span class="keyword">in</span>.nextBigInteger();</span><br><span class="line">            <span class="keyword">System</span>.<span class="keyword">out</span>.println("Case "+i+":");</span><br><span class="line">            <span class="keyword">System</span>.<span class="keyword">out</span>.println(A+" + "+B+" = "+A.<span class="keyword">add</span>(B));</span><br><span class="line">            <span class="keyword">if</span>(i!=t)</span><br><span class="line">            <span class="keyword">System</span>.<span class="keyword">out</span>.println();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -402,7 +402,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -474,7 +474,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

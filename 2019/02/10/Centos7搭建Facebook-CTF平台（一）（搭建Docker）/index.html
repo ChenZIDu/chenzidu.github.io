@@ -336,22 +336,24 @@
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[<span class="symbol">root@</span>izuf6giff71ddv24k55z ~]# yum list docker-ce --showduplicates | sort -r</span><br><span class="line">Loading mirror speeds <span class="keyword">from</span> cached hostfile</span><br><span class="line">Loaded plugins: fastestmirror</span><br><span class="line">docker-ce.x86_64            <span class="number">18.03</span><span class="number">.1</span>.ce<span class="number">-1.</span>el7.centos             docker-ce-stable</span><br><span class="line">docker-ce.x86_64            <span class="number">18.03</span><span class="number">.0</span>.ce<span class="number">-1.</span>el7.centos             docker-ce-stable</span><br><span class="line">docker-ce.x86_64            <span class="number">17.12</span><span class="number">.1</span>.ce<span class="number">-1.</span>el7.centos             docker-ce-stable</span><br><span class="line">docker-ce.x86_64            <span class="number">17.12</span><span class="number">.0</span>.ce<span class="number">-1.</span>el7.centos             docker-ce-stable</span><br><span class="line">docker-ce.x86_64            <span class="number">17.09</span><span class="number">.1</span>.ce<span class="number">-1.</span>el7.centos             docker-ce-stable</span><br><span class="line">docker-ce.x86_64            <span class="number">17.09</span><span class="number">.0</span>.ce<span class="number">-1.</span>el7.centos             docker-ce-stable</span><br><span class="line">docker-ce.x86_64            <span class="number">17.06</span><span class="number">.2</span>.ce<span class="number">-1.</span>el7.centos             docker-ce-stable</span><br><span class="line">docker-ce.x86_64            <span class="number">17.06</span><span class="number">.1</span>.ce<span class="number">-1.</span>el7.centos             docker-ce-stable</span><br><span class="line">docker-ce.x86_64            <span class="number">17.06</span><span class="number">.0</span>.ce<span class="number">-1.</span>el7.centos             docker-ce-stable</span><br><span class="line">docker-ce.x86_64            <span class="number">17.03</span><span class="number">.2</span>.ce<span class="number">-1.</span>el7.centos             docker-ce-stable</span><br><span class="line">docker-ce.x86_64            <span class="number">17.03</span><span class="number">.1</span>.ce<span class="number">-1.</span>el7.centos             docker-ce-stable</span><br><span class="line">docker-ce.x86_64            <span class="number">17.03</span><span class="number">.0</span>.ce<span class="number">-1.</span>el7.centos             docker-ce-stable</span><br><span class="line"></span><br><span class="line">``</span><br><span class="line">命令：yum install docker-ce-版本号，我选的是<span class="number">17.12</span><span class="number">.1</span>.ce</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> [<span class="symbol">root@</span>izuf6giff71ddv24k55jz ~]# yum install docker-ce<span class="number">-17.12</span><span class="number">.1</span>.ce</span><br><span class="line"></span><br><span class="line">启动docker</span><br><span class="line"></span><br><span class="line">[<span class="symbol">root@</span>izuf6giff71ddv24k55jz ~]# systemctl start docker</span><br><span class="line"></span><br><span class="line">验证安装是否成功(有client和service两部分表示docker安装启动都成功了)</span><br></pre></td></tr></table></figure>
 <h1 id="docker-version"><a href="#docker-version" class="headerlink" title="# docker version"></a># docker version</h1><pre><code>我的：
 Client:
- Version:    17.12.1-ce
- API version:    1.35
- Go version:    go1.9.4
- Git commit:    7390fc6
- Built:    Tue Feb 27 22:15:20 2018
- OS/Arch:    linux/amd64
+ Version:	17.12.1-ce
+ API version:	1.35
+ Go version:	go1.9.4
+ Git commit:	7390fc6
+ Built:	Tue Feb 27 22:15:20 2018
+ OS/Arch:	linux/amd64
 
 Server:
  Engine:
-  Version:    17.12.1-ce
-  API version:    1.35 (minimum version 1.12)
-  Go version:    go1.9.4
-  Git commit:    7390fc6
-  Built:    Tue Feb 27 22:17:54 2018
-  OS/Arch:    linux/amd64
-  Experimental:    false</code></pre>
+  Version:	17.12.1-ce
+  API version:	1.35 (minimum version 1.12)
+  Go version:	go1.9.4
+  Git commit:	7390fc6
+  Built:	Tue Feb 27 22:17:54 2018
+  OS/Arch:	linux/amd64
+  Experimental:	false
+</code></pre>
+
     </div>
 
     
@@ -430,7 +432,7 @@ Server:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -502,7 +504,7 @@ Server:
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

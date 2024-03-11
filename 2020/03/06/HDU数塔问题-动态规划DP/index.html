@@ -54,13 +54,13 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="动态规划（Dynamic programming）">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/06/HDU%E6%95%B0%E5%A1%94%E9%97%AE%E9%A2%98-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92DP/1.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/1.jpg">
 <meta property="article:published_time" content="2020-03-06T13:50:26.000Z">
 <meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/2020/03/06/HDU%E6%95%B0%E5%A1%94%E9%97%AE%E9%A2%98-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92DP/1.jpg">
+<meta name="twitter:image" content="https://chenzidu.github.io/1.jpg">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/03/06/HDU%E6%95%B0%E5%A1%94%E9%97%AE%E9%A2%98-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92DP/">
 
@@ -280,7 +280,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">591(字)</span>
+           <span class="post-count">595(字)</span>
            
          </span>
 	  
@@ -329,13 +329,13 @@
 <a id="more"></a>
 <p id="div-border-left-blue">数塔问题</p>
 
-<p>有形如下图所示的数塔，从顶部出发，在每一结点可以选择向左走或是向右走，一直走到底层，要求找出一条路径，使路径上的值最大。<br><img src="1.jpg" alt="数塔"></p>
-<h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><p>输入数据首先包括一个整数C,表示测试实例的个数，每个测试实例的第一行是一个整数N(1 &lt;= N &lt;= 100)，表示数塔的高度，接下来用N行数字表示数塔，其中第i行有个i个整数，且所有的整数均在区间[0,99]内。</p>
+<p>有形如下图所示的数塔，从顶部出发，在每一结点可以选择向左走或是向右走，一直走到底层，要求找出一条路径，使路径上的值最大。<br><img src="/1.jpg" alt="数塔"></p>
+<h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><p>输入数据首先包括一个整数C,表示测试实例的个数，每个测试实例的第一行是一个整数N(1 &lt;&#x3D; N &lt;&#x3D; 100)，表示数塔的高度，接下来用N行数字表示数塔，其中第i行有个i个整数，且所有的整数均在区间[0,99]内。</p>
 <h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p>对于每个测试实例，输出可能得到的最大和，每个实例的输出占一行。</p>
 <h2 id="样例输入"><a href="#样例输入" class="headerlink" title="样例输入"></a>样例输入</h2><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="symbol">3 </span><span class="number">8</span></span><br><span class="line"><span class="symbol">8 </span><span class="number">1</span> <span class="number">0</span> </span><br><span class="line"><span class="symbol">2 </span><span class="number">7</span> <span class="number">4</span> <span class="number">4</span></span><br><span class="line"><span class="symbol">4 </span><span class="number">5</span> <span class="number">2</span> <span class="number">6</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="样例输出"><a href="#样例输出" class="headerlink" title="样例输出"></a>样例输出</h2><p>30</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><blockquote><p>这道题如果用枚举法（暴力思想），在数塔层数稍大的情况下（如31），则需要列举出的路径条数将是一个非常庞大的数目（2^30= 1024^3 &gt; 10^9=10亿）<del>~</del></p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><blockquote><p>这道题如果用枚举法（暴力思想），在数塔层数稍大的情况下（如31），则需要列举出的路径条数将是一个非常庞大的数目（2^30&#x3D; 1024^3 &gt; 10^9&#x3D;10亿）~~~</p>
 <p>从顶点出发时到底向左走还是向右走应取决于是从左走能取到最大值还是从右走能取到最大值，只要左右两道路径上的最大值求出来了才能作出决策。<br>同样，下一层的走向又要取决于再下一层上的最大值是否已经求出才能决策。这样一层一层推下去，直到倒数第二层时就非常明了。<br>如数字2，只要选择它下面较大值的结点19前进就可以了。所以实际求解时，可从底层开始，层层递进，最后得到最大值。<br>结论：自顶向下的分析，自底向上的计算。</p>
 <footer><strong>David Levithan</strong><cite>Wide Awake</cite></footer></blockquote>
 
@@ -422,7 +422,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -494,7 +494,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

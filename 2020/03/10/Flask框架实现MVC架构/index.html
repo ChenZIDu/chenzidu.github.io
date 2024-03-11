@@ -54,14 +54,14 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="果然跟着python2的项目学习Flask有点让人烦躁- - ，除了今天蓝桥杯模拟赛，搞了一天才这么点进度。我去!">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/10/Flask%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0MVC%E6%9E%B6%E6%9E%84/1.png">
-<meta property="og:image" content="https://chenzidu.github.io/2020/03/10/Flask%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0MVC%E6%9E%B6%E6%9E%84/2.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/1.png">
+<meta property="og:image" content="https://chenzidu.github.io/2.jpg">
 <meta property="article:published_time" content="2020-03-10T13:53:45.000Z">
 <meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/2020/03/10/Flask%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0MVC%E6%9E%B6%E6%9E%84/1.png">
+<meta name="twitter:image" content="https://chenzidu.github.io/1.png">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/03/10/Flask%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0MVC%E6%9E%B6%E6%9E%84/">
 
@@ -336,10 +336,10 @@
 <li>View（视图）<br>是应用程序中处理数据显示的部分,通常视图是依据模型数据创建的。</li>
 <li>Controller（控制器）<br>是应用程序中处理用户交互的部分,通常控制器负责从视图读取数据，控制用户输入，并向模型发送数据。</li>
 </ul>
-<p><img src="1.png" alt="PyCharm"></p>
+<p><img src="/1.png" alt="PyCharm"></p>
 <h3 id="目录结构重构，引入包管理"><a href="#目录结构重构，引入包管理" class="headerlink" title="目录结构重构，引入包管理"></a>目录结构重构，引入包管理</h3><ul>
 <li>新建一个runserver.py文件，作为项目统一入口文件</li>
-<li>新建blog2文件夹，把已存在的static,templates,app.py移到blog文件夹下，然后分别建controller、model包(右击blog2，选择python package)。把app.py改名为<strong>init</strong>.py，新建setting.py 文件。</li>
+<li>新建blog2文件夹，把已存在的static,templates,app.py移到blog文件夹下，然后分别建controller、model包(右击blog2，选择python package)。把app.py改名为__init__.py，新建setting.py 文件。</li>
 </ul>
 <ol>
 <li>最上层FirstFlask目录是项目名称，一个项目下可以包括多个模块，也就是应用，每个应用下有自己的配置文件，初始化文件，MVC架构。</li>
@@ -352,7 +352,7 @@
 <h2 id="开发代码"><a href="#开发代码" class="headerlink" title="开发代码"></a>开发代码</h2><h3 id="init-py文件"><a href="#init-py文件" class="headerlink" title="__init__.py文件"></a><code>__init__.py</code>文件</h3><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env python3</span></span><br><span class="line"><span class="meta"># _*_ coding: utf-8 _*_</span></span><br><span class="line"><span class="meta">#@Time  : 2020/3/10 11:39</span></span><br><span class="line"><span class="meta">#@Author: ChenZIDu</span></span><br><span class="line"><span class="meta">#@File  : __init__.py.py</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">from flask import Flask</span><br><span class="line"></span><br><span class="line"><span class="meta">#创建项目对象</span></span><br><span class="line">app = Flask(__name__)</span><br></pre></td></tr></table></figure>
 <h3 id="runserver-py文件"><a href="#runserver-py文件" class="headerlink" title="runserver.py文件"></a>runserver.py文件</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># _*_ coding: utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> blog <span class="keyword">import</span> app</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/')     #路由</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Please login~'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run(debug=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
 <p><strong>运行runserver.py文件就可以看到效果了</strong></p>
-<p><a href="http://127.0.0.1:5000" target="_blank" rel="noopener">http://127.0.0.1:5000</a></p>
+<p><a href="http://127.0.0.1:5000/" target="_blank" rel="noopener">http://127.0.0.1:5000</a></p>
 <h3 id="setting-py配置文件"><a href="#setting-py配置文件" class="headerlink" title="setting.py配置文件"></a>setting.py配置文件</h3><p>添加配置数据库连接信息，如下：</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="comment"># _*_ coding: utf-8 _*__ * _</span></span><br><span class="line"><span class="comment"># @Time  : 2020/3/10 11:39</span></span><br><span class="line"><span class="comment"># @Author: ChenZIDu</span></span><br><span class="line"><span class="comment"># @File  : setting.py.py</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 调试模式是否开启</span></span><br><span class="line"><span class="attr">DEBUG</span> = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># session 必须要设置key</span></span><br><span class="line"><span class="attr">SECRET_KEY</span> = <span class="string">'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">DIALECT</span> = <span class="string">'mysql'</span>  <span class="comment"># 要用的什么数据库</span></span><br><span class="line"><span class="attr">DRIVER</span> = <span class="string">'mysqlconnector'</span> <span class="comment"># 连接数据库驱动   官方驱动解决1366问题</span></span><br><span class="line"><span class="attr">USERNAME</span> = <span class="string">'root'</span>  <span class="comment"># 用户名</span></span><br><span class="line"><span class="attr">PASSWORD</span> =<span class="string">'root'</span>  <span class="comment"># 密码</span></span><br><span class="line"><span class="attr">HOST</span> = <span class="string">'localhost'</span>  <span class="comment"># 服务器</span></span><br><span class="line"><span class="attr">PORT</span> =<span class="string">'3306'</span> <span class="comment"># 端口</span></span><br><span class="line"><span class="attr">DATABASE</span> = <span class="string">'flask'</span> <span class="comment"># 数据库名</span></span><br><span class="line"></span><br><span class="line"><span class="attr">SQLALCHEMY_DATABASE_URI</span> = <span class="string">"&#123;&#125;+&#123;&#125;://&#123;&#125;:&#123;&#125;@&#123;&#125;:&#123;&#125;/&#123;&#125;?charset=utf8"</span>.format(DIALECT, DRIVER, USERNAME, PASSWORD, HOST, PORT, DATABASE)</span><br><span class="line"><span class="attr">SQLALCHEMY_TRACK_MODIFICATIONS</span> = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
 <h3 id="注意可能会有1366错误"><a href="#注意可能会有1366错误" class="headerlink" title="注意可能会有1366错误"></a>注意可能会有1366错误</h3><p><code>Warning: (1366, &quot;Incorrect string value: &#39;\\xD6\\xD0\\xB9\\xFA\\xB1\\xEA...&#39; for column &#39;VARIABLE_VALUE&#39; at row 484&quot;)  result = self._query(query)</code></p>
@@ -376,7 +376,7 @@
 创建数据表的语句已经再<code>__init__.py</code>里面了，也可以在<code>Python Console</code>里面搞</li>
 </ol>
 <figure class="highlight capnproto"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> blog2 <span class="keyword">import</span> db  <span class="comment">#建立连接</span></span><br><span class="line">db.create_all()   <span class="comment">#创建数据表</span></span><br></pre></td></tr></table></figure>
-<p><img src="2.jpg" alt="powershell"></p>
+<p><img src="/2.jpg" alt="powershell"></p>
 <hr>
 <p><strong>这一章完结，欢迎友链,打动态规划去了(逃~~)</strong></p>
 
@@ -458,7 +458,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -530,7 +530,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -47,12 +47,12 @@
     sidebarPadding: 40
   };
 </script>
-  <meta name="description" content="应该是我博客的第一篇广度优先搜索的算法了吧，之前题目都用的DFS，因为DFS确实比较熟练点，BFS虽然很久之前就知道他是怎么实现的但是没怎么自己真正实践过~而且以前一听队列就头大，不过最近这方面需求还挺大的-.-">
+  <meta name="description" content="应该是我博客的第一篇广度优先搜索的算法了吧，之前题目都用的DFS，因为DFS确实比较熟练点，BFS虽然很久之前就知道他是怎么实现的但是没怎么自己真正实践过~~~而且以前一听队列就头大，不过最近这方面需求还挺大的-.-">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BFS宽度优先搜索(新冠病毒的传播)">
 <meta property="og:url" content="https://chenzidu.github.io/2020/03/08/%E6%96%B0%E5%86%A0%E7%97%85%E6%AF%92%E7%9A%84%E4%BC%A0%E6%92%AD-BFS/index.html">
 <meta property="og:site_name" content="Chen&#39;Blog">
-<meta property="og:description" content="应该是我博客的第一篇广度优先搜索的算法了吧，之前题目都用的DFS，因为DFS确实比较熟练点，BFS虽然很久之前就知道他是怎么实现的但是没怎么自己真正实践过~而且以前一听队列就头大，不过最近这方面需求还挺大的-.-">
+<meta property="og:description" content="应该是我博客的第一篇广度优先搜索的算法了吧，之前题目都用的DFS，因为DFS确实比较熟练点，BFS虽然很久之前就知道他是怎么实现的但是没怎么自己真正实践过~~~而且以前一听队列就头大，不过最近这方面需求还挺大的-.-">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-03-08T12:57:33.000Z">
 <meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
@@ -322,7 +322,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>应该是我博客的第一篇广度优先搜索的算法了吧，之前题目都用的DFS，因为DFS确实比较熟练点，BFS虽然很久之前就知道他是怎么实现的但是没怎么自己真正实践过<del>~</del>而且以前一听队列就头大，不过最近这方面需求还挺大的-.-</p>
+        <p>应该是我博客的第一篇广度优先搜索的算法了吧，之前题目都用的DFS，因为DFS确实比较熟练点，BFS虽然很久之前就知道他是怎么实现的但是没怎么自己真正实践过~~~而且以前一听队列就头大，不过最近这方面需求还挺大的-.-</p>
 <a id="more"></a>
 <p id="div-border-left-red">了解下BFS</p>
 
@@ -341,7 +341,7 @@
 <p id="div-border-top-blue">来道例题</p>
 
 <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>最近新冠病毒疫情非常严重，由于我们国家采取了有力的措施，才没有使疫情进一步的扩大。今天，作为计算机专业的学生，我们来用程序模拟一下各种情况下的新冠病毒传播情况。现在给定一个n * m的网格，每个网格可以有以下三个值之一：<br>值 0 代表隔离带。<br>值 1 代表健康人群。<br>值 2 代表感染人群。<br>每天，任何与感染人群（在 4 个正方向上）相邻的健康人都会感染。如果遇到隔离带，病毒就会被阻断。<br>输出直到单元格中没有健康人为止所必须经过的最小天数。如果不可能所有人都被感染，输出 -1。</p>
-<h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><p>测试数据由多组测试样例组成。第一行输入两个正整数 n ( 1 &lt;= n &lt;= 500 ） 和 m ( 1 &lt;= m &lt;= 500 ），<br>接下来输入n * m个数字，数字均由 0 ， 1 ，2构成</p>
+<h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><p>测试数据由多组测试样例组成。第一行输入两个正整数 n ( 1 &lt;&#x3D; n &lt;&#x3D; 500 ） 和 m ( 1 &lt;&#x3D; m &lt;&#x3D; 500 ），<br>接下来输入n * m个数字，数字均由 0 ， 1 ，2构成</p>
 <h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p>每组测试样例，输出直到单元格中没有健康人为止所必须经过的最小天数。如果不可能，输出 -1。</p>
 <h2 id="样例输入"><a href="#样例输入" class="headerlink" title="样例输入"></a>样例输入</h2><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">3 </span><span class="number">3</span></span><br><span class="line"><span class="symbol">2 </span><span class="number">1</span> <span class="number">1</span></span><br><span class="line"><span class="symbol">1 </span><span class="number">1</span> <span class="number">0</span></span><br><span class="line"><span class="symbol">0 </span><span class="number">1</span> <span class="number">1</span></span><br><span class="line"><span class="symbol">3 </span><span class="number">3</span></span><br><span class="line"><span class="symbol">2 </span><span class="number">1</span> <span class="number">1</span></span><br><span class="line"><span class="symbol">0 </span><span class="number">1</span> <span class="number">1</span></span><br><span class="line"><span class="symbol">1 </span><span class="number">0</span> <span class="number">1</span></span><br><span class="line"><span class="symbol">1 </span><span class="number">2</span></span><br><span class="line"><span class="symbol">0 </span><span class="number">2</span></span><br></pre></td></tr></table></figure>
 <h2 id="样例输出"><a href="#样例输出" class="headerlink" title="样例输出"></a>样例输出</h2><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">-1</span></span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
@@ -424,7 +424,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -496,7 +496,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

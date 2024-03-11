@@ -54,13 +54,13 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="最近做到条件竞争的题目，突然想起来以前搞项目的时候，老师也和我科普过这个。果然当初太单纯了哈哈哈哈。总觉得一起就一起，肯定能处理~">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/2020/06/21/%E4%B9%90%E8%A7%82%E9%94%81%E4%B8%8E%E6%82%B2%E8%A7%82%E9%94%81/1.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/1.jpg">
 <meta property="article:published_time" content="2020-06-21T04:54:07.000Z">
 <meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/2020/06/21/%E4%B9%90%E8%A7%82%E9%94%81%E4%B8%8E%E6%82%B2%E8%A7%82%E9%94%81/1.jpg">
+<meta name="twitter:image" content="https://chenzidu.github.io/1.jpg">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/06/21/%E4%B9%90%E8%A7%82%E9%94%81%E4%B8%8E%E6%82%B2%E8%A7%82%E9%94%81/">
 
@@ -331,7 +331,7 @@
 比如说
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">转账：</span><br><span class="line"><span class="number">1</span>、b给a账号转账<span class="number">100</span>元</span><br><span class="line"><span class="number">2</span>、a给b账号转账<span class="number">100</span>元</span><br><span class="line">如果两者同时发生，又没有锁的情况下，就会导致数据的不一致。</span><br></pre></td></tr></table></figure>
 
-<p><img src="1.jpg" alt=""></p>
+<p><img src="/1.jpg"></p>
 <h2 id="乐观并发控制"><a href="#乐观并发控制" class="headerlink" title="乐观并发控制"></a>乐观并发控制</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><blockquote class="blockquote-center"><p>在关系数据库管理系统里，<b>乐观并发控制</b>（又名“<b>乐观锁</b>”，Optimistic Concurrency Control，缩写“OCC”）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。</p>
 </blockquote>
 <p><b>简单来说乐观锁就是，相信你平常处理的事务中几乎遇不到高并发的情况，冲突较少。如果一旦发生了冲突，就只能有一个人改动数据</b></p>
@@ -343,10 +343,10 @@
 <h2 id="悲观并发控制"><a href="#悲观并发控制" class="headerlink" title="悲观并发控制"></a>悲观并发控制</h2><h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><blockquote class="blockquote-center"><p>在关系数据库管理系统里，悲观并发控制（又名“悲观锁”，Pessimistic Concurrency Control，缩写“PCC”）是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作读某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。</p>
 </blockquote>
 
-<h3 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h3><p><b>注：要使用悲观锁，我们必须关闭mysql数据库的自动提交属性，因为MySQL默认使用autocommit模式，也就是说，当你执行一个更新操作后，MySQL会立刻将结果进行提交。默认autocommit=1; 必须要将值改为0。</b></p>
-<p>当autocommit==1时(自动)</p>
+<h3 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h3><p><b>注：要使用悲观锁，我们必须关闭mysql数据库的自动提交属性，因为MySQL默认使用autocommit模式，也就是说，当你执行一个更新操作后，MySQL会立刻将结果进行提交。默认autocommit&#x3D;1; 必须要将值改为0。</b></p>
+<p>当autocommit&#x3D;&#x3D;1时(自动)</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户在当前情况下未执行<span class="keyword">start</span> <span class="keyword">transaction</span>命令,默认用户对数据库的操作为孤立的事务，用户的操作不会被锁定，即时提交 =&gt; 即时修改(每个用户的操作都是一个独立的完整事务周期)</span><br></pre></td></tr></table></figure>
-<p>当autocommit==0时(手动)</p>
+<p>当autocommit&#x3D;&#x3D;0时(手动)</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">当用户执行<span class="keyword">start</span> <span class="keyword">transaction</span>命令(事务初始化)，直到用户执行<span class="keyword">commit</span>命令(提交)，为一个完整的周期，如果不执行<span class="keyword">commit</span>命令，则系统默认事务回滚。</span><br><span class="line">在手动模式下，一个事务结束的标志为提交事务或者撤销事务。</span><br></pre></td></tr></table></figure>
 
 <h4 id="事务的开始"><a href="#事务的开始" class="headerlink" title="事务的开始"></a>事务的开始</h4><p>begin或 start transaction 都是显式开启一个事务；</p>
@@ -435,7 +435,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -507,7 +507,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

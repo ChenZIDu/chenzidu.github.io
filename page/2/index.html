@@ -215,6 +215,106 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2023/01/04/Java-%E5%AF%BC%E5%87%BA%E5%86%85%E5%AD%98%E6%9F%A5%E6%89%BE%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/01/04/Java-%E5%AF%BC%E5%87%BA%E5%86%85%E5%AD%98%E6%9F%A5%E6%89%BE%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF/" class="post-title-link" itemprop="url">Java 导出内存查找敏感信息</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-01-04 16:23:48 / 修改时间：16:27:16" itemprop="dateCreated datePublished" datetime="2023-01-04T16:23:48+08:00">2023-01-04</time>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">1.1k(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">4(分)</span>
+           
+        </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/01/04/Java-%E5%AF%BC%E5%87%BA%E5%86%85%E5%AD%98%E6%9F%A5%E6%89%BE%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/01/04/Java-%E5%AF%BC%E5%87%BA%E5%86%85%E5%AD%98%E6%9F%A5%E6%89%BE%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>如果重要的数据（保存在内存中）在使用后没有及时清理，有可能会导致信息泄漏。开发人员通常都回用String 保存敏感数据（密码，卡号等）。因为String 对象是不可变的，只有 JVM 的垃圾回收器才能从内存中清除String的值。而只有内存不足的时候虚拟机才会执行垃圾回收，所以我们不能保证垃圾回收什么时候进行。当系统崩溃后，memory dump 可能会泄漏敏感数据。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/01/04/Java-%E5%AF%BC%E5%87%BA%E5%86%85%E5%AD%98%E6%9F%A5%E6%89%BE%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2022/12/11/%E7%BB%84%E7%AD%96%E7%95%A5%E5%AE%9A%E5%90%91%E6%94%BB%E5%87%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -251,7 +351,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">824(字)</span>
+           <span class="post-count">825(字)</span>
            
          </span>
 	  
@@ -511,7 +611,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>好久没水文章了，最近一段时间一直在忙项目上的事情。= =</p>
+          <p>好久没水文章了，最近一段时间一直在忙项目上的事情。&#x3D; &#x3D;</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/09/22/C-%E5%8F%98%E5%BD%A2%E5%85%8D%E6%9D%80%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%80%EF%BC%89/#more" rel="contents">
@@ -580,7 +680,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">859(字)</span>
+           <span class="post-count">862(字)</span>
            
          </span>
 	  
@@ -617,7 +717,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="smb"><a href="#smb" class="headerlink" title="smb"></a>smb</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;SMB服务大多运行在windows系统上，SMB通信协议协议在网络上的端点之间提供对文件、打印机和串行端口的共享访问。在扫描过程中，我们通常会看到目标上的 445 TCP 端口打开，为 SMB 协议保留。Microsoft SMB 协议是传输层协议最常使用的是基于 TCP/IP (NBT) 的 NetBIOS，正因为如此，它依赖于较低级别的传输协议。这就是为什么在扫描过程中，我们很可能会同时看到具有在目标上运行的开放端口的协议。<br><br>&emsp;&emsp;使用 SMB 协议，应用程序（或应用程序的用户）可以访问远程服务器上的文件，以及打印机等其他资源。 因此，客户端应用程序可以读取、创建和更新文件远程服务器。 它还可以与任何设置为接收 SMB 客户端的服务器程序通信要求。<br><br>&emsp;&emsp;网络上启用 SMB 的存储称为共享。 任何拥有服务器的地址和正确的凭据。 与许多其他文件访问协议一样，SMB 需要一些安全层在网络拓扑中正常运行。 如果 SMB 允许客户端创建、编辑、<br>检索和删除共享上的文件，显然需要一种身份验证机制。 在用户层面，SMB 客户端需要提供用户名/密码组合才能查看内容或与内容交互SMB共享。<br><br>&emsp;&emsp;如果扫描得到目标IP的TCP445开放，为了成功枚举远程系统上的共享内容，我们可以使用一个名为smb客户端。</p>
+          <h2 id="smb"><a href="#smb" class="headerlink" title="smb"></a>smb</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;SMB服务大多运行在windows系统上，SMB通信协议协议在网络上的端点之间提供对文件、打印机和串行端口的共享访问。在扫描过程中，我们通常会看到目标上的 445 TCP 端口打开，为 SMB 协议保留。Microsoft SMB 协议是传输层协议最常使用的是基于 TCP&#x2F;IP (NBT) 的 NetBIOS，正因为如此，它依赖于较低级别的传输协议。这就是为什么在扫描过程中，我们很可能会同时看到具有在目标上运行的开放端口的协议。<br><br>&emsp;&emsp;使用 SMB 协议，应用程序（或应用程序的用户）可以访问远程服务器上的文件，以及打印机等其他资源。 因此，客户端应用程序可以读取、创建和更新文件远程服务器。 它还可以与任何设置为接收 SMB 客户端的服务器程序通信要求。<br><br>&emsp;&emsp;网络上启用 SMB 的存储称为共享。 任何拥有服务器的地址和正确的凭据。 与许多其他文件访问协议一样，SMB 需要一些安全层在网络拓扑中正常运行。 如果 SMB 允许客户端创建、编辑、<br>检索和删除共享上的文件，显然需要一种身份验证机制。 在用户层面，SMB 客户端需要提供用户名&#x2F;密码组合才能查看内容或与内容交互SMB共享。<br><br>&emsp;&emsp;如果扫描得到目标IP的TCP445开放，为了成功枚举远程系统上的共享内容，我们可以使用一个名为smb客户端。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/06/02/SMB-RDP-WMI-hash%E4%BC%A0%E9%80%92%E6%8E%A2%E6%B5%8B-%E5%88%A9%E7%94%A8/#more" rel="contents">
@@ -934,7 +1034,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">556(字)</span>
+           <span class="post-count">560(字)</span>
            
          </span>
 	  
@@ -980,123 +1080,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/03/15/%E6%90%AD%E5%BB%BA%E5%9F%9F%E7%8E%AF%E5%A2%83/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2022/02/10/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F-win-%E4%BA%8C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="ChenZIDu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chen'Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/02/10/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F-win-%E4%BA%8C/" class="post-title-link" itemprop="url">C++提权的几种方式(win)(二)</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-02-10 09:32:28" itemprop="dateCreated datePublished" datetime="2022-02-10T09:32:28+08:00">2022-02-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/win/" itemprop="url" rel="index">
-                    <span itemprop="name">win</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-<span class="post-time">
-	   &nbsp; | &nbsp;
-           <span class="post-meta-item-icon">
-             <i class="fa fa-calendar-o"></i>
-           </span>
-           <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">1.5k(字)</span>
-           
-         </span>
-	  
-      <span class="post-time">
-	   &nbsp; | &nbsp;
-           <span class="post-meta-item-icon">
-             <i class="fa fa-calendar-o"></i>
-           </span>
-           <span class="post-meta-item-text">阅读时长:</span>
-           <span class="post-count">6(分)</span>
-           
-        </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/02/10/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F-win-%E4%BA%8C/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/02/10/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F-win-%E4%BA%8C/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>书接上回嘿嘿</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/02/10/C-%E6%8F%90%E6%9D%83%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F-win-%E4%BA%8C/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1166,7 +1149,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1238,7 +1221,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

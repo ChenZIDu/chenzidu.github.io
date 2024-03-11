@@ -272,7 +272,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">359(字)</span>
+           <span class="post-count">360(字)</span>
            
          </span>
 	  
@@ -322,7 +322,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"https://ssl.captcha.qq.com/TCaptcha.js"</span>&gt;&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
 
 
-<p>然后把代码添加到methods`里（我这里是放到按钮方法里了，当按登陆按钮后，出现填写验证码界面，只有正确填写验证码后才会进行<b>axios</b>操作）</p>
+<p>然后把代码添加到methods&#96;里（我这里是放到按钮方法里了，当按登陆按钮后，出现填写验证码界面，只有正确填写验证码后才会进行<b>axios</b>操作）</p>
 <p><a href="https://console.cloud.tencent.com/captcha" target="_blank" rel="noopener">腾讯验证码注册</a>具体注册方法网上还是很详细得，就是用法没有，最重要得是免费还好看！！</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//appid  为腾讯验证码的参数</span></span><br><span class="line"><span class="keyword">let</span> captcha = <span class="keyword">new</span> TencentCaptcha(<span class="string">'appid'</span>, (rsp) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(rsp)</span><br><span class="line">    <span class="keyword">if</span> (rsp.ret === <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">//当ret是0得时候代表成功填写了验证码，我在里面进行了axios操作。</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.$message(&#123;</span><br><span class="line">        message: <span class="string">'验证不通过'</span>,</span><br><span class="line">        type: <span class="string">'warning'</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, &#123;&#125;)</span><br><span class="line">captcha.show()</span><br><span class="line">          <span class="comment">//  ---------------</span></span><br></pre></td></tr></table></figure>
 
@@ -409,7 +409,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -481,7 +481,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

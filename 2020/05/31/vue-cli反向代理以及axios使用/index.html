@@ -54,14 +54,14 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="准备早点把毕业设计写了，之后实习轻松点。写个小说APP玩玩，平常看小说什么的最烦的就是遇到广告了&#x3D; &#x3D;。准备后端用jsoup，前端用vue。到时候给账号的话就我一个个分配吧(不想太多人用，毕竟来源准备爪巴那些不正规的网站的源)，不想写注册了，或者注册时候要一个邀请码啥的。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/2020/05/31/vue-cli%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%BB%A5%E5%8F%8Aaxios%E4%BD%BF%E7%94%A8/1.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/05/31/vue-cli%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%BB%A5%E5%8F%8Aaxios%E4%BD%BF%E7%94%A8/2.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/1.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2.jpg">
 <meta property="article:published_time" content="2020-05-31T07:53:45.000Z">
 <meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="nodejs">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/2020/05/31/vue-cli%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%BB%A5%E5%8F%8Aaxios%E4%BD%BF%E7%94%A8/1.jpg">
+<meta name="twitter:image" content="https://chenzidu.github.io/1.jpg">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/05/31/vue-cli%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%BB%A5%E5%8F%8Aaxios%E4%BD%BF%E7%94%A8/">
 
@@ -275,7 +275,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">457(字)</span>
+           <span class="post-count">459(字)</span>
            
          </span>
 	  
@@ -319,14 +319,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>准备早点把毕业设计写了，之后实习轻松点。写个小说APP玩玩，平常看小说什么的最烦的就是遇到广告了= =。准备后端用jsoup，前端用vue。到时候给账号的话就我一个个分配吧(不想太多人用，毕竟来源准备爪巴那些不正规的网站的源)，不想写注册了，或者注册时候要一个邀请码啥的。</p>
+        <p>准备早点把毕业设计写了，之后实习轻松点。写个小说APP玩玩，平常看小说什么的最烦的就是遇到广告了&#x3D; &#x3D;。准备后端用jsoup，前端用vue。到时候给账号的话就我一个个分配吧(不想太多人用，毕竟来源准备爪巴那些不正规的网站的源)，不想写注册了，或者注册时候要一个邀请码啥的。</p>
 <a id="more"></a>
 <p>在config-&gt;index.js下更改proxyTable</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxyTable</span>: &#123;</span><br><span class="line">      <span class="string">'/api'</span>: &#123;  <span class="comment">//使用"/api"来代替"http://[ip]:[port]"</span></span><br><span class="line">        <span class="attribute">target</span>: <span class="string">'http://[ip]:[port]'</span>, <span class="comment">//源地址</span></span><br><span class="line">        <span class="attribute">changeOrigin</span>: true, <span class="comment">//改变源</span></span><br><span class="line">        <span class="attribute">pathRewrite</span>: &#123;</span><br><span class="line">          <span class="string">'^/api'</span>: <span class="string">'/api'</span> <span class="comment">//路径重写</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
 <p>运行端口和我的springboot装起来了本地的8080冲突了，所以换成了8084</p>
-<p><img src="1.jpg" alt=""></p>
+<p><img src="/1.jpg"></p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="actionscript">    <span class="comment">//单页面中不支持前面的data:&#123;&#125;方式</span></span></span><br><span class="line">    data() &#123;</span><br><span class="line"><span class="actionscript">      <span class="comment">//相当于以前的function data()&#123;&#125;,这是es5之前的写法，新版本可以省略掉function</span></span></span><br><span class="line"><span class="actionscript">      <span class="keyword">return</span>&#123;</span></span><br><span class="line">        user:&#123;</span><br><span class="line"><span class="actionscript">          username:<span class="string">''</span>,</span></span><br><span class="line"><span class="actionscript">          password:<span class="string">''</span>,</span></span><br><span class="line"><span class="actionscript">          <span class="comment">//为了登录方便，可以直接在这里写好用户名和密码的值</span></span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line"><span class="javascript">    beforeRouteEnter (to,<span class="keyword">from</span>,next) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">window</span>.document.body.style.backgroundColor= <span class="string">'#DCDFE6'</span>;</span></span><br><span class="line">      next();</span><br><span class="line">    &#125;,</span><br><span class="line"><span class="javascript">    beforeRouteLeave (to,<span class="keyword">from</span>,next) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">window</span>.document.body.style.backgroundColor= <span class="string">''</span>;</span></span><br><span class="line">      next();</span><br><span class="line">    &#125;,</span><br><span class="line">    methods:&#123;</span><br><span class="line"><span class="actionscript">      doLogin()&#123;<span class="comment">//一点击登录按钮，这个方法就会执行</span></span></span><br><span class="line"><span class="actionscript">        <span class="keyword">if</span>(<span class="keyword">this</span>.user.username == <span class="string">""</span>||<span class="keyword">this</span>.user.password == <span class="string">""</span>)&#123;</span></span><br><span class="line"><span class="actionscript">          alert(<span class="string">"输入用户名或者密码"</span>)</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="actionscript">        <span class="keyword">else</span>&#123;</span></span><br><span class="line"><span class="javascript">          axios.post(<span class="string">'/api/conter/register'</span>,<span class="built_in">JSON</span>.stringify(&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// username: this.user.username,</span></span></span><br><span class="line"><span class="actionscript">            <span class="comment">// password: this.user.password</span></span></span><br><span class="line"><span class="actionscript">            userDto: <span class="keyword">this</span>.user</span></span><br><span class="line">          &#125;)).then(</span><br><span class="line">            response =&gt;&#123;</span><br><span class="line">              alert(response.data)</span><br><span class="line">            &#125;</span><br><span class="line">          ).catch(</span><br><span class="line">              err =&gt;&#123;</span><br><span class="line">                alert(err)</span><br><span class="line">              &#125;</span><br><span class="line">          )</span><br><span class="line">        &#125;</span><br><span class="line"><span class="actionscript">          <span class="comment">// alert(JSON.stringify(this.user))</span></span></span><br><span class="line"><span class="actionscript">          <span class="comment">//可以直接把this.user对象传给后端进行校验用户名和密码</span></span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>前端是以user对象传输的，后端试了好久，发现还是Map&lt;string,Object&gt; 好获得值.<br><img src="2.jpg" alt=""></p>
+<p>前端是以user对象传输的，后端试了好久，发现还是Map&lt;string,Object&gt; 好获得值.<br><img src="/2.jpg"></p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(<span class="string">"/register"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">String</span> <span class="title">register</span><span class="params">(@RequestBody Map&lt;<span class="keyword">String</span>,userDto&gt; <span class="built_in">map</span>)</span></span>&#123;</span><br><span class="line">    User user= <span class="keyword">new</span> User();</span><br><span class="line">    System.out.<span class="built_in">println</span>(<span class="built_in">map</span>.<span class="built_in">get</span>(<span class="string">"userDto"</span>).getUsername());</span><br></pre></td></tr></table></figure>
     </div>
 
@@ -405,7 +405,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -477,7 +477,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

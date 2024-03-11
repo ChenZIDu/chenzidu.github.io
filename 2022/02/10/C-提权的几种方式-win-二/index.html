@@ -327,10 +327,10 @@
 <p>以下尝试的几种刷新方法：</p>
 </blockquote>
 <ul>
-<li>SendMessage(HWND_BROADCAST, WM_SETTINGCHANGE, 0, 0); //利用消息发送函数向WINDOWS发送刷新注册表的消息</li>
-<li>PostMessage(HWND_BROADCAST, WM_COMMAND, 41504, NULL); //模拟F5刷新</li>
-<li>SystemParametersInfo(SPI_SETCURSORS, 0, NULL, SPIF_SENDCHANGE); //通过给第一个参数传入一个SET属性的参数可以实现部分系统刷新功能</li>
-<li>SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0, (LPARAM)L”Environment”, SMTO_ABORTIFHUNG, 3000, NULL); ////通知所有打开的程序注册表已修改</li>
+<li>SendMessage(HWND_BROADCAST, WM_SETTINGCHANGE, 0, 0); &#x2F;&#x2F;利用消息发送函数向WINDOWS发送刷新注册表的消息</li>
+<li>PostMessage(HWND_BROADCAST, WM_COMMAND, 41504, NULL); &#x2F;&#x2F;模拟F5刷新</li>
+<li>SystemParametersInfo(SPI_SETCURSORS, 0, NULL, SPIF_SENDCHANGE); &#x2F;&#x2F;通过给第一个参数传入一个SET属性的参数可以实现部分系统刷新功能</li>
+<li>SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0, (LPARAM)L”Environment”, SMTO_ABORTIFHUNG, 3000, NULL); &#x2F;&#x2F;&#x2F;&#x2F;通知所有打开的程序注册表已修改</li>
 </ul>
 <blockquote>
 <p>SendMessageTimeout与SendMessage有什么不同？</p>
@@ -434,7 +434,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -506,7 +506,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

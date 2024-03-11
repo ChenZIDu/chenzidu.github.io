@@ -54,13 +54,13 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="并查集是一种树型的数据结构，用于处理一些不相交集合（Disjoint Sets）的合并及查询问题。常常在使用中以森林来表示。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/2019/12/14/%E5%B9%B6%E6%9F%A5%E9%9B%86%E7%AE%97%E6%B3%95%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E5%8E%8B%E7%BC%A9/1.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/1.jpg">
 <meta property="article:published_time" content="2019-12-14T02:39:43.000Z">
 <meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/2019/12/14/%E5%B9%B6%E6%9F%A5%E9%9B%86%E7%AE%97%E6%B3%95%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E5%8E%8B%E7%BC%A9/1.jpg">
+<meta name="twitter:image" content="https://chenzidu.github.io/1.jpg">
 
 <link rel="canonical" href="https://chenzidu.github.io/2019/12/14/%E5%B9%B6%E6%9F%A5%E9%9B%86%E7%AE%97%E6%B3%95%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E5%8E%8B%E7%BC%A9/">
 
@@ -326,7 +326,7 @@
 <li>合并集合</li>
 <li>查找某个元素属于哪个集合</li>
 </ul>
-<p><img src="1.jpg" alt="并查集原理"></p>
+<p><img src="/1.jpg" alt="并查集原理"></p>
 <h3 id="查询根节点："><a href="#查询根节点：" class="headerlink" title="查询根节点："></a>查询根节点：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">int</span> r = x;</span><br><span class="line">   <span class="keyword">while</span> (f[r] != r)</span><br><span class="line">      r = f[r];</span><br><span class="line">   <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="合并集合"><a href="#合并集合" class="headerlink" title="合并集合"></a>合并集合</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> fx,fy;</span><br><span class="line">    fx = findx(x);</span><br><span class="line">    fy = findx(y);</span><br><span class="line">    <span class="keyword">if</span>(fx != fy)</span><br><span class="line">        f[fx] = fy;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -423,7 +423,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -495,7 +495,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

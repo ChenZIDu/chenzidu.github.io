@@ -47,12 +47,12 @@
     sidebarPadding: 40
   };
 </script>
-  <meta name="description" content="八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。  然而这是N皇后哈哈哈哈哈~">
+  <meta name="description" content="八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。  然而这是N皇后哈哈哈哈哈~~~">
 <meta property="og:type" content="article">
 <meta property="og:title" content="N皇后问题-经典DFS">
 <meta property="og:url" content="https://chenzidu.github.io/2020/03/05/N%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98-DFS/index.html">
 <meta property="og:site_name" content="Chen&#39;Blog">
-<meta property="og:description" content="八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。  然而这是N皇后哈哈哈哈哈~">
+<meta property="og:description" content="八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。  然而这是N皇后哈哈哈哈哈~~~">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-03-05T04:19:12.000Z">
 <meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
@@ -278,7 +278,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">431(字)</span>
+           <span class="post-count">433(字)</span>
            
          </span>
 	  
@@ -324,10 +324,10 @@
       
         <blockquote class="blockquote-center"><p>八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。</p>
 </blockquote>
-<p>然而这是N皇后哈哈哈哈哈<del>~</del></p>
+<p>然而这是N皇后哈哈哈哈哈~~~</p>
 <a id="more"></a>
 <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>在N*N的方格棋盘放置了N个皇后，使得它们不相互攻击（即任意2个皇后不允许处在同一排，同一列，也不允许处在与棋盘边框成45角的斜线上。<br>你的任务是，对于给定的N，求出有多少种合法的放置方法。</p>
-<h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><p>测试数据由多组测试样例组成。每组测试数据第一行输入一个正整数 n (  1 &lt;= n &lt;= 10 ）</p>
+<h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><p>测试数据由多组测试样例组成。每组测试数据第一行输入一个正整数 n (  1 &lt;&#x3D; n &lt;&#x3D; 10 ）</p>
 <h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p>输出有多少种合法的放置方法</p>
 <h2 id="样例输入"><a href="#样例输入" class="headerlink" title="样例输入"></a>样例输入</h2><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">5</span></span><br></pre></td></tr></table></figure>
 <h2 id="样例输出"><a href="#样例输出" class="headerlink" title="样例输出"></a>样例输出</h2><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">10</span></span><br></pre></td></tr></table></figure>
@@ -410,7 +410,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -482,7 +482,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -54,14 +54,14 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="之前背包问题学了忘学了忘&#x3D; &#x3D;是太笨了。 题目许多年前，在泰迪的家乡，有一个人被称为“骨收集者”。这个人喜欢收集各种骨头，例如狗，牛的骨头，他也去了坟墓……骨头收集者有一个大袋子，里面装有V，而且在收集骨头的过程中，很明显，不同的骨骼具有不同的值和不同的体积，现在给定沿途的每个骨骼的值，您能否计算出骨骼收集器可以获得的总值的最大值？">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/2020/04/02/Bone-Collector/1.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2020/04/02/Bone-Collector/2.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/1.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2.jpg">
 <meta property="article:published_time" content="2020-04-02T07:36:12.000Z">
 <meta property="article:modified_time" content="2022-12-11T09:31:21.953Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/2020/04/02/Bone-Collector/1.jpg">
+<meta name="twitter:image" content="https://chenzidu.github.io/1.jpg">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/04/02/Bone-Collector/">
 
@@ -281,7 +281,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">701(字)</span>
+           <span class="post-count">706(字)</span>
            
          </span>
 	  
@@ -325,12 +325,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>之前背包问题学了忘学了忘= =是太笨了。</p>
+        <p>之前背包问题学了忘学了忘&#x3D; &#x3D;是太笨了。</p>
 <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>许多年前，在泰迪的家乡，有一个人被称为“骨收集者”。这个人喜欢收集各种骨头，例如狗，牛的骨头，他也去了坟墓……<br>骨头收集者有一个大袋子，里面装有V，而且在收集骨头的过程中，很明显，不同的骨骼具有不同的值和不同的体积，现在给定沿途的每个骨骼的值，您能否计算出骨骼收集器可以获得的总值的最大值？</p>
 <a id="more"></a>
-<p><img src="1.jpg" alt="HDU"></p>
-<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>第一行包含整数T，即案例数。紧随其后的是T个案例，每个案例三行，第一行包含两个整数N，V（N &lt;= 1000，V &lt;= 1000），它们表示骨头的数量和包的体积。第二行包含代表每个骨骼值的N个整数。第三行包含N个整数，代表每个骨骼的体积。</p>
-<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>每行一个整数，代表合计的最大值（该数字将小于2 [sup] 31 [/ sup]）。</p>
+<p><img src="/1.jpg" alt="HDU"></p>
+<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>第一行包含整数T，即案例数。紧随其后的是T个案例，每个案例三行，第一行包含两个整数N，V（N &lt;&#x3D; 1000，V &lt;&#x3D; 1000），它们表示骨头的数量和包的体积。第二行包含代表每个骨骼值的N个整数。第三行包含N个整数，代表每个骨骼的体积。</p>
+<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>每行一个整数，代表合计的最大值（该数字将小于2 [sup] 31 [&#x2F; sup]）。</p>
 <h2 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例"></a>输入样例</h2><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">1 </span></span><br><span class="line"><span class="symbol">5 </span><span class="number">10</span> </span><br><span class="line"><span class="symbol">1 </span><span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> </span><br><span class="line"><span class="symbol">5 </span><span class="number">4</span> <span class="number">3</span> <span class="number">2</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <h2 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例"></a>输出样例</h2><p>14</p>
 <h2 id="二维数组"><a href="#二维数组" class="headerlink" title="二维数组"></a>二维数组</h2><p id="div-border-left-red">
@@ -339,7 +339,7 @@ DP[i][j]表示前i个物品,背包容量为j的最优值。<br>
 状态转移方程为：DP[i][j] = max(DP[i-1][j], DP[i-1][j-v[i]] + w[i]);
 </p>
 
-<p><img src="2.jpg" alt="二维数组的动态图"></p>
+<p><img src="/2.jpg" alt="二维数组的动态图"></p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,m,t;</span><br><span class="line"><span class="keyword">int</span> dp[<span class="number">1100</span>][<span class="number">1100</span>],w[<span class="number">1100</span>],v[<span class="number">1100</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;t);</span><br><span class="line">	<span class="keyword">while</span>(t--)&#123;</span><br><span class="line">		<span class="built_in">memset</span>(dp,<span class="number">0</span>,<span class="keyword">sizeof</span>(dp));</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%d %d"</span>,&amp;n,&amp;m);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;w[i]);		<span class="comment">//骨骼值 </span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;v[i]);		<span class="comment">//体积 </span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=m;j++)&#123;</span><br><span class="line">				<span class="keyword">if</span>(j&gt;=v[i])</span><br><span class="line">					dp[i][j]=<span class="built_in">max</span>(dp[i<span class="number">-1</span>][j],dp[i<span class="number">-1</span>][j-v[i]]+w[i]);</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">					dp[i][j]=dp[i<span class="number">-1</span>][j];		<span class="comment">//保留之前的状态 </span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%2d "</span>,dp[n][m]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="一维数组"><a href="#一维数组" class="headerlink" title="一维数组"></a>一维数组</h2><p>和二维数组的差不多，不过就是把二维保存的值放到一维数组中<br>状态转移方程<code>dp[j]=max(dp[j],dp[j-v[i]]+w[i]);</code>,保证每轮和上轮可以用的比，保证3比2，2比1。</p>
@@ -426,7 +426,7 @@ DP[i][j]表示前i个物品,背包容量为j的最优值。<br>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -498,7 +498,7 @@ DP[i][j]表示前i个物品,背包容量为j的最优值。<br>
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -54,16 +54,16 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="springboot的核心就是注解。springboot通过各种组合注解，极大地简化了spring项目的搭建和开发。采用纯java代码，不在需要配置繁杂的xml文件。类型安全对重构可以提供良好的支持。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/2019/12/07/Spring-boot%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/1.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2019/12/07/Spring-boot%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/2.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2019/12/07/Spring-boot%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/3.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2019/12/07/Spring-boot%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/4.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/1.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/2.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/3.jpg">
+<meta property="og:image" content="https://chenzidu.github.io/4.jpg">
 <meta property="article:published_time" content="2019-12-07T02:33:58.000Z">
 <meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/2019/12/07/Spring-boot%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/1.jpg">
+<meta name="twitter:image" content="https://chenzidu.github.io/1.jpg">
 
 <link rel="canonical" href="https://chenzidu.github.io/2019/12/07/Spring-boot%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">
 
@@ -277,7 +277,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">1k(字)</span>
+           <span class="post-count">1.1k(字)</span>
            
          </span>
 	  
@@ -321,30 +321,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong><em>springboot的核心就是注解。springboot通过各种组合注解，极大地简化了spring项目的搭建和开发。采用纯java代码，不在需要配置繁杂的xml文件。类型安全对重构可以提供良好的支持。</em></strong></p>
+        <p><em><strong>springboot的核心就是注解。springboot通过各种组合注解，极大地简化了spring项目的搭建和开发。采用纯java代码，不在需要配置繁杂的xml文件。类型安全对重构可以提供良好的支持。</strong></em></p>
 <a id="more"></a>
 <h2 id="SpringBootApplication"><a href="#SpringBootApplication" class="headerlink" title="@SpringBootApplication"></a>@SpringBootApplication</h2><p><b>@SpringBootApplication:包含了@ComponentScan、@Configuration和@EnableAutoConfiguration注解。</b></p>
 <p>其中:</p>
 <blockquote>
 <p>@ComponentScan：让spring Boot扫描到Configuration类并把它加入到程序上下文。<br>@Configuration ：等同于spring的XML配置文件；使用Java代码可以检查类型安全。<br>@EnableAutoConfiguration ：自动配置。</p>
 </blockquote>
-<h2 id="RequestBody与-ResponseBody"><a href="#RequestBody与-ResponseBody" class="headerlink" title="@RequestBody与@ResponseBody"></a>@RequestBody与@ResponseBody</h2><p>//注意并不要求@RequestBody与@ResponseBody成对使用。<br><br>@RequestBody修饰请求参数，注解用于接收HTTP的body，默认是使用JSON的格式<br><br>@ResponseBody修饰返回值，注解用于在HTTP的body中携带响应数据，默认是使用JSON的格式。如果不加该注解，spring响应字符串类型，是跳转到模板页面或jsp页面的开发模式。说白了：加上这个注解你开发的是一个数据接口，不加这个注解你开发的是一个页面跳转控制器。</p>
+<h2 id="RequestBody与-ResponseBody"><a href="#RequestBody与-ResponseBody" class="headerlink" title="@RequestBody与@ResponseBody"></a>@RequestBody与@ResponseBody</h2><p>&#x2F;&#x2F;注意并不要求@RequestBody与@ResponseBody成对使用。<br><br>@RequestBody修饰请求参数，注解用于接收HTTP的body，默认是使用JSON的格式<br><br>@ResponseBody修饰返回值，注解用于在HTTP的body中携带响应数据，默认是使用JSON的格式。如果不加该注解，spring响应字符串类型，是跳转到模板页面或jsp页面的开发模式。说白了：加上这个注解你开发的是一个数据接口，不加这个注解你开发的是一个页面跳转控制器。</p>
 <p>@ResponseBody可以用于写数据加载的接口时候用，但是注意不要混淆了，一个是请求头一个时响应头。两者默认是传输以及接受自动转JSON格式，前端可以直接调用</p>
 <h2 id="RequestMapping注解"><a href="#RequestMapping注解" class="headerlink" title="@RequestMapping注解"></a>@RequestMapping注解</h2><p><em>@RequestMapping注解是所有常用注解中，最有看点的一个注解，用于标注HTTP服务端点。它的很多属性对于丰富我们的应用开发方式方法，都有很重要的作用。</em></p>
 <ul>
 <li>value： 应用请求端点，最核心的属性，用于标志请求处理方法的唯一性；  </li>
 <li>method： HTTP协议的method类型， 如：GET、POST、PUT、DELETE等；  </li>
-<li>consumes： HTTP协议请求内容的数据类型（Content-Type），例如application/json, text/html;  </li>
+<li>consumes： HTTP协议请求内容的数据类型（Content-Type），例如application&#x2F;json, text&#x2F;html;  </li>
 <li>produces: HTTP协议响应内容的数据类型。下文会详细讲解。  </li>
 <li>params： HTTP请求中必须包含某些参数值的时候，才允许被注解标注的方法处理请求。  </li>
-<li>headers： HTTP请求中必须包含某些指定的header值，才允许被注解标注的方法处理请求。  <br>
-
-</li>
+<li>headers： HTTP请求中必须包含某些指定的header值，才允许被注解标注的方法处理请求。  <br></li>
 </ul>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@RequestMapping</span>(value = <span class="string">"/路径"</span>, method = POST)</span><br><span class="line"><span class="variable">@PostMapping</span>(value = <span class="string">"/article"</span>)</span><br></pre></td></tr></table></figure>
 
 <p>如果没有写method,应该是默认接受所有类型的。也就是PostMapping等同于@RequestMapping的method等于POST。同理：@GetMapping、@PutMapping、@DeleteMapping也都是简写的方式。</p>
-<p><img src="1.jpg" alt=""></p>
+<p><img src="/1.jpg"></p>
 <p>我比较习惯直接用，这样默认接受get或者post。</p>
 <h2 id="RestController与-Controller"><a href="#RestController与-Controller" class="headerlink" title="@RestController与@Controller"></a>@RestController与@Controller</h2><p>@Controller注解是开发中最常使用的注解，它的作用有两层含义：</p>
 <blockquote>
@@ -355,15 +353,15 @@
 <p>一是作为Controller的作用，将控制器类注入到Spring上下文环境，该类RequestMapping标注方法为HTTP服务端点。<br>二是作为ResponseBody的作用，请求响应默认使用的序列化方式是JSON，而不是跳转到jsp或模板页面。</p>
 </blockquote>
 <h3 id="总结来说就是，如果用的是Controller，接收到请求后返回的是一个跳转地址"><a href="#总结来说就是，如果用的是Controller，接收到请求后返回的是一个跳转地址" class="headerlink" title="总结来说就是，如果用的是Controller，接收到请求后返回的是一个跳转地址"></a>总结来说就是，如果用的是Controller，接收到请求后返回的是一个跳转地址</h3><p>比如说：</p>
-<p><img src="2.jpg" alt=""></p>
+<p><img src="/2.jpg"></p>
 <p>jump就是一个跳转地址，进入index接口后返回的是一个login.html页面地址</p>
 <h3 id="如果是RestController"><a href="#如果是RestController" class="headerlink" title="如果是RestController"></a>如果是RestController</h3><p>就是为，接受到请求后，ResponseBody作用返回一个JSon数据</p>
 <p>比如说：</p>
-<p><img src="3.jpg" alt=""></p>
-<p>进入/test,index接口后，会获取数据，结果返回的是一个Json字符串</p>
+<p><img src="/3.jpg"></p>
+<p>进入&#x2F;test,index接口后，会获取数据，结果返回的是一个Json字符串</p>
 <h2 id="Autowired"><a href="#Autowired" class="headerlink" title="@Autowired"></a>@Autowired</h2><p><em>我们编写spring 框架的代码时候。一直遵循是这样一个规则：所有在spring中注入的bean 都建议定义成私有的域变量。并且要配套写上 get 和 set方法。<br>Spring 2.5 引入了 @Autowired 注释，它可以对类成员变量、方法及构造函数进行标注，完成自动装配的工作。 通过 @Autowired的使用来消除 set ，get方法。Spring 通过一个 BeanPostProcessor 对 @Autowired 进行解析，所以要让 @Autowired 起作用必须事先在 Spring 容器中声明 AutowiredAnnotationBeanPostProcessor Bean。</em></p>
 <p>具体使用详情：</p>
-<p><img src="4.jpg" alt=""></p>
+<p><img src="/4.jpg"></p>
 <p>@Autowired 将查找被标注的方法的入参类型的 Bean，并调用方法自动注入这些 Bean。</p>
 
     </div>
@@ -444,7 +442,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -516,7 +514,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

