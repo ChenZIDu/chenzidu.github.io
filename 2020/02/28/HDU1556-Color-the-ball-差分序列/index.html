@@ -54,13 +54,11 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="看到题目第一想法竟然是暴力，在我超时好多次之后。。。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/1.svg">
 <meta property="article:published_time" content="2020-02-28T05:11:12.000Z">
-<meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
+<meta property="article:modified_time" content="2024-03-11T07:47:42.807Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/1.svg">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/02/28/HDU1556-Color-the-ball-%E5%B7%AE%E5%88%86%E5%BA%8F%E5%88%97/">
 
@@ -252,7 +250,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+                <time title="修改时间：2024-03-11 15:47:42" itemprop="dateModified" datetime="2024-03-11T15:47:42+08:00">2024-03-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -274,7 +272,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">619(字)</span>
+           <span class="post-count">190(字)</span>
            
          </span>
 	  
@@ -284,7 +282,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">阅读时长:</span>
-           <span class="post-count">2(分)</span>
+           <span class="post-count">1(分)</span>
            
         </span>
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -322,18 +320,7 @@
 <a id="more"></a>
 <p>差分序列真香！！</p>
 <h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><blockquote>
-<p>设 [公式] 是一个序列，序列的差分为： [公式]<br>利用此定义，我们可以定义序列的一阶差分序列为 [公式] ，那么通过递归定义，我们可以定义二阶差分序列乃至更高阶的差分序列，而原序列可以被看做是零阶差分序列。显而易见的一点是，如果序列的通项是多项式，那么每取一阶差分多项式就降一阶。<br>然后，我们定义将序列的每个 [公式] 阶差分序列列成一行得到的表成为差分表，基本的形式如下所示：<br><br><img src="/1.svg"><br><br>p阶差分在第p行上，序列本身（零阶差分）在第0行上。<br>如果序列的通项是n的p次多项式，我们可以很容易用第二数学归纳法证得，该序列的p+1阶差分（包括更高阶的差分）都是0。</p>
-</blockquote>
-<p>详细内容推荐：</p>
-<p><a href="https://zhuanlan.zhihu.com/p/37597448" target="_blank" rel="noopener">zls的日常碎碎念</a><br><br><a href="https://blog.csdn.net/wu_tongtong/article/details/79115921" target="_blank" rel="noopener">Coco_T_</a></p>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>N个气球排成一排，从左到右依次编号为1,2,3….N.每次给定2个整数a b(a &lt;&#x3D; b),lele便为骑上他的“小飞鸽”牌电动车从气球a开始到气球b依次给每个气球涂一次颜色。但是N次以后lele已经忘记了第I个气球已经涂过几次颜色了，你能帮他算出每个气球被涂过几次颜色吗？</p>
-<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>每个测试实例第一行为一个整数N,(N &lt;&#x3D; 100000).接下来的N行，每行包括2个整数a b(1 &lt;&#x3D; a &lt;&#x3D; b &lt;&#x3D; N)。<br>当N &#x3D; 0，输入结束。</p>
-<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>每个测试实例输出一行，包括N个整数，第I个数代表第I个气球总共被涂色的次数。</p>
-<h2 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h2><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span></span><br><span class="line"><span class="symbol">1 </span><span class="number">1</span></span><br><span class="line"><span class="symbol">2 </span><span class="number">2</span></span><br><span class="line"><span class="symbol">3 </span><span class="number">3</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="symbol">1 </span><span class="number">1</span></span><br><span class="line"><span class="symbol">1 </span><span class="number">2</span></span><br><span class="line"><span class="symbol">1 </span><span class="number">3</span></span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
-<h2 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h2><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">1 </span><span class="number">1</span> <span class="number">1</span></span><br><span class="line"><span class="symbol">3 </span><span class="number">2</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h2><p>具体自己草稿本上推一下就懂了。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt; </span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,m,a,b;</span><br><span class="line"><span class="keyword">int</span> f[<span class="number">100100</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n)!=EOF&amp;&amp;n)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;      <span class="comment">//重置</span></span><br><span class="line">			f[i]=<span class="number">0</span>;</span><br><span class="line">		&#125; </span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">"%d %d"</span>,&amp;a,&amp;b);</span><br><span class="line">			f[a]+=<span class="number">1</span>;</span><br><span class="line">			f[b+<span class="number">1</span>]-=<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">int</span> k=f[<span class="number">1</span>];</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%d"</span>,f[<span class="number">1</span>]);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">" %d"</span>,f[i]+k);</span><br><span class="line">			k+=f[i];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"> 	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设 [公式] 是一个序列，序列的差分为： [公式]<br>利用此定义，我们可以定义序列的一阶差分序列为 [公式] ，那么通过递归定义，我们可以定义二阶差分序列乃至更高阶的差分序列，而原序列可以被看做是零阶差分序列。显而易见的一点是，如果序列的通项是多项式，那么每取一阶差分多项式就降一阶。<br>然后，我们定义将序列的每个 [公式] 阶差分序列列成一行得到的表成为差分表，基本的形式如下所示：<br><br>
     </div>
 
     
@@ -396,7 +383,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简述"><span class="nav-number">1.</span> <span class="nav-text">简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目"><span class="nav-number">2.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入格式"><span class="nav-number">3.</span> <span class="nav-text">输入格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出格式"><span class="nav-number">4.</span> <span class="nav-text">输出格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入样例："><span class="nav-number">5.</span> <span class="nav-text">输入样例：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出样例："><span class="nav-number">6.</span> <span class="nav-text">输出样例：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码："><span class="nav-number">7.</span> <span class="nav-text">代码：</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简述"><span class="nav-number">1.</span> <span class="nav-text">简述</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

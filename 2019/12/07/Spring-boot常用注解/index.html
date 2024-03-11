@@ -54,16 +54,11 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="springboot的核心就是注解。springboot通过各种组合注解，极大地简化了spring项目的搭建和开发。采用纯java代码，不在需要配置繁杂的xml文件。类型安全对重构可以提供良好的支持。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/1.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/3.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/4.jpg">
 <meta property="article:published_time" content="2019-12-07T02:33:58.000Z">
-<meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
+<meta property="article:modified_time" content="2024-03-11T07:48:09.662Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/1.jpg">
 
 <link rel="canonical" href="https://chenzidu.github.io/2019/12/07/Spring-boot%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">
 
@@ -255,7 +250,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+                <time title="修改时间：2024-03-11 15:48:09" itemprop="dateModified" datetime="2024-03-11T15:48:09+08:00">2024-03-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -342,7 +337,8 @@
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@RequestMapping</span>(value = <span class="string">"/路径"</span>, method = POST)</span><br><span class="line"><span class="variable">@PostMapping</span>(value = <span class="string">"/article"</span>)</span><br></pre></td></tr></table></figure>
 
 <p>如果没有写method,应该是默认接受所有类型的。也就是PostMapping等同于@RequestMapping的method等于POST。同理：@GetMapping、@PutMapping、@DeleteMapping也都是简写的方式。</p>
-<p><img src="/1.jpg"></p>
+
+
 <p>我比较习惯直接用，这样默认接受get或者post。</p>
 <h2 id="RestController与-Controller"><a href="#RestController与-Controller" class="headerlink" title="@RestController与@Controller"></a>@RestController与@Controller</h2><p>@Controller注解是开发中最常使用的注解，它的作用有两层含义：</p>
 <blockquote>
@@ -353,15 +349,18 @@
 <p>一是作为Controller的作用，将控制器类注入到Spring上下文环境，该类RequestMapping标注方法为HTTP服务端点。<br>二是作为ResponseBody的作用，请求响应默认使用的序列化方式是JSON，而不是跳转到jsp或模板页面。</p>
 </blockquote>
 <h3 id="总结来说就是，如果用的是Controller，接收到请求后返回的是一个跳转地址"><a href="#总结来说就是，如果用的是Controller，接收到请求后返回的是一个跳转地址" class="headerlink" title="总结来说就是，如果用的是Controller，接收到请求后返回的是一个跳转地址"></a>总结来说就是，如果用的是Controller，接收到请求后返回的是一个跳转地址</h3><p>比如说：</p>
-<p><img src="/2.jpg"></p>
+
+
 <p>jump就是一个跳转地址，进入index接口后返回的是一个login.html页面地址</p>
 <h3 id="如果是RestController"><a href="#如果是RestController" class="headerlink" title="如果是RestController"></a>如果是RestController</h3><p>就是为，接受到请求后，ResponseBody作用返回一个JSon数据</p>
 <p>比如说：</p>
-<p><img src="/3.jpg"></p>
+
+
 <p>进入&#x2F;test,index接口后，会获取数据，结果返回的是一个Json字符串</p>
 <h2 id="Autowired"><a href="#Autowired" class="headerlink" title="@Autowired"></a>@Autowired</h2><p><em>我们编写spring 框架的代码时候。一直遵循是这样一个规则：所有在spring中注入的bean 都建议定义成私有的域变量。并且要配套写上 get 和 set方法。<br>Spring 2.5 引入了 @Autowired 注释，它可以对类成员变量、方法及构造函数进行标注，完成自动装配的工作。 通过 @Autowired的使用来消除 set ，get方法。Spring 通过一个 BeanPostProcessor 对 @Autowired 进行解析，所以要让 @Autowired 起作用必须事先在 Spring 容器中声明 AutowiredAnnotationBeanPostProcessor Bean。</em></p>
 <p>具体使用详情：</p>
-<p><img src="/4.jpg"></p>
+
+
 <p>@Autowired 将查找被标注的方法的入参类型的 Bean，并调用方法自动注入这些 Bean。</p>
 
     </div>

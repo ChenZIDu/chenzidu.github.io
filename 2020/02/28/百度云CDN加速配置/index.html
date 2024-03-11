@@ -54,21 +54,11 @@
 <meta property="og:site_name" content="Chen&#39;Blog">
 <meta property="og:description" content="本来想国内访问coding，境外访问github的~~~由于博客被coding从腾讯云的香港服务器转到了新加坡服务器，导致服务器经常抽风，不能保证国内可以稳定访问，而且加载速度超级慢，所以准备用百度云CDN加速。（用的是阿里云的域名）">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chenzidu.github.io/1.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/2.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/3.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/4.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/5.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/6.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/7.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/8.jpg">
-<meta property="og:image" content="https://chenzidu.github.io/9.jpg">
 <meta property="article:published_time" content="2020-02-28T12:18:09.000Z">
-<meta property="article:modified_time" content="2022-12-11T09:31:21.954Z">
+<meta property="article:modified_time" content="2024-03-11T07:48:09.651Z">
 <meta property="article:author" content="ChenZIDu">
 <meta property="article:tag" content="CDN加速">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chenzidu.github.io/1.jpg">
 
 <link rel="canonical" href="https://chenzidu.github.io/2020/02/28/%E7%99%BE%E5%BA%A6%E4%BA%91CDN%E5%8A%A0%E9%80%9F%E9%85%8D%E7%BD%AE/">
 
@@ -260,7 +250,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-12-11 17:31:21" itemprop="dateModified" datetime="2022-12-11T17:31:21+08:00">2022-12-11</time>
+                <time title="修改时间：2024-03-11 15:48:09" itemprop="dateModified" datetime="2024-03-11T15:48:09+08:00">2024-03-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -282,7 +272,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">573(字)</span>
+           <span class="post-count">604(字)</span>
            
          </span>
 	  
@@ -292,7 +282,7 @@
              <i class="fa fa-calendar-o"></i>
            </span>
            <span class="post-meta-item-text">阅读时长:</span>
-           <span class="post-count">1(分)</span>
+           <span class="post-count">2(分)</span>
            
         </span>
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -329,28 +319,30 @@
         <p>本来想国内访问coding，境外访问github的~~~<br>由于博客被coding从腾讯云的香港服务器转到了新加坡服务器，导致服务器经常抽风，不能保证国内可以稳定访问，而且加载速度超级慢，所以准备用百度云CDN加速。（用的是阿里云的域名）</p>
 <a id="more"></a>
 <p>首先选择接入方式，有NS和CNAME,我NS成功了一次太心急了，他服务器还没布置完我又删了。。<br>这边讲CNAME方法。</p>
-<h2 id="CNAME"><a href="#CNAME" class="headerlink" title="CNAME"></a>CNAME</h2><h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>先输入自己的域名<br><img src="/1.jpg" alt="域名"></p>
-<h3 id="第二步："><a href="#第二步：" class="headerlink" title="第二步："></a>第二步：</h3><p><img src="/2.jpg" alt="子域名"></p>
+<h2 id="CNAME"><a href="#CNAME" class="headerlink" title="CNAME"></a>CNAME</h2><h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>先输入自己的域名<br>![域名](1jpg %}</p>
+<h3 id="第二步："><a href="#第二步：" class="headerlink" title="第二步："></a>第二步：</h3><p>![子域名](2jpg %}</p>
 <h4 id="两种类型"><a href="#两种类型" class="headerlink" title="两种类型"></a>两种类型</h4><ul>
 <li>A：IP地址记录，用于把域名指向一个IP地址。</li>
 <li>CNAME：别名记录，用于把域名指向另一个域名。</li>
 </ul>
 <p>我选择是cname，把我的子域名指向coding的静态页面地址。</p>
-<p><img src="/3.jpg"></p>
-<h3 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h3><p><img src="/4.jpg"></p>
+
+
+<h3 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h3>
+
 <p>在域名服务商那边添加记录值，第一个是对整个域名添加一个TXT，第二个是对子域名设置CNAME，之后选择一个免费的套餐就行了。</p>
 <h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><h3 id="我自己的拙见："><a href="#我自己的拙见：" class="headerlink" title="我自己的拙见："></a>我自己的拙见：</h3><ul>
 <li>CDN的基本原理是广泛采用各种缓存服务器，将这些缓存服务器分布到用户访问相对集中的地区或网络中，在用户访问网站时，利用全局负载技术将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求。</li>
 </ul>
 <p>总结来说：CDN加速是将你的网站内容缓存到服务商那边的缓存服务器中，然后当你对这个域名发起请求后，服务商DNS解析到他的缓存服务器，将你的网站展现给你。提前把想要的东西缓存好。</p>
-<p>设置完成后CDN加速，点进管理网站里面最好设置如下：<br><img src="/5.jpg" alt="防止宕机"></p>
-<p><img src="/6.jpg" alt="免费WAF干嘛不用"></p>
+<p>设置完成后CDN加速，点进管理网站里面最好设置如下：<br>![防止宕机](5jpg %}</p>
+<p>![免费WAF干嘛不用](6jpg %}</p>
 <p>不过我是静态页面，我啥都没开哈哈哈哈。</p>
 <p>推荐：</p>
-<p><img src="/7.jpg" alt="免费证书申请"></p>
-<p><img src="/8.jpg" alt="HTTPS"></p>
+<p>![免费证书申请](7jpg %}</p>
+<p>![HTTPS](8jpg %}</p>
 <p>如果申请了证书，记得一定要开全程加密，否则会提示：</p>
-<p><img src="/9.jpg" alt="ERR_TOOMANY_REDIRECTS"></p>
+<p>![ERR_TOOMANY_REDIRECTS](9jpg %}</p>
 <p>完结，然后你就会发现你的访问地址变成了百度的缓存地址。<br>弄了我一晚上，浪费我时间！不过还好速度变得特别快~~~，<br>如果有问题欢迎私信我的Twitter或者发邮件给我。</p>
 
     </div>
