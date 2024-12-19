@@ -313,6 +313,106 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2024/12/19/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-mcms%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ChenZIDu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chen'Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/12/19/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-mcms%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="post-title-link" itemprop="url">代码审计-mcms文件上传</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-12-19 10:26:12 / 修改时间：10:31:37" itemprop="dateCreated datePublished" datetime="2024-12-19T10:26:12+08:00">2024-12-19</time>
+            </span>
+
+          
+
+<span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">字数统计:</span>
+           <span class="post-count">299(字)</span>
+           
+         </span>
+	  
+      <span class="post-time">
+	   &nbsp; | &nbsp;
+           <span class="post-meta-item-icon">
+             <i class="fa fa-calendar-o"></i>
+           </span>
+           <span class="post-meta-item-text">阅读时长:</span>
+           <span class="post-count">1(分)</span>
+           
+        </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/12/19/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-mcms%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/12/19/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-mcms%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>简单记录一次代码审计成果</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/12/19/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-mcms%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2024/04/24/Java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%AF%87/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -449,10 +549,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-04-24 17:08:09 / 修改时间：17:13:15" itemprop="dateCreated datePublished" datetime="2024-04-24T17:08:09+08:00">2024-04-24</time>
+              <time title="创建时间：2024-04-24 17:08:09" itemprop="dateCreated datePublished" datetime="2024-04-24T17:08:09+08:00">2024-04-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-19 10:29:41" itemprop="dateModified" datetime="2024-12-19T10:29:41+08:00">2024-12-19</time>
+              </span>
 
           
 
@@ -511,39 +617,14 @@
 </ol>
 </blockquote>
 <p><a name="pi4CX"></a></p>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 获取Class对象</span></span><br><span class="line">            Class&lt;?&gt; clazz = Class.forName(<span class="string">"java.lang.Runtime"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 使用getMethod获取Runtime类的getRuntime().exec方法</span></span><br><span class="line">            Method getRuntimeMethod = clazz.getMethod(<span class="string">"getRuntime"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 使用invoke方法动态调用getRuntime方法</span></span><br><span class="line">            Object result = getRuntimeMethod.invoke(clazz);</span><br><span class="line">            Method execMethod = clazz.getMethod(<span class="string">"exec"</span>, String<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">            execMethod.invoke(result,<span class="string">"calc.exe"</span>);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<img src="/2024/04/24/Java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84%E7%AF%87/1.png" class="">
-
-<p><a name="f1j6n"></a></p>
-<h2 id="简化写法"><a href="#简化写法" class="headerlink" title="简化写法"></a>简化写法</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class clazz = Class.forName(<span class="string">"java.lang.Runtime"</span>);</span><br><span class="line">clazz.getMethod("exec",String.class).invoke(clazz.getMethod("getRuntime").invoke(clazz),"calc.exe");</span><br></pre></td></tr></table></figure>
-<p>这里用到了 getMethod 和 invoke 方法。<br><a name="zhyqi"></a></p>
-<h1 id="getMethod"><a href="#getMethod" class="headerlink" title="getMethod"></a>getMethod</h1><p>在Java中，getMethod是java.lang.Class类的一个方法，它用于在运行时获取类中特定名称和参数类型的Method对象。这个Method对象代表了类中的一个方法。<br />getMethod 的作用是通过反射获取一个类的某个特定的公有方法。使用getMethod方法，你可以在运行时动态地调用一个对象的方法，即使在编译时你不知道具体要调用哪个方法。getMethod方法有几种重载形式，最常见的两种是：</p>
-<ol>
-<li>getMethod(String name)：通过方法名获取一个无参方法。</li>
-<li>getMethod(String name, Class&lt;?&gt;… parameterTypes)：通过方法名和参数类型数组获取一个方法。</li>
-</ol>
-<p>我们使用最简单的，也就是第一个，它只有一个参数，类型是String，所以我们使用	getMethod(“exec”, String.class) 来获取 Runtime.exec 方法。  <br /></p>
-<img src="/2024/04/24/Java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84%E7%AF%87/2.png" class="">
-
-<p><br />这个例子中我们首先获取了String类的Class对象，然后使用getMethod方法获取了getRuntime方法的Method对象。最后，我们通过invoke方法动态地调用了exec()方法，并打印了结果。<br><a name="wwscE"></a></p>
-<h1 id="invoke"><a href="#invoke" class="headerlink" title="invoke"></a>invoke</h1><p>在Java中，invoke方法是java.lang.reflect.Method类的一个方法，它用于动态调用一个对象的方法。这个方法是Java反射机制的一部分，允许程序在运行时确定和调用方法，而不需要在编译时硬编码方法的调用。<br />invoke方法的基本语法如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object obj, Object... args)</span></span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>obj 参数是要在其上调用方法的对象。如果方法是一个静态方法，那么这里传入的是类本身（Class 对象）。</li>
-<li>args 参数是一个可变参数，包含了要传递给方法的参数。如果调用的方法不需要参数，这里可以传入一个空数组。</li>
-</ul>
-<p>invoke 方法可能会抛出几个异常：</p>
-<ul>
-<li>IllegalAccessException：如果方法不可访问，比如它是私有的。</li>
-<li>InvocationTargetException：如果方法本身抛出了异常，这个异常会被封装在InvocationTargetException中。可以通过调用getCause方法来获取原始的异常。</li>
-<li>IllegalArgumentException：如果传递给invoke的参数不正确，比如参数数量不匹配或者类型不兼容。</li>
-</ul>
-<p>使用例子如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InvokeExample</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			MyClass math = <span class="keyword">new</span> MyClass(); <span class="comment">// 创建一个Math类的对象</span></span><br><span class="line">			Method method = MyClass.class.getMethod("add", int.class, int.class);   			// 获取Math类的add方法</span><br><span class="line">			Object result = method.invoke(math, <span class="number">5</span>, <span class="number">3</span>); <span class="comment">// 动态调用add方法</span></span><br><span class="line">			System.out.println(<span class="string">"Result: "</span> + result); <span class="comment">// 输出结果</span></span><br><span class="line">			</span><br><span class="line">			Method staticMethod = MyClass.class.getMethod("staticMethod"); // 另一个例子：调用静态方法</span><br><span class="line">			Object staticResult = staticMethod.invoke(<span class="keyword">null</span>);</span><br><span class="line">			System.out.println(<span class="string">"Static Result: "</span> + staticResult);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> a + b;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">staticMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"Hello from static method!"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们首先通过getMethod获取了MyClass的add方法和staticMethod方法的Method对象。然后，我们使用invoke方法分别调用了这两个方法，并打印了结果。对于staticMethod，我们传入null作为第一个参数，因为静态方法不需要对象实例就可以调用。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/04/24/Java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84%E7%AF%87/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -998,124 +1079,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chenzidu.github.io/2023/03/15/%E5%9F%BA%E4%BA%8E%E8%B5%84%E6%BA%90%E7%9A%84%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8%EF%BC%88RBCD%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="ChenZIDu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chen'Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/03/15/%E5%9F%BA%E4%BA%8E%E8%B5%84%E6%BA%90%E7%9A%84%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8%EF%BC%88RBCD%EF%BC%89/" class="post-title-link" itemprop="url">基于资源的约束性委派利用（RBCD）</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-03-15 14:08:18" itemprop="dateCreated datePublished" datetime="2023-03-15T14:08:18+08:00">2023-03-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-03-11 15:47:58" itemprop="dateModified" datetime="2024-03-11T15:47:58+08:00">2024-03-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%A7%94%E6%B4%BE/" itemprop="url" rel="index">
-                    <span itemprop="name">委派</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-<span class="post-time">
-	   &nbsp; | &nbsp;
-           <span class="post-meta-item-icon">
-             <i class="fa fa-calendar-o"></i>
-           </span>
-           <span class="post-meta-item-text">字数统计:</span>
-           <span class="post-count">2k(字)</span>
-           
-         </span>
-	  
-      <span class="post-time">
-	   &nbsp; | &nbsp;
-           <span class="post-meta-item-icon">
-             <i class="fa fa-calendar-o"></i>
-           </span>
-           <span class="post-meta-item-text">阅读时长:</span>
-           <span class="post-count">8(分)</span>
-           
-        </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2023/03/15/%E5%9F%BA%E4%BA%8E%E8%B5%84%E6%BA%90%E7%9A%84%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8%EF%BC%88RBCD%EF%BC%89/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2023/03/15/%E5%9F%BA%E4%BA%8E%E8%B5%84%E6%BA%90%E7%9A%84%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8%EF%BC%88RBCD%EF%BC%89/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a name="SDvMQ"></a></p>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>在Windows Server 2012中新加入的功能，与传统的约束委派相比，它不再需要域管理员权限去设置相关属性。RBCD把设置委派的权限赋予了机器自身，既机器自己可以决定谁可以被委派来控制我。就是说机器自身可以直接在自己账户上配置msDS-AllowedToActOnBehalfOfOtherIdentity属性来设置RBCD。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/03/15/%E5%9F%BA%E4%BA%8E%E8%B5%84%E6%BA%90%E7%9A%84%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE%E5%88%A9%E7%94%A8%EF%BC%88RBCD%EF%BC%89/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1166,7 +1129,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">97</span>
+          <span class="site-state-item-count">98</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1179,7 +1142,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
